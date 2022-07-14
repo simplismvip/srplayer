@@ -31,12 +31,17 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'SRPlayer/Classes/**/*'
+
+  s.vendored_frameworks = 'IJKMediaFrameworkWithSSL.framework'
+  s.frameworks  = "AudioToolbox", "AVFoundation", "CoreGraphics", "CoreMedia", "CoreVideo", "MobileCoreServices", "OpenGLES", "QuartzCore", "VideoToolbox", "Foundation", "UIKit", "MediaPlayer"
+  s.libraries   = "bz2", "z", "stdc++"
   
   # s.resource_bundles = {
   #   'SRPlayer' => ['SRPlayer/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'SnapKit'
+  s.dependency 'SwifterSwift'
+  s.dependency 'ZJMKit'
 end

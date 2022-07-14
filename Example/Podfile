@@ -4,11 +4,4 @@ platform :ios, '10.0'
 
 target 'SRPlayer_Example' do
   pod 'SRPlayer', :path => '../'
-
-  target 'SRPlayer_Tests' do
-    inherit! :search_paths
-
-    pod 'Quick', '~> 2.2.0'
-    pod 'Nimble', '~> 10.0.0'
-  end
 end
