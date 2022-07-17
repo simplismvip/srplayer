@@ -49,6 +49,7 @@ public class SREdgeAreaView: UIView {
         addSubview(right)
         addSubview(top)
         addSubview(bottom)
+        
         layoutEdgeViews()
     }
     

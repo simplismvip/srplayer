@@ -19,7 +19,7 @@ struct ItemFactory {
             
             
         } else if itemStyle == .title {
-            
+            buttomItem.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
             
         } else if itemStyle == .share {
             
@@ -31,13 +31,13 @@ struct ItemFactory {
             
             
         } else if itemStyle == .curTime {
-            
+            buttomItem.title = "1:23"
             
         } else if itemStyle == .next {
             
             
         } else if itemStyle == .tolTime {
-            
+            buttomItem.title = "10:21"
             
         } else if itemStyle == .slider {
             
@@ -49,7 +49,7 @@ struct ItemFactory {
             
             
         } else if itemStyle == .playRate {
-            
+            buttomItem.title = "1X"
             
         } else if itemStyle == .fullScrenn {
             
@@ -71,5 +71,17 @@ struct ItemFactory {
             
         }
         return buttomItem
+    }
+    
+    static func titleItem(title: String, font: UIFont?) -> SRPlayerTitleItem {
+        return SRPlayerTitleItem(title: title, font: font)
+    }
+    
+    static func sliderItem(firstValue: CGFloat = 0, secondValue: CGFloat?) -> SRPlayerSliderItem {
+        return SRPlayerSliderItem("sr_progress".image, firstValue: firstValue, secondValue: secondValue)
+    }
+    
+    static func emptyItem() -> SRPlayerEmptyItem {
+        return SRPlayerEmptyItem()
     }
 }

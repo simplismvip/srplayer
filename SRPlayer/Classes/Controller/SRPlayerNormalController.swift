@@ -8,16 +8,16 @@
 import UIKit
 import IJKMediaFrameworkWithSSL
 
-class SRPlayerNormalController: SRPlayerController {
+public class SRPlayerNormalController: SRPlayerController {
     var url: URL?
     var player: IJKMediaPlayback?
     
-    func smallPlayFrameReset() {
+    public func smallPlayFrameReset() {
         let video = UIView()
         self.addPlayer(video)
     }
     
-    func config() {
+    public func config() {
         #if DEBUG
             IJKFFMoviePlayerController.setLogReport(true)
             IJKFFMoviePlayerController.setLogLevel(k_IJK_LOG_DEBUG)

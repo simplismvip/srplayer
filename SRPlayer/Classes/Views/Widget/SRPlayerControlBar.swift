@@ -22,8 +22,8 @@ public class SRPlayerControlBar: UIView {
         self.view = UIStackView()
         super.init(frame: frame)
         
-        self.view.backgroundColor = UIColor.cyan
-        self.view.spacing = 5
+        self.view.layer.borderColor = UIColor.white.cgColor
+        self.view.layer.borderWidth = 1
         
         addSubview(self.view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
@@ -53,7 +53,7 @@ public class SRPlayerControlBar: UIView {
             return nil
         }
         barView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-        (barView as? SRItemBarView)?.configure(item)
+        (barView as? SRItemButton)?.configure(item)
         return barView
     }
     

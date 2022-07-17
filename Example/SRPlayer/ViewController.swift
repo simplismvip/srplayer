@@ -11,7 +11,7 @@ import SnapKit
 import SRPlayer
 
 class ViewController: UIViewController {
-    let player = SRPlayerController()
+    let player = SRPlayerNormalController()
     var dataSource = [Model]()
     
     lazy var tableView: UITableView = {
@@ -32,10 +32,28 @@ class ViewController: UIViewController {
             dataSource.append(contentsOf: results)
         }
         
-        title = "我的收藏"
+        title = "播放列表"
+        
+        view.addSubview(player)
+        player.snp.makeConstraints { make in
+            make.left.width.equalTo(view)
+            if #available(iOS 11.0, *) {
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            } else {
+                make.top.equalTo(view.snp.top)
+            }
+            make.height.equalTo(view.jmWidth * 0.56)
+        }
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.left.width.equalTo(view)
+            make.top.equalTo(player.snp.bottom)
+            if #available(iOS 11.0, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            } else {
+                make.bottom.equalTo(view.snp.bottom)
+            }
         }
     }
 }

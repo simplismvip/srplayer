@@ -20,21 +20,15 @@ public protocol SRControlBar {
     func viewFrom<T: Command>(_ item: T) -> UIView?
 }
 
-public protocol SRItemBarView {
-    func configure(_ item: SRPlayerItem)
+public protocol SRItemButton {
+    func configure<T: SRPlayerItem>(_ item: T)
 }
 
 public protocol SRBarManager_P {
-    associatedtype TopBarView: SRItemBarView
-    associatedtype BottomBarView: SRItemBarView
-    associatedtype LeftBarView: SRItemBarView
-    associatedtype RightBarView: SRItemBarView
-    
-    var top: TopBarView { get }
-    var bottom: BottomBarView { get }
-    var left: LeftBarView { get }
-    var right: RightBarView { get }
-    
+    var top: SRPlayerTopBar { get }
+    var bottom: SRPlayerBottomBar { get }
+    var left: SRPlayLeftBar { get }
+    var right: SRPlayerRightBar { get }
     func setupBarStyle(_ style: ScreenType)
 }
 

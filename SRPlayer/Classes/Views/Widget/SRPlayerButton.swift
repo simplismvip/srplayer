@@ -9,12 +9,22 @@ import UIKit
 
 class SRPlayerButton: UIButton {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+}
 
+extension SRPlayerButton: SRItemButton {
+    func configure<T: SRPlayerItem>(_ item: T) {
+        if let btnItem = item as? SRPlayerButtonItem {
+            if let image = btnItem.image?.image {
+                setImage(image, for: .normal)
+            }
+            
+            if let title = btnItem.title {
+                setTitle(title, for: .normal)
+            }
+            
+            if let color = btnItem.titleColor {
+                setTitleColor(color, for: .normal)
+            }
+        }
+    }
 }

@@ -31,6 +31,13 @@ public class SRPlayerItem: SRItem {
     }
 }
 
+public class SRPlayerEmptyItem: SRPlayerItem {
+    init() {
+        super.init(.empty, location: .bottom)
+        self.className = "SRPlayerEmpty"
+    }
+}
+
 public class SRPlayerButtonItem: SRPlayerItem {
     public var title: String?
     public var titleColor: UIColor?
@@ -41,19 +48,38 @@ public class SRPlayerButtonItem: SRPlayerItem {
         super.init(itemStyle, location: location)
         self.title = title
         self.image = image
+        self.titleColor = UIColor.white
         self.className = "SRPlayerButton"
     }
 }
 
 public class SRPlayerSliderItem: SRPlayerItem {
-    public var dragBegin: String?
-    public var draging: String?
-    public var dragEnded: String?
-    public var canceld: String?
+//    public var dragBegin: String?
+//    public var draging: String?
+//    public var dragEnded: String?
+//    public var canceld: String?
 
     public var firstTrackValue: CGFloat?     /* From 0 to 1 default 0 */
     public var secondTrackValue: CGFloat?     /* From 0 to 1 default 0 */
     public var thumbImage: UIImage?
-    public var thumbSize: CGSize?
+//    public var thumbSize: CGSize?
+    
+    init(_ thumbImage: UIImage?, firstValue: CGFloat?, secondValue: CGFloat?) {
+        super.init(.slider, location: .bottom)
+        self.className = "SRPlayerSlider"
+        self.firstTrackValue = firstValue
+        self.secondTrackValue = secondValue
+    }
 }
 
+public class SRPlayerTitleItem: SRPlayerItem {
+    public var title: String?
+    public var font: UIFont?
+    
+    init(title: String?, font: UIFont?) {
+        super.init(.title, location: .top_left)
+        self.title = title
+        self.font = font
+        self.className = "SRPlayerTitle"
+    }
+}

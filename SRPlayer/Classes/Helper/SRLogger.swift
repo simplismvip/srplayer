@@ -34,7 +34,7 @@ public struct SRLogger {
     
     private static func eBookPrint(_ items: Any..., separator: String = " ", terminator: String = "\n", level: Level){
         #if DEBUG
-        // print("\(level.rawValue)：\(items)", separator: separator, terminator: terminator)
+        print("\(level.rawValue)：\(items)", separator: separator, terminator: terminator)
         #endif
     }
     

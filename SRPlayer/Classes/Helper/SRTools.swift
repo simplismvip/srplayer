@@ -47,7 +47,7 @@ extension Bundle {
     
     /// Resours文件bundle
     static var resouseBundle: Bundle? {
-        if let budl = Bundle.path(resource: "Resource", ofType: "bundle") {
+        if let budl = Bundle.path(resource: "SRPlayer", ofType: "bundle") {
             return Bundle(path: budl)
         } else {
             return nil

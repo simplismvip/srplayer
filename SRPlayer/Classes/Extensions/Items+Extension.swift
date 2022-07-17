@@ -11,12 +11,13 @@ import AVFAudio
 extension SRPlayerController {
     
     func initEdgeItems() {
+        let empty = ItemFactory.emptyItem()
+        
         // top
         let back = ItemFactory.buttonItem(.back, location: .top_left, image: "sr_back")
-        let title = ItemFactory.buttonItem(.title, location: .top_left)
+        let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", font: UIFont.jmRegular(15))
         let share = ItemFactory.buttonItem(.share, location: .top_right, image: "sr_share")
         let more = ItemFactory.buttonItem(.more, location: .top_right, image: "sr_more")
-        let empty = ItemFactory.buttonItem(.empty,location: .top_center)
         
         self.barManager.top.addItem(back)
         self.barManager.top.addItem(title)
@@ -29,7 +30,7 @@ extension SRPlayerController {
         let curTime = ItemFactory.buttonItem(.curTime, location: .bottom)
         let next = ItemFactory.buttonItem(.next, location: .bottom, image: "sr_next")
         let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
-        let slider = ItemFactory.buttonItem(.slider, location: .bottom, image: "sr_progress")
+        let slider = ItemFactory.sliderItem(firstValue: 0.1, secondValue: nil)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
         let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscrenn")
         
@@ -52,8 +53,10 @@ extension SRPlayerController {
         // right
         let screenShot = ItemFactory.buttonItem(.screenShot, location: .right, image: "sr_capture")
         let recording = ItemFactory.buttonItem(.recording, location: .right, image: "sr_recording")
+        self.barManager.right.addItem(empty)
         self.barManager.right.addItem(screenShot)
         self.barManager.right.addItem(recording)
+        self.barManager.right.addItem(empty)
     }
     
     func addEdgeSubViews() {

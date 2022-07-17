@@ -20,9 +20,3 @@ public class SRPlayerRightBar: SRPlayerControlBar {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-extension SRPlayerRightBar: SRItemBarView {
-    public func configure(_ item: SRPlayerItem) {
-        
-    }
-}
