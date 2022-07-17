@@ -7,8 +7,8 @@
 
 import UIKit
 
-class SRPlayerView: UIView {
-    var activityEvents: [PlayerEventUnit]
+public class SRPlayerView: UIView {
+    public var activityEvents: [PlayerEventUnit]
     var currentEvent: PlayerEventUnit
     var panDirection: PanDirection
     
@@ -118,6 +118,8 @@ class SRPlayerView: UIView {
             } else {
                 SRLogger.debug("无滑动")
             }
+        case .possible:
+            SRLogger.debug("无滑动")
         }
     }
     
@@ -136,14 +138,14 @@ class SRPlayerView: UIView {
 }
 
 extension SRPlayerView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if let isKind = otherGestureRecognizer.view?.isKind(of: UITableView.self), isKind && (gestureRecognizer == panGesture) {
             return true
         }
         return false
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGesture {
             return false
         }
@@ -157,7 +159,7 @@ extension SRPlayerView: UIGestureRecognizerDelegate {
 }
 
 extension SRPlayerView: SRPlayer_P {
-    func activeEvents(_ events: [PlayerEventUnit]) {
+    public func activeEvents(_ events: [PlayerEventUnit]) {
         events.forEach { unit in
             if unit == .pan {
                 panGesture.isEnabled = true
@@ -177,7 +179,7 @@ extension SRPlayerView: SRPlayer_P {
         }
     }
     
-    func deactiveEvents(_ events: [PlayerEventUnit]) {
+    public func deactiveEvents(_ events: [PlayerEventUnit]) {
         events.forEach { unit in
             if unit == .pan {
                 panGesture.isEnabled = false
@@ -197,7 +199,7 @@ extension SRPlayerView: SRPlayer_P {
         }
     }
     
-    func eventsActivity(_ event: PlayerEventUnit) -> Bool {
+    public func eventsActivity(_ event: PlayerEventUnit) -> Bool {
         return activityEvents.contains(event)
     }
 }
