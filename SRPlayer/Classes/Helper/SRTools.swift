@@ -78,13 +78,5 @@ extension Bundle {
             return nil
         }
     }
-    
-//    class func frameworkBundle() -> Bundle {
-//        return Bundle(for: JMReadManager.self)
-//    }
-//
-//    class func path(resource: String, type: String) -> String? {
-//        return frameworkBundle().path(forResource: resource, ofType: type)
-//    }
 }
 

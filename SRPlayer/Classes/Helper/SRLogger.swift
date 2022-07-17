@@ -9,26 +9,26 @@ import UIKit
 import ZJMKit
 
 public struct SRLogger {
-    enum Level: String {
+    public enum Level: String {
         case debug = "🐝 "
         case info = "ℹ️ "
         case warning = "⚠️ "
         case error = "🆘 "
     }
     
-    static func debug(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    static public func debug(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         SRLogger.eBookPrint(items, separator: separator, terminator: terminator, level: .debug)
     }
     
-    static func info(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    static public func info(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         SRLogger.eBookPrint(items, separator: separator, terminator: terminator, level: .info)
     }
     
-    static func warning(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    static public func warning(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         SRLogger.eBookPrint(items, separator: separator, terminator: terminator, level: .warning)
     }
     
-    static func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    static public func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
         SRLogger.eBookPrint(items, separator: separator, terminator: terminator, level: .error)
     }
     
