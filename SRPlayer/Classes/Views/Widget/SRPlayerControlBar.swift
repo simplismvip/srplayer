@@ -26,9 +26,7 @@ public class SRPlayerControlBar: UIView {
         self.view.spacing = 5
         
         addSubview(self.view)
-        view.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
+        view.snp.makeConstraints { $0.edges.equalTo(self) }
     }
     
     func loadPlayer(_ item: SRPlayerItem) -> UIView? {

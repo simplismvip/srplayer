@@ -24,19 +24,27 @@ public enum ControlBarType {
 
 // 屏幕手势事件
 public enum PlayerEventUnit {
-    case verticalLeftPan   // 左侧垂直拖动
-    case verticalRightPan  // 右侧垂直拖动
-    case horizontaPan      // 水平拖动
-    case vL_vR_horPan        // 垂直 & 水平 拖动
+    case vertLeftPan   // 左侧垂直拖动
+    case vertRightPan  // 右侧垂直拖动
+    case horiPan      // 水平拖动
+    case pan        // 垂直 & 水平 拖动 [vertLeftPan, vertRightPan, horiPan]
     case singleClick       // 单击
     case doubleClick       // 双击
     case pinch             // 捏合
-    case all               // 所有事件
+    // case all               // 所有事件 [vertLeftPan, vertRightPan, horiPan, singleClick, doubleClick, pinch]
+    
+//    static var allEvents: [PlayerEventUnit] {
+//        return [.vertLeftPan, .vertRightPan, .horiPan, .singleClick, .doubleClick, .pinch]
+//    }
+//    
+//    static var vL_vR_horPan: [PlayerEventUnit] {
+//        return [.vertLeftPan, .vertRightPan, .horiPan]
+//    }
 }
 
 // 滑动方向
 public enum PanDirection {
-    case horizonta // 横向移动
+    case horizontal // 横向移动
     case vertical  // 纵向移动
     case left      // 纵向移动时在左侧
     case right     // 纵向移动时在右侧
@@ -59,18 +67,6 @@ public enum LayoutLocation {
     case bottom   // 剩余空间两端约束
     case left          //
     case right         // 左右都是从中心开始
-}
-
-// 屏幕类型
-public enum ScreenType {
-    case half // 半平
-    case full // 全屏
-}
-
-// 屏幕状态
-public enum ScreenState {
-    case lock // 锁定
-    case unlock // 解锁
 }
 
 // item状态

@@ -42,16 +42,14 @@ public class SREdgeAreaView: UIView {
         self.bottom.canPierce = true
         
         self.visibleUnits = []
-        self.visibleAnimate = { unit, a in
-            
-        }
+        self.visibleAnimate = { unit, a in }
+        
         super.init(frame: frame)
-        addSubview(top)
         addSubview(left)
         addSubview(right)
+        addSubview(top)
         addSubview(bottom)
-        
-        subviewsRandColor()
+        layoutEdgeViews()
     }
     
     internal func removeOf(_ unit: EdgeAreaUnit) {
@@ -103,7 +101,7 @@ public class SREdgeAreaView: UIView {
             make.width.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
-        right.snp.makeConstraints { make in
+        bottom.snp.makeConstraints { make in
             bottom_bottomToBottom = make.bottom.equalTo(self)
             bottom_bottomToBottom?.constraint.deactivate()
             bottom_topToBottom = make.top.equalTo(snp.bottom)
@@ -154,10 +152,10 @@ extension SREdgeAreaView: SREdgeArea {
                 self.right.isHidden = !visible
                 if visible {
                     right_rightToRight?.constraint.activate()
-                    right_rightToRight?.constraint.deactivate()
+                    right_leftToRight?.constraint.deactivate()
                 } else {
                     right_rightToRight?.constraint.deactivate()
-                    right_rightToRight?.constraint.activate()
+                    right_leftToRight?.constraint.activate()
                 }
             }
             
@@ -165,10 +163,10 @@ extension SREdgeAreaView: SREdgeArea {
                 bottom.isHidden = !visible
                 if visible {
                     bottom_bottomToBottom?.constraint.activate()
-                    bottom_bottomToBottom?.constraint.deactivate()
+                    bottom_topToBottom?.constraint.deactivate()
                 } else {
                     bottom_bottomToBottom?.constraint.deactivate()
-                    bottom_bottomToBottom?.constraint.activate()
+                    bottom_topToBottom?.constraint.activate()
                 }
             }
         }

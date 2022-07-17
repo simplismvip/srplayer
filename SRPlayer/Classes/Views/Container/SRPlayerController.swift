@@ -56,6 +56,7 @@ public class SRPlayerController: UIView {
 }
 
 extension SRPlayerController: CotrolProtocol {
+    // 添加播放器视图到 view.player
     public func addPlayer(_ content: UIView) {
         addPlayer(content) { make, view in
             make.edges.equalTo(view)
