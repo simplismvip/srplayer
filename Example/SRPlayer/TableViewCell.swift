@@ -9,7 +9,6 @@
 import UIKit
 import ZJMKit
 import SnapKit
-import SwifterSwift
 
 class TableViewCell: UITableViewCell {
     let cover = UIImageView()

@@ -8,13 +8,15 @@
 import UIKit
 
 struct Tools {
-   
+    func a() {
+        let b = InitClass<UIView>.instance("SRPlayerBottomBar")
+    }
 }
 
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")
 //SRLogger.debug(bottom)
-struct InitClass<T: NSObject> {
-    static func instance(_ className: String) -> T? {
+public struct InitClass<T: NSObject> {
+    public static func instance(_ className: String) -> T? {
         guard let clazz = classFrom(className) as? T.Type else {
             return nil
         }

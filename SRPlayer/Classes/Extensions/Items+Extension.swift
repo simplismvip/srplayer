@@ -8,7 +8,7 @@
 import UIKit
 import AVFAudio
 
-extension SRPlayerController {
+extension SRPlayerNormalController {
     
     func initEdgeItems() {
         let empty = ItemFactory.emptyItem()

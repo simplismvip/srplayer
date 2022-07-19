@@ -13,6 +13,7 @@ class SRPlayerSlider: UIView {
         slider = UISlider(frame: .zero)
         super.init(frame: frame)
         addSubview(self.slider)
+        
         slider.snp.makeConstraints {
             $0.centerY.equalTo(snp.centerY)
             $0.height.equalTo(30)
@@ -28,8 +29,8 @@ class SRPlayerSlider: UIView {
 
 extension SRPlayerSlider: SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T) {
-        if let slider = item as? SRPlayerSliderItem {
-            
+        if let item = item as? SRPlayerSliderItem {
+            slider.setThumbImage(item.thumbImage, for: .normal)
         }
     }
 }

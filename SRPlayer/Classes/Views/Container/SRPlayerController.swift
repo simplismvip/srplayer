@@ -8,11 +8,9 @@
 import UIKit
 
 public class SRPlayerController: UIView {
-    public let barManager = SRBarManager()
     public let view: SRContainerView
     public var edgeVisibleUnit: EdgeAreaUnit
     public var moreAreaVisible: Bool
-    
     public var edgeVisibleAnimate: SREdgeVisible
     public var moreVisibleAnimate: SRVisible
     
@@ -25,9 +23,6 @@ public class SRPlayerController: UIView {
         super.init(frame: frame)
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
-        
-        initEdgeItems()
-        addEdgeSubViews()
         showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
     }
 
