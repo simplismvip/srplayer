@@ -7,10 +7,8 @@
 
 import UIKit
 
-class SRPlayUrlModel: NSObject {
+class SRPlayUrlModel {
     var url: URL?
 }
 
-extension SRPlayUrlModel: SRModelP {
-    
-}
+extension SRPlayUrlModel: SRModel { }

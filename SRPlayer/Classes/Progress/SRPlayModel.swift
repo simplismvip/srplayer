@@ -7,10 +7,20 @@
 
 import UIKit
 
-class SRPlayModel: NSObject {
+class SRPlayModel {
     var isPlaying: Bool = false
+    var playView: UIView?
+    var streamType: StreamType = .vod
+    var playState: PlaybackState = .stop
+    var loadState: PlayLoadState = .unknow
+    var isPrepareToPlay: Bool = false
+    var isSwitchingQuality: Bool = false
+    var isMute: Bool = false
+    var playerDuration: TimeInterval = 0
+    var currentPlaybackTime: TimeInterval = 0
+    var liveTimeOffset: TimeInterval = 0
+    var videoCacheDuration: TimeInterval = 0
+    var playbackRate: Float = 0
 }
 
-extension SRPlayModel: SRModelP {
-    
-}
+extension SRPlayModel: SRModel { }

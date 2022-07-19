@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SRPlayUrlProgress: NSObject, SRProgressP {
+class SRPlayUrlProgress: NSObject, SRProgress {
     var model: SRPlayUrlModel
     override init() {
         self.model = SRPlayUrlModel()

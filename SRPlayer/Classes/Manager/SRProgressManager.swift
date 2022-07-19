@@ -14,12 +14,12 @@ class SRProgressManager {
         items = [:]
     }
     
-    func updateProgress<P: SRProgressP>(_ progress: P) {
+    func updateProgress<P: SRProgress>(_ progress: P) {
         let key = P.className()
         items[key] = JMWeakBox(progress)
     }
     
-    func progress<P: SRProgressP>() -> P? {
+    func progress<P: SRProgress>() -> P? {
         let key = P.className()
         return items[key]?.weakObjc as? P
     }

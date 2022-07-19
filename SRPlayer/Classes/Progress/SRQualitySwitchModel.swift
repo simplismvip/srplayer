@@ -7,10 +7,8 @@
 
 import UIKit
 
-class SRQualitySwitchModel: NSObject {
+class SRQualitySwitchModel {
     
 }
 
-extension SRQualitySwitchModel: SRModelP {
-    
-}
+extension SRQualitySwitchModel: SRModel { }

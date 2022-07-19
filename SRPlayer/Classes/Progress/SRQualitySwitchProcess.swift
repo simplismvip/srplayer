@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SRQualitySwitchProcess:  NSObject, SRProgressP {
+class SRQualitySwitchProcess:  NSObject, SRProgress {
     var model: SRQualitySwitchModel
     override init() {
         self.model = SRQualitySwitchModel()

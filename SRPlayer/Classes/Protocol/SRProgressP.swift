@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol SRModelP: NSObject { }
+protocol SRModel { }
 
-protocol SRProgressP: NSObject {
-    associatedtype MODEL: SRModelP
+protocol SRProgress: NSObject {
+    associatedtype MODEL: SRModel
     var model: MODEL { set get }
     func configProcess()
 }
 
-extension SRProgressP {
+extension SRProgress {
     func recoverModel(_ model: MODEL) {
         self.model = model
     }
