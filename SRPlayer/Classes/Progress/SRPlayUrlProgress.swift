@@ -2,7 +2,8 @@
 //  SRPlayUrlProgress.swift
 //  Pods-SRPlayer_Example
 //
-//  Created by jh on 2022/7/18.
+//  Created by JunMing on 2022/7/18.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
