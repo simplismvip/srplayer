@@ -17,6 +17,8 @@ public let kMsgNameStopPlay = "kMsgNameStopPlay"
 /// 暂停播放
 public let kMsgNamePausePlay = "kMsgNamePausePlay"
 /// 播放
+public let kMsgNameRePlay = "kMsgNameRePlay"
+/// 播放
 public let kMsgNameActionPlay = "kMsgNameActionPlay"
 /// 快进快退
 public let kMsgNameActionSeekTo = "kMsgNameActionSeekTo"

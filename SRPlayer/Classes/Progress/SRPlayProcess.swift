@@ -122,8 +122,14 @@ extension SRPlayProcess: SRProgress {
         }
         
         /// 暂停播放
-        jmReciverMsg(msgName: kMsgNamePausePlay) { _ in
-            
+        jmReciverMsg(msgName: kMsgNamePausePlay) { [weak self] _ in
+            if let isPlaying = self?.model.player?.isPlaying(), isPlaying {
+                self?.pause()
+            }
+            return nil
+        }
+        jmReciverMsg(msgName: kMsgNameRePlay) { [weak self] state in
+            self?.play()
             return nil
         }
         
@@ -134,14 +140,14 @@ extension SRPlayProcess: SRProgress {
         }
         
         /// 切换清晰度
-        jmReciverMsg(msgName: kMsgNameSwitchQuality) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
+//            self?.model.player.
             return nil
         }
         
         /// 静音
-        jmReciverMsg(msgName: kMsgNameActionMute) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameActionMute) { [weak self] _ in
+            self?.setMute()
             return nil
         }
         
@@ -259,6 +265,10 @@ extension SRPlayProcess {
     
     private func stop() {
         model.player?.stop()
+    }
+    
+    private func setMute() {
+        model.player?.playbackVolume = 0
     }
     
     private func shutdown() {

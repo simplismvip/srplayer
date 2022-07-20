@@ -79,7 +79,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = dataSource[indexPath.row]
-        if model.stype == .local {
+        if model.type == .local {
             if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
                 let build = PlayerBulider(url: url)
                 player.jmSendMsg(msgName: kMsgNameStartPlay, info: build as MsgObjc)

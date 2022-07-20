@@ -20,6 +20,7 @@
 		6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBF2883F9F800DBFFE7 /* Helper.swift */; };
 		E9A54FAF2887F94E006E71E8 /* 002.MOV in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FAD2887F94D006E71E8 /* 002.MOV */; };
 		E9A54FB02887F94E006E71E8 /* 001.MOV in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FAE2887F94D006E71E8 /* 001.MOV */; };
+		E9A54FB428880B37006E71E8 /* urls2.json in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FB328880B37006E71E8 /* urls2.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		DA0864BA7AE36D40752C2E97 /* SRPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SRPlayer.podspec; path = ../SRPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E9A54FAD2887F94D006E71E8 /* 002.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 002.MOV; sourceTree = "<group>"; };
 		E9A54FAE2887F94D006E71E8 /* 001.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 001.MOV; sourceTree = "<group>"; };
+		E9A54FB328880B37006E71E8 /* urls2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = urls2.json; sourceTree = "<group>"; };
 		FAC219AF178BC5727BE36BD5 /* Pods-SRPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +118,7 @@
 				6855BCBF2883F9F800DBFFE7 /* Helper.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				6855BCBB2883EE3200DBFFE7 /* urls.json */,
+				E9A54FB328880B37006E71E8 /* urls2.json */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
@@ -271,6 +274,7 @@
 				E9A54FAF2887F94E006E71E8 /* 002.MOV in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				6855BCBC2883EE3300DBFFE7 /* urls.json in Resources */,
+				E9A54FB428880B37006E71E8 /* urls2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

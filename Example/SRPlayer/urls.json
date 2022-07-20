@@ -4,70 +4,61 @@
         {
             "title":"枫叶国际学校航拍",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=9cea3b741bdf8db1bc2e70623918ac69/8ad4b31c8701a18b475c28a3db2f07082938fea3.jpg?tbpicau=2022-07-19-05_420232757cc1c94d1e164bb12cc4ee48",
-            "type":0,
-            "stype":0,
+            "type":2,
             "url":"001",
         },{
             "title":"蓝天白云,延时摄影",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=b73472f8fc12c8fcb4f3facbcc38e378/08f790529822720ec94ce2223ecb0a46f31fab6c.jpg?tbpicau=2022-07-19-05_9aed2cc2b672c8741b5ae3dd2731dc50",
-            "type":0,
-            "stype":0,
+            "type":2,
             "url":"002",
         },{
             "title":"这就是我不买海景房的真实原因",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=9cea3b741bdf8db1bc2e70623918ac69/8ad4b31c8701a18b475c28a3db2f07082938fea3.jpg?tbpicau=2022-07-19-05_420232757cc1c94d1e164bb12cc4ee48",
             "type":1,
-            "stype":1,
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
         },{
             "title":"把你当做我最好的朋友，可是你要得太多了",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=b73472f8fc12c8fcb4f3facbcc38e378/08f790529822720ec94ce2223ecb0a46f31fab6c.jpg?tbpicau=2022-07-19-05_9aed2cc2b672c8741b5ae3dd2731dc50",
             "type":1,
-            "stype":1,
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/gear4/prog_index.m3u8",
         },{
             "title":"我都蹲俩小时了，我不信不烫腚小姐姐",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=e681f1f3aec4b7453494bb10ffc76f2a/d1a20cf431adcbef9add09dce9af2edda2cc9f7b.jpg?tbpicau=2022-07-19-05_6d1ba93617d4ec5a4867c2df3476ebbf",
             "type":1,
-            "stype":1,
+            
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/gear2/prog_index.m3u8",
         },{
             "title":"搞笑视频，每天更新，快乐专场*#家庭搞笑##搞笑视频#",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=f16f98d10f66d0167e19922ea710a53a/6159252dd42a2834fc2f2d1706b5c9ea15cebf25.jpg?tbpicau=2022-07-19-05_f4ac6d16290cd8d6848373a9a9f5cbd9",
             "type":1,
-            "stype":1,
+            
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/gear4/prog_index.m3u8",
         },{
             "title":"这事有点严重了，你有没有遇到过？",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=4be6c0e4d48fa0ec7fc7680b16ac28d3/dc54564e9258d1099ae8ab659458ccbf6d814dd9.jpg?tbpicau=2022-07-19-05_8ff1c6b47a85c3718779c69edbf44149",
             "type":1,
-            "stype":1,
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/gear1/prog_index.m3u8",
         },{
             "title":"太平洋货轮上的老鼠，你说它能游上岸吗",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=e029fc195f4c510faec4ee1c50625410/3ac79f3df8dcd100ddccdaf0378b4710b8122f8a.jpg?tbpicau=2022-07-19-05_2b8bd1b4eec4f9202fe9365dba613af6",
             "type":1,
-            "stype":1,
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/gear2/prog_index.m3u8",
         },{
             "title":"后来我也买了名爵，为什么大家一直笑我",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=6ded77939118367aad8973db1e48fae9/55e736d12f2eb93846ecc048c2628535e4dd6f83.jpg?tbpicau=2022-07-19-05_806b0bc0b4fd1887062277acda166d82",
             "type":1,
-            "stype":1,
             "url":"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/gear3/prog_index.m3u8",
         }
         ,{
             "title":"RTMP推流",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=6ded77939118367aad8973db1e48fae9/55e736d12f2eb93846ecc048c2628535e4dd6f83.jpg?tbpicau=2022-07-19-05_806b0bc0b4fd1887062277acda166d82",
-            "type":1,
-            "stype":3,
+            "type":3,
             "url":"rtmp://live.hkstv.hk.lxdns.com/live/hks",
         }
         ,{
             "title":"RTSP推流",
             "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=6ded77939118367aad8973db1e48fae9/55e736d12f2eb93846ecc048c2628535e4dd6f83.jpg?tbpicau=2022-07-19-05_806b0bc0b4fd1887062277acda166d82",
-            "type":1,
-            "stype":2,
+            "type":2,
             "url":"rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov",
         }
     ]
