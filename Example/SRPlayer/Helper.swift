@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class ImageCache {
     static let shared = ImageCache()

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 import SnapKit
 import SRPlayer
 
@@ -56,6 +57,10 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func testAction(_ sender: Any) {
+        
+    }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -74,6 +79,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = dataSource[indexPath.row]
+        if model.stype == .local {
+            if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
+                let build = PlayerBulider(url: url)
+                player.jmSendMsg(msgName: kMsgNameStartPlay, info: build as MsgObjc)
+            }
+        } else {
+            if let url = URL(string: model.url) {
+                let build = PlayerBulider(url: url)
+                player.jmSendMsg(msgName: kMsgNameStartPlay, info: build as MsgObjc)
+            }
+        }
         SRLogger.debug(model.title)
     }
     

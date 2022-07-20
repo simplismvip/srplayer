@@ -17,4 +17,8 @@ class SRQualitySwitchProcess:  NSObject, SRProgress {
     func configProcess() {
         
     }
+    
+    deinit {
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IJKMediaFrameworkWithSSL
 
 // 屏幕类型
 public enum ScreenType {
@@ -33,11 +34,132 @@ public enum PlaybackState {
     case interrupted // 打断
     case seekingForward // 前进
     case seekingBackward // 后退
+    
+    static func transFrom(_ ijkState: IJKMPMoviePlaybackState) -> PlaybackState {
+        switch ijkState {
+        case .stopped:
+            return .stop
+        case .playing:
+            return .playing
+        case .interrupted:
+            return .interrupted
+        case .seekingForward:
+            return .seekingForward
+        case .seekingBackward:
+            return seekingBackward
+        case .paused:
+            return .pause
+        }
+    }
+    
+    func transFrom() -> IJKMPMoviePlaybackState {
+        switch self {
+        case .stop:
+            return .stopped
+        case .playing:
+            return .playing
+        case .interrupted:
+            return .interrupted
+        case .seekingForward:
+            return .seekingForward
+        case .seekingBackward:
+            return .seekingBackward
+        case .pause:
+            return .paused
+        }
+    }
 }
 
 public enum PlayLoadState {
     case unknow // 未知
     case playable // 准备完成
-    case playthroughOK //  在这个状态下,如果shouldAutoplay == YES时，视频将立即播放
-    case stateStalled // 在这个状态下，视频将停止播放
+    case playthroughOK // Playback will be automatically started in this state when shouldAutoplay is YES
+    case stateStalled // Playback will be automatically paused in this state, if started
+    
+    static func transFrom(_ ijkState: IJKMPMovieLoadState) -> PlayLoadState {
+        switch ijkState {
+        case .playable:
+            return .playable
+        case .playthroughOK:
+            return .playthroughOK
+        case .stalled:
+            return .stateStalled
+        default:
+            return .unknow
+        }
+    }
+    
+    func transTo() -> IJKMPMovieLoadState {
+        switch self {
+        case .playable:
+            return .playable
+        case .playthroughOK:
+            return .playthroughOK
+        case .stateStalled:
+            return .stalled
+        default:
+            return []
+        }
+    }
+}
+
+enum ScalingMode {
+    case none
+    case aspectFit
+    case aspectFill
+    case fill
+    
+    static func transFrom(_ ijkMode: IJKMPMovieScalingMode) -> ScalingMode {
+        switch ijkMode {
+        case .none:
+            return .none
+        case .aspectFit:
+            return .aspectFit
+        case .aspectFill:
+            return .aspectFill
+        case .fill:
+            return .fill
+        }
+    }
+    
+    func transTo() -> IJKMPMovieScalingMode {
+        switch self {
+        case .none:
+            return .none
+        case .aspectFit:
+            return .aspectFit
+        case .aspectFill:
+            return .aspectFill
+        case .fill:
+            return .fill
+        }
+    }
+}
+
+enum FinishReason {
+    case ended
+    case error
+    case exited
+    
+    static func transFrom(_ ijkReaseon: IJKMPMovieFinishReason) -> FinishReason {
+        switch ijkReaseon {
+        case .playbackEnded:
+            return .ended
+        case .playbackError:
+            return .error
+        case .userExited:
+            return .exited
+        }
+    }
+    
+    var ijk: Int {
+        switch self {
+        case .ended:
+            return IJKMPMovieFinishReason.playbackEnded.rawValue
+        case .error:
+            return IJKMPMovieFinishReason.playbackError.rawValue
+        case .exited:
+            return IJKMPMovieFinishReason.userExited.rawValue
+        }
+    }
 }

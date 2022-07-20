@@ -18,6 +18,8 @@
 		6855BCBC2883EE3300DBFFE7 /* urls.json in Resources */ = {isa = PBXBuildFile; fileRef = 6855BCBB2883EE3200DBFFE7 /* urls.json */; };
 		6855BCBE2883EF2F00DBFFE7 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBD2883EF2F00DBFFE7 /* TableViewCell.swift */; };
 		6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBF2883F9F800DBFFE7 /* Helper.swift */; };
+		E9A54FAF2887F94E006E71E8 /* 002.MOV in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FAD2887F94D006E71E8 /* 002.MOV */; };
+		E9A54FB02887F94E006E71E8 /* 001.MOV in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FAE2887F94D006E71E8 /* 001.MOV */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		8C04F2B8971D51E94520EEAB /* Pods-SRPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B69914A295CBA1DEDFF7466E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		DA0864BA7AE36D40752C2E97 /* SRPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SRPlayer.podspec; path = ../SRPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E9A54FAD2887F94D006E71E8 /* 002.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 002.MOV; sourceTree = "<group>"; };
+		E9A54FAE2887F94D006E71E8 /* 001.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 001.MOV; sourceTree = "<group>"; };
 		FAC219AF178BC5727BE36BD5 /* Pods-SRPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +87,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				E9A54FAC2887F94D006E71E8 /* Source */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for SRPlayer */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -161,6 +166,16 @@
 				8C04F2B8971D51E94520EEAB /* Pods-SRPlayer_Example.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		E9A54FAC2887F94D006E71E8 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				E9A54FAD2887F94D006E71E8 /* 002.MOV */,
+				E9A54FAE2887F94D006E71E8 /* 001.MOV */,
+			);
+			name = Source;
+			path = SRPlayer/Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,8 +265,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9A54FB02887F94E006E71E8 /* 001.MOV in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				E9A54FAF2887F94E006E71E8 /* 002.MOV in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				6855BCBC2883EE3300DBFFE7 /* urls.json in Resources */,
 			);

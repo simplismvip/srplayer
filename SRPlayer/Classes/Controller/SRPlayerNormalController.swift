@@ -7,11 +7,8 @@
 
 import UIKit
 import ZJMKit
-import IJKMediaFrameworkWithSSL
 
 public class SRPlayerNormalController: SRPlayerController {
-//    var url: URL?
-//    var player: IJKMediaPlayback?
     let processM: SRProgressManager
     let barManager: SRBarManager
     
@@ -19,9 +16,7 @@ public class SRPlayerNormalController: SRPlayerController {
         self.barManager = SRBarManager()
         self.processM = SRProgressManager()
         super.init(frame: frame)
-        progress()
-        initEdgeItems()
-        addEdgeSubViews()
+        setup()
     }
     
     public func smallPlayFrameReset() {
@@ -29,21 +24,8 @@ public class SRPlayerNormalController: SRPlayerController {
         self.addPlayer(video)
     }
     
-    public func config() {
-//        #if DEBUG
-//            IJKFFMoviePlayerController.setLogReport(true)
-//            IJKFFMoviePlayerController.setLogLevel(k_IJK_LOG_DEBUG)
-//        #else
-//            IJKFFMoviePlayerController.setLogReport(false)
-//            IJKFFMoviePlayerController.setLogLevel(k_IJK_LOG_INFO)
-//        #endif
-//        IJKFFMoviePlayerController.checkIfFFmpegVersionMatch(true)
-//        let options = IJKFFOptions.byDefault()
-//        player = IJKFFMoviePlayerController(contentURL: url, with: options)
-//        player?.view?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        player?.view?.frame = view.bounds
-//        player?.scalingMode = .aspectFit
-//        player?.shouldAutoplay = true
+    public func reset() {
+        processM.reset()
     }
     
     required init?(coder: NSCoder) {
@@ -52,39 +34,98 @@ public class SRPlayerNormalController: SRPlayerController {
 }
 
 extension SRPlayerNormalController {
-    func play() {
-        jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
-    }
-    
-    func pause() {
-        jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
-    }
-    
-    func stop() {
-        jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
-    }
-    
-    func isPlaying() -> Bool {
-        let progress: SRPlayProcess = self.processM.progress()!
-        return progress.model.isPlaying
-    }
-    
-    func mute() -> Bool {
-        return false
-    }
-    
-    func setMute(ismute: Bool) {
+    func registerMsg() {
+        /// 开始播放
+        jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
+            if let view = playView as? UIView {
+                self?.addPlayer(view)
+                SRLogger.debug("开始播放.....")
+            }
+            
+            return nil
+        }
         
+        /// 准备开始播放
+        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
+            SRLogger.debug("准备播放.....")
+            return nil
+        }
+        
+        /// 开始播放
+        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
+            SRLogger.debug("开始播放.....")
+            return nil
+        }
+        
+        /// 播放器进度更新
+        jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { _ in
+            
+            return nil
+        }
+        
+        /// 快进快退失败
+        jmReciverMsg(msgName: kMsgNamePlayerSeekFailed) { _ in
+            
+            return nil
+        }
+        
+        /// 快进快退
+        jmReciverMsg(msgName: kMsgNamePlayerSeeking) { _ in
+            
+            return nil
+        }
+        
+        /// 快进快退完成
+        jmReciverMsg(msgName: kMsgNamePlayerSeekEnded) { _ in
+            
+            return nil
+        }
+        
+        /// 静音
+        jmReciverMsg(msgName: kMsgNameActionMute) { _ in
+            
+            return nil
+        }
+        
+        /// 更改播放速率
+        jmReciverMsg(msgName: kMsgNameChangePlaybackRate) { _ in
+            
+            return nil
+        }
+        
+        /// 更改放缩比例
+        jmReciverMsg(msgName: kMsgNameChangeScalingMode) { _ in
+            
+            return nil
+        }
+        
+        /// 截图
+        jmReciverMsg(msgName: kMsgNameShotScreen) { _ in
+            
+            return nil
+        }
     }
 }
 
+/** Private Func */
 extension SRPlayerNormalController {
-    private func progress() {
+    private func setup() {
+        config()
+        initEdgeItems()
+        addEdgeSubViews()
+        registerMsg()
+    }
+    
+    private func config() {
+        let router = JMRouter()
+        self.jmSetAssociatedMsgRouter(router: router)
+        self.processM.jmSetAssociatedMsgRouter(router: router)
+        
         let playP = SRPlayProcess()
         let urlP = SRPlayUrlProgress()
         let switchP = SRQualitySwitchProcess()
-        self.processM.updateProgress(playP)
-        self.processM.updateProgress(urlP)
-        self.processM.updateProgress(switchP)
+        self.processM.addProcess(playP)
+        self.processM.addProcess(urlP)
+        self.processM.addProcess(switchP)
     }
 }

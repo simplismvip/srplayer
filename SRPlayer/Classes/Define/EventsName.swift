@@ -30,20 +30,19 @@ public let kMsgNameChangePlaybackRate = "kMsgNameChangePlaybackRate"
 public let kMsgNameChangeScalingMode = "kMsgNameChangeScalingMode"
 /// 截图
 public let kMsgNameShotScreen = "kMsgNameShotScreen"
+/// 添加播放器view到视图
+public let kMsgNameAddPlayerView = "kMsgNameAddPlayerView"
+/// 准备播放
+public let kMsgNamePrepareToPlay = "kMsgNamePrepareToPlay"
+/// 播放器播放进度更新
+public let kMsgNamePlaybackTimeUpdate = "kMsgNamePlaybackTimeUpdate"
+/// 快进、快退失败
+public let kMsgNamePlayerSeekFailed = "kMsgNamePlayerSeekFailed"
+/// 快进、快退
+public let kMsgNamePlayerSeeking = "kMsgNamePlayerSeeking"
+/// 快进、快退结束
+public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
 
-
-/// 开始发送消息
-public let kMsgNameSendMessageStart = "kMsgNameSendMessageStart"
-/// 收到消息已读回执
-public let kMsgNameHavedReadMessage = "kMsgNameHavedReadMessage"
-/// 收到消息撤回回执
-public let kMsgNameRevokeMessage = "kMsgNameRevokeMessage"
-/// 展示键盘
-public let kMsgNameKeyBoardShow = "kMsgNameKeyBoardShow"
-/// 回收键盘
-public let kMsgNameKeyBoardHide = "kMsgNameKeyBoardHide"
-/// 更新输入框高度
-public let kMsgNameKeyBoardUpdateHeight = "kMsgNameKeyBoardUpdateHeight"
 /// 切换语音和文本输入
 public let kMsgNameSwitchTextVoiceKeyBoard = "kMsgNameSwitchTextVoiceKeyBoard"
 /// 切换语音和文本输入

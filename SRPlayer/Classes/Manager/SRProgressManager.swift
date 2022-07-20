@@ -10,23 +10,31 @@ import UIKit
 import Combine
 import ZJMKit
 
-class SRProgressManager {
-    private var items: [String: JMWeakBox<NSObject>]
-    init() {
+class SRProgressManager: NSObject {
+    private var items: [String: Any]
+    override init() {
         items = [:]
     }
     
-    func updateProgress<P: SRProgress>(_ progress: P) {
+    func addProcess<P: SRProgress>(_ progress: P) {
+        if let router = self.msgRouter {
+            progress.jmSetAssociatedMsgRouter(router: router)
+            progress.configProcess()
+        }
         let key = P.className()
-        items[key] = JMWeakBox(progress)
+        items[key] = progress
     }
     
     func progress<P: SRProgress>() -> P? {
         let key = P.className()
-        return items[key]?.weakObjc as? P
+        return items[key] as? P
     }
     
     func reset() {
         
+    }
+    
+    deinit {
+        items.removeAll()
     }
 }

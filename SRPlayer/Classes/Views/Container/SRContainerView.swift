@@ -48,7 +48,7 @@ public class SRContainerView: UIView, SRBaseContainer {
             make.edges.equalTo(self)
         }
         
-        subviewsRandColor()
+//        subviewsRandColor()
         
         addSubview(floatView)
 //        floatView.snp.makeConstraints { make in
