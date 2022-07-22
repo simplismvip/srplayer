@@ -6,6 +6,7 @@
 build/
 DerivedData/
 Pods/
+SRPlayer/Source/
 StrawberryReader.xcodeproj/xcshareddata/
 Podfile.lock
 StrawberryReader.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
