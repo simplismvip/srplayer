@@ -12,7 +12,7 @@ struct ItemFactory {
 
     static func buttonItem(_ itemStyle: ItemStyle, location: LayoutLocation, title: String? = nil, image: String? = nil) -> SRPlayerButtonItem {
         let buttomItem = SRPlayerButtonItem(itemStyle, location: location, title: title, image: image)
-        
+        buttomItem.titleColor = UIColor.blue
         if itemStyle == .back {
             
             
@@ -78,7 +78,7 @@ struct ItemFactory {
         return SRPlayerTitleItem(title: title, font: font)
     }
     
-    static func sliderItem(firstValue: CGFloat = 0, secondValue: CGFloat?) -> SRPlayerSliderItem {
+    static func sliderItem(firstValue: CGFloat = 0, secondValue: CGFloat) -> SRPlayerSliderItem {
         return SRPlayerSliderItem("sr_progress".image, firstValue: firstValue, secondValue: secondValue)
     }
     

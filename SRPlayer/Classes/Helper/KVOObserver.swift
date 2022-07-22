@@ -8,33 +8,11 @@
 import UIKit
 import ZJMKit
 
-public struct KeyValueOptions: OptionSet {
-    public let rawValue: UInt
-    public init(rawValue: UInt) {
-        self.rawValue = rawValue
-    }
-
-    public static let initial = KeyValueOptions(rawValue: 1 << 0)
-    public static let new = KeyValueOptions(rawValue: 1 << 1)
-    
-    var nsOptions: NSKeyValueObservingOptions {
-        var result: UInt = 0
-        if self.contains(.new) {
-            result |= NSKeyValueObservingOptions.new.rawValue
-        }
-        if self.contains(.initial) {
-            result |= NSKeyValueObservingOptions.initial.rawValue
-        }
-        
-        return NSKeyValueObservingOptions(rawValue: result)
-    }
-}
-
 protocol KVOObservableProtocol {
     var target: NSObject { get }
     var keyPath: String { get }
     var retainTarget: Bool { get }
-    var options: KeyValueOptions { get }
+    var options: NSKeyValueObservingOptions { get }
 }
 
 class RSObserver: KVOObserver {
@@ -42,7 +20,7 @@ class RSObserver: KVOObserver {
     var retainSelf: KVOObserver?
 
     init(parent: KVOObservableProtocol, callback: @escaping Callback) {
-        super.init(target: parent.target, keyPath: parent.keyPath, retainTarget: parent.retainTarget, options: parent.options.nsOptions, callback: callback)
+        super.init(target: parent.target, keyPath: parent.keyPath, retainTarget: parent.retainTarget, options: parent.options, callback: callback)
         self.retainSelf = self
     }
 
@@ -51,6 +29,10 @@ class RSObserver: KVOObserver {
         self.retainSelf = nil
     }
 
+    func add(_ items: inout Set<RSObserver>) {
+        items.insert(self)
+    }
+    
     deinit {
         #if TRACE_RESOURCES
             _ = Resources.decrementTotal()
@@ -65,10 +47,10 @@ final class KVOObservable<Element>: KVOObservableProtocol {
     var strongTarget: AnyObject?
 
     var keyPath: String
-    var options: KeyValueOptions
+    var options: NSKeyValueObservingOptions
     var retainTarget: Bool
 
-    init(object: NSObject, keyPath: String, options: KeyValueOptions, retainTarget: Bool) {
+    init(object: NSObject, keyPath: String, options: NSKeyValueObservingOptions, retainTarget: Bool) {
         self.target = object
         self.keyPath = keyPath
         self.options = options
@@ -76,13 +58,6 @@ final class KVOObservable<Element>: KVOObservableProtocol {
         if retainTarget {
             self.strongTarget = object
         }
-    }
-}
-
-extension NSObject {
-    func observe<Element>(_ type: Element.Type, _ keyPath: String, options: KeyValueOptions = [.new, .initial], retainSelf: Bool = true, callback: @escaping (Any?) -> Void) -> RSObserver {
-        let kvoObservable = KVOObservable<Element>(object: self, keyPath: keyPath, options: options, retainTarget: retainSelf)
-        return RSObserver(parent: kvoObservable, callback: callback)
     }
 }
 
@@ -101,7 +76,7 @@ extension NSObject {
         }
         self.callback = callback
         super.init()
-        self.target?.addObserver(self, forKeyPath: self.keyPath, context: nil)
+        self.target?.addObserver(self, forKeyPath: self.keyPath, options: options, context: nil)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -112,5 +87,14 @@ extension NSObject {
         self.target?.removeObserver(self, forKeyPath: self.keyPath, context: nil)
         self.target = nil
         self.retainedTarget = nil
+    }
+}
+
+extension NSObject {
+    func observe<Element>(_ type: Element.Type, _ keyPath: String, options: NSKeyValueObservingOptions = [.new, .initial], retainSelf: Bool = true, callback: @escaping (Element?) -> Void) -> RSObserver {
+        let kvoObservable = KVOObservable<Element>(object: self, keyPath: keyPath, options: options, retainTarget: retainSelf)
+        return RSObserver(parent: kvoObservable) { value in
+            callback(value as? Element)
+        }
     }
 }

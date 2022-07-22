@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class SRPlayerItem: SRItem {
-    public var size: CGSize
-    public var userEnabled: Bool
+public class SRPlayerItem: NSObject, SRItem {
+    @objc dynamic public var size: CGSize
+    @objc dynamic public var userEnabled: Bool
     public var eventName: String
     public var itemStyle: ItemStyle
-    public var edgeInsets: UIEdgeInsets
+    @objc dynamic public var edgeInsets: UIEdgeInsets
     public var direction: LayoutDirection
     public var location: LayoutLocation
     public var cornerRadius: CGFloat
@@ -40,10 +40,10 @@ public class SRPlayerEmptyItem: SRPlayerItem {
 }
 
 public class SRPlayerButtonItem: SRPlayerItem {
-    public var title: String?
-    public var titleColor: UIColor?
-    public var image: String?
-    public var font: UIFont?
+    @objc dynamic public var title: String?
+    @objc dynamic public var titleColor: UIColor?
+    @objc dynamic public var image: String?
+    @objc dynamic public var font: UIFont?
     
     init(_ itemStyle: ItemStyle, location: LayoutLocation, title: String?, image: String?) {
         super.init(itemStyle, location: location)
@@ -60,12 +60,12 @@ public class SRPlayerSliderItem: SRPlayerItem {
 //    public var dragEnded: String?
 //    public var canceld: String?
 
-    public var firstTrackValue: CGFloat?     /* From 0 to 1 default 0 */
-    public var secondTrackValue: CGFloat?     /* From 0 to 1 default 0 */
-    public var thumbImage: UIImage?
+    @objc dynamic public var firstTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
+    @objc dynamic public var secondTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
+    @objc dynamic public var thumbImage: UIImage?
 //    public var thumbSize: CGSize?
     
-    init(_ thumbImage: UIImage?, firstValue: CGFloat?, secondValue: CGFloat?) {
+    init(_ thumbImage: UIImage?, firstValue: CGFloat, secondValue: CGFloat) {
         super.init(.slider, location: .bottom)
         self.className = "SRPlayerSlider"
         self.firstTrackValue = firstValue
@@ -74,8 +74,8 @@ public class SRPlayerSliderItem: SRPlayerItem {
 }
 
 public class SRPlayerTitleItem: SRPlayerItem {
-    public var title: String?
-    public var font: UIFont?
+    @objc dynamic public var title: String?
+    @objc dynamic public var font: UIFont?
     
     init(title: String?, font: UIFont?) {
         super.init(.title, location: .top_left)

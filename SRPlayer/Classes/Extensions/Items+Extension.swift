@@ -31,7 +31,7 @@ extension SRPlayerNormalController {
         let curTime = ItemFactory.buttonItem(.curTime, location: .bottom)
         let next = ItemFactory.buttonItem(.next, location: .bottom, image: "sr_next")
         let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
-        let slider = ItemFactory.sliderItem(firstValue: 0.1, secondValue: nil)
+        let slider = ItemFactory.sliderItem(firstValue: 0.1, secondValue: 0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
         let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscrenn")
         
