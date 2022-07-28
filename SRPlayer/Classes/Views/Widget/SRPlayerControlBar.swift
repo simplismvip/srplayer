@@ -10,9 +10,9 @@ import UIKit
 import ZJMKit
 
 public class SRPlayerControlBar: UIView {
+    public var view: UIView
     public var barStyle: ScreenType
     public var items: [SRPlayerItem]
-    public var view: UIStackView
     public var barType: ControlBarType
     private var boxs = [String: JMWeakBox<UIView>]()
     
@@ -20,21 +20,17 @@ public class SRPlayerControlBar: UIView {
         self.barStyle = .half
         self.items = []
         self.barType = .top
-        self.view = UIStackView()
+        self.view = UIView()
         super.init(frame: frame)
-        
-        self.view.layer.borderColor = UIColor.white.cgColor
-        self.view.layer.borderWidth = 1
-        
-        addSubview(self.view)
+        addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
     }
     
-    func loadPlayer(_ item: SRPlayerItem) -> UIView? {
+    private func loadPlayer(_ item: SRPlayerItem) -> UIView? {
         if let itemView = boxs[item.eventName]?.weakObjc {
             return itemView
         } else {
-            guard let itemView = createItemView(item) else {
+            guard let itemView = item.view else {
                 return nil
             }
             boxs[item.eventName] = JMWeakBox<UIView>(itemView)
@@ -49,19 +45,17 @@ public class SRPlayerControlBar: UIView {
         }
     }
     
-    func createItemView(_ item: SRPlayerItem) -> UIView? {
-        guard let barView = InitClass<UIView>.instance(item.className) else {
-            return nil
-        }
-        barView.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-        (barView as? SRItemButton)?.configure(item)
-        return barView
-    }
+    private func findView(_ item: SRPlayerItem?) -> UIView? {
+       if let item = item {
+           return boxs[item.eventName]?.weakObjc
+       }
+       return nil
+   }
     
     func setupContentPadding() { }
 
     func setupShadowLayerIfNeed() {}
-    
+
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitview = super.hitTest(point, with: event)
         if let hv = hitview, super.subviews.contains(hv) {
@@ -81,10 +75,14 @@ extension SRPlayerControlBar: SRControlBar {
     }
     
     public func layoutItems() {
-        view.removellSubviews { _ in true }
-        for item in items {
-            if let topView = createItemView(item) {
-                self.view.addArrangedSubview(topView)
+        self.view.removellSubviews { _ in true }
+        if items.isEmpty { return }
+        if let location = items.first?.location {
+            switch location {
+            case .top, .bottom:
+                horizontalLayout(items.filter { $0.location == location })
+            case .left, .right:
+                verticalLayout(items.filter { $0.location == location })
             }
         }
     }
@@ -97,5 +95,114 @@ extension SRPlayerControlBar: SRControlBar {
     
     public func viewFrom<T: Command>(_ item: T) -> UIView? {
         return nil
+    }
+}
+
+extension SRPlayerControlBar {
+    public func horizontalLayout(_ targetItems: [SRPlayerItem]) {
+        // 顺时针( | --> )从最左侧侧布局，记录最右👉侧view的item
+        var tempLeftLastItem: SRPlayerItem?
+        targetItems
+            .filter { $0.direction == .clockwise }
+            .forEach { item in
+            if let itemView = loadPlayer(item) {
+                self.view.addSubview(itemView)
+                itemView.snp.makeConstraints { make in
+                    make.top.bottom.equalTo(self.view)
+                    make.centerY.equalTo(self.view.snp.centerY)
+                    
+                    if item.size.width == 0 {
+                        make.height.equalTo(item.size.height)
+                    } else {
+                        make.size.equalTo(item.size)
+                    }
+                    
+                    if let v = findView(tempLeftLastItem) {
+                        make.left.equalTo(v.snp.right).offset(item.margin.space)
+                    } else {
+                        make.left.equalTo(self.view.snp.left).offset(item.margin.left)
+                    }
+                }
+                tempLeftLastItem = item
+            } else {
+                SRLogger.error(item.itemStyle.rawValue)
+            }
+        }
+        
+        // 逆时针( <-- ｜ )从最右侧布局，记录最左👈侧view的item
+        var tempRightLastItem: SRPlayerItem?
+        targetItems
+            .reversed()
+            .filter { $0.direction == .anticlockwis }
+            .forEach { item in
+            if let itemView = loadPlayer(item) {
+                self.view.addSubview(itemView)
+                itemView.snp.makeConstraints { make in
+                    make.top.bottom.equalTo(self.view)
+                    make.centerY.equalTo(self.view.snp.centerY)
+                    
+                    if let v = findView(tempRightLastItem) {
+                        make.right.equalTo(v.snp.left).offset(-item.margin.space)
+                    } else {
+                        make.right.equalTo(snp.right).offset(-item.margin.right)
+                    }
+                    
+                    if item.size.width == 0 {
+                        make.height.equalTo(item.size.height)
+                    } else {
+                        make.size.equalTo(item.size)
+                    }
+                }
+                tempRightLastItem = item
+            } else {
+                SRLogger.error(item.itemStyle.rawValue)
+            }
+        }
+        
+        // 剩余空间( | <--> | )布局，使用最左👈侧、最右👉侧view的item
+        targetItems
+            .filter { $0.direction == .stretchable }
+            .forEach { item in
+            if let itemView = loadPlayer(item) {
+                self.view.addSubview(itemView)
+                itemView.snp.makeConstraints { make in
+                    make.centerY.equalTo(self.view.snp.centerY)
+                    make.top.bottom.equalTo(self.view)
+                    if let l = findView(tempLeftLastItem), let r = findView(tempRightLastItem) {
+                        make.left.equalTo(l.snp.right)
+                        make.right.equalTo(r.snp.left).offset(-item.margin.space)
+                    } else {
+                        make.left.equalTo(self.view.snp.right).offset(item.margin.left)
+                        make.right.equalTo(self.view.snp.left).offset(-item.margin.right)
+                    }
+                }
+            } else {
+                SRLogger.error(item.itemStyle.rawValue)
+            }
+        }
+    }
+    
+    // 左右两边都是中央开始布局
+    func verticalLayout(_ targetItems: [SRPlayerItem]) {
+        let offset = ((CGFloat(targetItems.count) / 2) - 0.5) * (targetItems.first?.size.height ?? 1.0)
+        var tempItem: SRPlayerItem?
+        for item in targetItems {
+            if let itemView = loadPlayer(item) {
+                self.view.addSubview(itemView)
+                itemView.snp.makeConstraints { make in
+                    make.left.right.equalTo(self.view)
+                    make.size.equalTo(item.size)
+                    make.centerX.equalTo(self.view.snp.centerX)
+                    if let v = findView(tempItem) {
+                        make.bottom.equalTo(v.snp.top)
+                    } else {
+                        make.centerY.equalTo(self.view.snp.centerY).offset(offset)
+                    }
+                }
+                tempItem = item
+            } else {
+                SRLogger.error(item.itemStyle.rawValue)
+            }
+        }
     }
 }

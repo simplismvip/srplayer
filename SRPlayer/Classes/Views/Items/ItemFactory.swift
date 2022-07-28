@@ -10,36 +10,38 @@ import UIKit
 
 struct ItemFactory {
 
-    static func buttonItem(_ itemStyle: ItemStyle, location: LayoutLocation, title: String? = nil, image: String? = nil) -> SRPlayerButtonItem {
-        let buttomItem = SRPlayerButtonItem(itemStyle, location: location, title: title, image: image)
-        buttomItem.titleColor = UIColor.blue
+    static func buttonItem(_ itemStyle: ItemStyle, location: Location, title: String? = nil, image: String? = nil) -> SRPlayerButtonItem {
+        let buttomItem = SRPlayerButtonItem(itemStyle, direction: .clockwise, location: location, title: title, image: image)
         if itemStyle == .back {
-            
-            
-        } else if itemStyle == .back {
             
             
         } else if itemStyle == .title {
             buttomItem.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
-            
+            buttomItem.titleColor = UIColor.white
+            buttomItem.font = UIFont.jmRegular(10)
         } else if itemStyle == .share {
-            
+            buttomItem.direction = .anticlockwis
             
         } else if itemStyle == .more {
-            
+            buttomItem.direction = .anticlockwis
             
         } else if itemStyle == .play {
             
             
         } else if itemStyle == .curTime {
             buttomItem.title = "1:23"
-            
+            buttomItem.titleColor = UIColor.white
+            buttomItem.font = UIFont.jmRegular(12)
+            buttomItem.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .next {
             
             
         } else if itemStyle == .tolTime {
-            buttomItem.title = "10:21"
-            
+            buttomItem.title = "1210:21"
+            buttomItem.titleColor = UIColor.white
+            buttomItem.direction = .anticlockwis
+            buttomItem.font = UIFont.jmRegular(12)
+            buttomItem.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .slider {
             
             
@@ -47,13 +49,16 @@ struct ItemFactory {
             
             
         } else if itemStyle == .sharpness {
-            
+            buttomItem.direction = .anticlockwis
             
         } else if itemStyle == .playRate {
             buttomItem.title = "1X"
-            
+            buttomItem.titleColor = UIColor.white
+            buttomItem.direction = .anticlockwis
+            buttomItem.font = UIFont.jmRegular(12)
         } else if itemStyle == .fullScrenn {
             
+            buttomItem.direction = .anticlockwis
             
         } else if itemStyle == .volume {
             

@@ -52,6 +52,7 @@ public class SREdgeAreaView: UIView {
         addSubview(bottom)
         
         layoutEdgeViews()
+        subviewsRandColor()
     }
     
     internal func removeOf(_ unit: EdgeAreaUnit) {

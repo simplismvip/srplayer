@@ -13,7 +13,7 @@ public protocol SRControlBar {
     var barType: ControlBarType { get }
     var barStyle: ScreenType { get set }
     var items: [SRPlayerItem] { get set }
-    var view: UIStackView { get }
+    var view: UIView { get }
     
     func addItem(_ item: SRPlayerItem)
     func layoutItems()
@@ -37,10 +37,10 @@ public protocol SRItem {
     var eventName: String { get set }
     var className: String { get set }
     var itemStyle: ItemStyle { get }
-    var direction: LayoutDirection { get set }
-    var location: LayoutLocation { get }
+    var direction: Direction { get set }
+    var location: Location { get }
     var userEnabled: Bool { get set }
-    var edgeInsets: UIEdgeInsets { get }
+    var margin: SRPlayerItem.Margin { get }
     var size: CGSize { get set }
     var cornerRadius: CGFloat { get set }
 }

@@ -52,19 +52,17 @@ public enum PanDirection {
 }
 
 // 布局方向
-public enum LayoutDirection {
-    case clockwise            //顺时针约束
-    case anticlockwis         //逆时针
-    case stretchable          //剩余空间两端约束
-    case centerOfSpare        //剩余空间中间约束
-    case centerOfView         //视图中心约束
+public enum Direction {
+    case clockwise            //顺时针约束 | --> 根据最左侧view布局，布局优先级高
+    case anticlockwis         //逆时针 <-- | 根据最右侧view布局，布局优先级高
+    case stretchable          //剩余空间两端约束  <- | -> 根据左侧、右侧view布局，布局优先级最低
+//    case centerOfSpare        //剩余空间中间约束  -> | <-
+//    case centerOfView         //视图中心约束
 }
 
 // 布局方向
-public enum LayoutLocation {
-    case top_left      // 顺时针约束
-    case top_right     // 逆时针
-    case top_center     // 逆时针
+public enum Location {
+    case top      // 顺时针约束
     case bottom   // 剩余空间两端约束
     case left          //
     case right         // 左右都是从中心开始

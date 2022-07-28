@@ -29,7 +29,12 @@ extension UIView {
 
 extension String {
     var image: UIImage? {
-        return UIImage(named: self, in: Bundle.resouseBundle , compatibleWith: nil)
+        let scare = UIScreen.main.scale
+        let imaName = String(format: "%@@%dx.png", self, Int(scare))
+        if let imagePath = Bundle.bundle.path(forResource: imaName, ofType: nil) {
+            return UIImage(contentsOfFile: imagePath)
+        }
+        return nil
     }
 }
 

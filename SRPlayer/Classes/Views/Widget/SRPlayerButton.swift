@@ -11,9 +11,9 @@ import UIKit
 class SRPlayerButton: UIButton {
     var disposes = Set<RSObserver>()
 
-    override func invalidateIntrinsicContentSize() {
-        let size = super.invalidateIntrinsicContentSize()
-    }
+//    override func invalidateIntrinsicContentSize() {
+//        let size = super.invalidateIntrinsicContentSize()
+//    }
     
     deinit {
         disposes.forEach { $0.deallocObserver() }

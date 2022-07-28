@@ -12,17 +12,14 @@ import AVFAudio
 extension SRPlayerNormalController {
     
     func initEdgeItems() {
-        let empty = ItemFactory.emptyItem()
-        
         // top
-        let back = ItemFactory.buttonItem(.back, location: .top_left, image: "sr_back")
+        let back = ItemFactory.buttonItem(.back, location: .top, image: "sr_back")
         let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", font: UIFont.jmRegular(15))
-        let share = ItemFactory.buttonItem(.share, location: .top_right, image: "sr_share")
-        let more = ItemFactory.buttonItem(.more, location: .top_right, image: "sr_more")
+        let share = ItemFactory.buttonItem(.share, location: .top, image: "sr_share")
+        let more = ItemFactory.buttonItem(.more, location: .top, image: "sr_more")
         
         self.barManager.top.addItem(back)
         self.barManager.top.addItem(title)
-        self.barManager.top.addItem(empty)
         self.barManager.top.addItem(share)
         self.barManager.top.addItem(more)
         
@@ -33,7 +30,7 @@ extension SRPlayerNormalController {
         let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
         let slider = ItemFactory.sliderItem(firstValue: 0.1, secondValue: 0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
-        let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscrenn")
+        let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscreen")
         
 //        let sharpness = ItemFactory.buttonItem(.sharpness)
 //        let volume = ItemFactory.buttonItem(.volume, image: "sr_volume")
@@ -43,21 +40,25 @@ extension SRPlayerNormalController {
         self.barManager.bottom.addItem(curTime)
         
         self.barManager.bottom.addItem(slider)
-        self.barManager.bottom.addItem(playRate)
         self.barManager.bottom.addItem(tolTime)
+        self.barManager.bottom.addItem(playRate)
         self.barManager.bottom.addItem(fullScrenn)
         
         // left
         let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left, image: "sr_lock")
         self.barManager.left.addItem(lockScreen)
         
+        let lockScreen1 = ItemFactory.buttonItem(.volume, location: .left, image: "sr_lock")
+        self.barManager.left.addItem(lockScreen1)
+        
+        let lockScreen2 = ItemFactory.buttonItem(.brightLight, location: .left, image: "sr_lock")
+        self.barManager.left.addItem(lockScreen2)
+        
         // right
         let screenShot = ItemFactory.buttonItem(.screenShot, location: .right, image: "sr_capture")
         let recording = ItemFactory.buttonItem(.recording, location: .right, image: "sr_recording")
-        self.barManager.right.addItem(empty)
         self.barManager.right.addItem(screenShot)
         self.barManager.right.addItem(recording)
-        self.barManager.right.addItem(empty)
     }
     
     func addEdgeSubViews() {

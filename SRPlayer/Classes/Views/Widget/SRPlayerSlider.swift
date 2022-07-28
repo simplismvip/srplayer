@@ -14,7 +14,7 @@ class SRPlayerSlider: UIView {
         slider = UISlider(frame: .zero)
         super.init(frame: frame)
         addSubview(self.slider)
-        
+
         slider.snp.makeConstraints {
             $0.centerY.equalTo(snp.centerY)
             $0.height.equalTo(30)
