@@ -28,7 +28,7 @@ extension SRPlayerNormalController {
         let curTime = ItemFactory.buttonItem(.curTime, location: .bottom)
         let next = ItemFactory.buttonItem(.next, location: .bottom, image: "sr_next")
         let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
-        let slider = ItemFactory.sliderItem(firstValue: 0.1, secondValue: 0)
+        let slider = ItemFactory.sliderItem(value: 0.3, secondValue: 0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
         let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscreen")
         
@@ -47,12 +47,6 @@ extension SRPlayerNormalController {
         // left
         let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left, image: "sr_lock")
         self.barManager.left.addItem(lockScreen)
-        
-        let lockScreen1 = ItemFactory.buttonItem(.volume, location: .left, image: "sr_lock")
-        self.barManager.left.addItem(lockScreen1)
-        
-        let lockScreen2 = ItemFactory.buttonItem(.brightLight, location: .left, image: "sr_lock")
-        self.barManager.left.addItem(lockScreen2)
         
         // right
         let screenShot = ItemFactory.buttonItem(.screenShot, location: .right, image: "sr_capture")

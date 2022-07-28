@@ -83,14 +83,14 @@ public class SRPlayerSliderItem: SRPlayerItem {
 //    public var dragEnded: String?
 //    public var canceld: String?
 //    public var thumbSize: CGSize?
-    @objc dynamic public var firstTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
+    @objc dynamic public var value: CGFloat = 0     /* From 0 to 1 default 0 */
     @objc dynamic public var secondTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
     @objc dynamic public var thumbImage: UIImage?
 
-    init(_ thumbImage: UIImage?, firstValue: CGFloat, secondValue: CGFloat) {
+    init(_ thumbImage: UIImage?, value: CGFloat, secondValue: CGFloat) {
         super.init(.slider, direction: .stretchable, location: .bottom)
         self.className = "SRPlayerSlider"
-        self.firstTrackValue = firstValue
+        self.value = value
         self.secondTrackValue = secondValue
     }
 }

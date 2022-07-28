@@ -31,16 +31,16 @@ struct ItemFactory {
         } else if itemStyle == .curTime {
             buttomItem.title = "1:23"
             buttomItem.titleColor = UIColor.white
-            buttomItem.font = UIFont.jmRegular(12)
+            buttomItem.font = UIFont.jmRegular(10)
             buttomItem.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .next {
             
             
         } else if itemStyle == .tolTime {
-            buttomItem.title = "1210:21"
+            buttomItem.title = "10:21"
             buttomItem.titleColor = UIColor.white
             buttomItem.direction = .anticlockwis
-            buttomItem.font = UIFont.jmRegular(12)
+            buttomItem.font = UIFont.jmRegular(10)
             buttomItem.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .slider {
             
@@ -83,8 +83,8 @@ struct ItemFactory {
         return SRPlayerTitleItem(title: title, font: font)
     }
     
-    static func sliderItem(firstValue: CGFloat = 0, secondValue: CGFloat) -> SRPlayerSliderItem {
-        return SRPlayerSliderItem("sr_progress".image, firstValue: firstValue, secondValue: secondValue)
+    static func sliderItem(value: CGFloat = 0, secondValue: CGFloat) -> SRPlayerSliderItem {
+        return SRPlayerSliderItem("sr_progress".image, value: value, secondValue: secondValue)
     }
     
     static func emptyItem() -> SRPlayerEmptyItem {
