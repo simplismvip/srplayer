@@ -15,7 +15,6 @@ public class SRPlayerControlBar: UIView {
     public var items: [SRPlayerItem]
     public var barType: ControlBarType
     private var boxs = [String: JMWeakBox<UIView>]()
-    
     override init(frame: CGRect) {
         self.barStyle = .half
         self.items = []
@@ -57,8 +56,8 @@ public class SRPlayerControlBar: UIView {
     func setupShadowLayerIfNeed() {}
 
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let hitview = super.hitTest(point, with: event)
-        if let hv = hitview, super.subviews.contains(hv) {
+        let hitView = super.hitTest(point, with: event)
+        if let hv = hitView, !super.subviews.contains(hv) && hitView != self {
             return hv
         }
         return nil

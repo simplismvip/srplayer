@@ -86,8 +86,4 @@ struct ItemFactory {
     static func sliderItem(value: CGFloat = 0, secondValue: CGFloat) -> SRPlayerSliderItem {
         return SRPlayerSliderItem("sr_progress".image, value: value, secondValue: secondValue)
     }
-    
-    static func emptyItem() -> SRPlayerEmptyItem {
-        return SRPlayerEmptyItem()
-    }
 }

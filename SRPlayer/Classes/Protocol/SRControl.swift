@@ -44,3 +44,15 @@ public protocol SRItem {
     var size: CGSize { get set }
     var cornerRadius: CGFloat { get set }
 }
+
+extension SRItem {
+    static func convert(_ item: SRPlayerItem) -> Self {
+        return Convert.convert(item)!
+    }
+}
+
+struct Convert<T: SRItem> {
+    static func convert(_ item: SRItem) -> T? {
+        return item as? T
+    }
+}

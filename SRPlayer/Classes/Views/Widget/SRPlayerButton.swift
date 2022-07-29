@@ -10,7 +10,7 @@ import UIKit
 
 class SRPlayerButton: UIButton {
     var disposes = Set<RSObserver>()
-
+    var item: SRPlayerButtonItem?
 //    override func invalidateIntrinsicContentSize() {
 //        let size = super.invalidateIntrinsicContentSize()
 //    }
@@ -24,9 +24,8 @@ class SRPlayerButton: UIButton {
 
 extension SRPlayerButton: SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T) {
-        guard let btnItem = item as? SRPlayerButtonItem else {
-            return
-        }
+        let btnItem = SRPlayerButtonItem.convert(item)
+        self.item = btnItem
         
         btnItem.observe(String.self, "image") { [weak self] newImage in
             self?.setImage(newImage?.image, for: .normal)
@@ -53,5 +52,9 @@ extension SRPlayerButton: SRItemButton {
                 self?.invalidateIntrinsicContentSize()
             }
         }.add(&disposes)
+        
+//        jmAddAction { [weak self] _ in
+//            self?.jmRouterEvent(eventName: btnItem.eventName, info: btnItem)
+//        }
     }
 }

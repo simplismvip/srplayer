@@ -59,7 +59,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testAction(_ sender: Any) {
-        
+        navigationController?.pushViewController(SecondController(), animated: true)
     }
 }
 
@@ -95,5 +95,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200.0
+    }
+}
+
+class SecondController :UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.white
+        
+        let v = View()
+        self.view.addSubview(v.v)
+        v.v.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(40)
+            make.centerY.equalTo(view.snp.centerY)
+            make.centerX.equalTo(view.snp.centerX)
+        }
     }
 }

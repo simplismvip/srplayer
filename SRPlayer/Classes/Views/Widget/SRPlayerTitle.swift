@@ -22,9 +22,8 @@ class SRPlayerTitle: UILabel {
 
 extension SRPlayerTitle: SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T) {
-        if let title = item as? SRPlayerTitleItem {
-            text = title.title
-            font = title.font
-        }
+        let title = SRPlayerTitleItem.convert(item)
+        text = title.title
+        font = title.font
     }
 }

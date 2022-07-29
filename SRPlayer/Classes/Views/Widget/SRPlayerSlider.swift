@@ -8,10 +8,18 @@
 
 import UIKit
 
+public struct View {
+    public let v: UIView
+    public init() {
+        self.v = SRPlayerSlider()
+        self.v.backgroundColor = UIColor.gray
+        (self.v as? SRPlayerSlider)?.minTrackTintColor = UIColor.red
+        (self.v as? SRPlayerSlider)?.maxTrackTintColor = UIColor.green
+    }
+}
+
 class SRPlayerSlider: UIControl {
-    var trackLock: Bool
-    var minValue: CGFloat  /* From 0 to 1 */
-    var maxValue: CGFloat  /* From 0 to 1 */
+    var trackLock: Bool = false
     var thumbSize: CGSize
     
     var minTrackTintColor: UIColor {
@@ -32,12 +40,9 @@ class SRPlayerSlider: UIControl {
     }
     
     /* From 0 to 1 */
-    var value: CGFloat {
-        willSet {
-            updateValue(newValue)
-        }
-    }
+    var value: CGFloat = 0.0
     
+    private var loadFirst: Bool = true
     private let thumbImageView: UIImageView
     private let minTrackColorLayer: CALayer
     private let maxTrackColorLayer: CALayer
@@ -46,14 +51,11 @@ class SRPlayerSlider: UIControl {
         minTrackColorLayer = CALayer()
         maxTrackColorLayer = CALayer()
         thumbImageView = UIImageView()
-        thumbSize = CGSize(width: 20, height: 20)
-        trackLock = false
+        thumbSize = CGSize(width: 10, height: 10)
         minTrackTintColor = UIColor.red
         maxTrackTintColor = UIColor.green
-        value = 0
-        minValue = 0
-        maxValue = 1
         super.init(frame: frame)
+        
         layer.addSublayer(minTrackColorLayer)
         layer.addSublayer(maxTrackColorLayer)
         addSubview(thumbImageView)
@@ -70,42 +72,45 @@ class SRPlayerSlider: UIControl {
 
     func updateValue(_ value: CGFloat) {
         if trackLock { return }
-//        self.value = min(1, max(value, 0))
-        layoutValue()
+        self.value = min(1, max(value, 0))
+        layoutValue(self.value)
     }
     
-    func layoutValue() {
-        let width = self.bounds.size.width - self.thumbSize.width
-        let height = self.bounds.size.height
-        let colorLayerY = (height - 2) / 2.0
-        let padding = self.thumbSize.width / 2.0
+    func layoutValue(_ value: CGFloat) {
+        let w = bounds.size.width - thumbSize.width
+        if w <= 0 { return }
+        
+        let h = bounds.size.height
+        let colorLayerY = (h - 2) / 2.0
+        let padding = thumbSize.width / 2.0
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        self.maxTrackColorLayer.frame = CGRect.Rect(padding + self.value * width, colorLayerY, (1 - self.value) * width, 2);
-        self.minTrackColorLayer.frame = CGRect.Rect(padding, colorLayerY, self.value * width, 2);
+
+        maxTrackColorLayer.frame = CGRect.Rect(padding + value * w, colorLayerY, (1 - value) * w, 2)
+        minTrackColorLayer.frame = CGRect.Rect(padding, colorLayerY, value * w, 2)
         CATransaction.commit()
-        self.thumbImageView.frame =  CGRect.Rect(self.value * width, (height - self.thumbSize.height) / 2, self.thumbSize.width, self.thumbSize.height);
-    }
-    
-    func intrinsicContentSize() -> CGSize {
-        return CGSize(width: 100, height: 30)
+        thumbImageView.frame =  CGRect.Rect(value * w, (h - thumbSize.height) / 2, thumbSize.width, thumbSize.height)
     }
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         SRLogger.debug("beginTracking")
         var point = touch.location(in: self)
-        point = self.thumbImageView.layer.convert(point, to: self.layer)
-        return self.thumbImageView.layer.contains(point)
+        point = thumbImageView.layer.convert(point, to: self.layer)
+        if thumbImageView.layer.contains(point) {
+            trackLock = true
+            return true
+        }
+        return true
     }
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         SRLogger.debug("continueTracking")
         let point = touch.location(in: self)
         let value = (point.x - self.thumbSize.width / 2) / (self.frame.size.width - self.thumbSize.width)
-        let cValue = min(max(value, 1), 1)
+        let cValue = min(max(value, 0), 1)
         if self.value != cValue {
-            updateValue(cValue)
+            updateValue(min(max(value, 0), 1))
             self.sendActions(for: .valueChanged)
         }
         return true
@@ -128,25 +133,14 @@ class SRPlayerSlider: UIControl {
             self.sendActions(for: .touchCancel)
         }
     }
-    
-    @objc func sliderChangeValue(_ slider: SRPlayerSlider) {
-        
-    }
-    
-    @objc func sliderChangeValueEnd(_ slider: SRPlayerSlider) {
-        
-    }
-    
-    @objc func sliderChangeValueCanceled(_ slider: SRPlayerSlider) {
-        
-    }
-    
-    @objc func sliderValueBeganChange(_ slider: SRPlayerSlider) {
-        
-    }
-    
+
     override func layoutSubviews() {
-        layoutValue()
+        if loadFirst {
+            updateValue(self.value)
+            loadFirst.toggle()
+        } else {
+            return
+        }
     }
     
     deinit {
@@ -162,22 +156,34 @@ class SRPlayerSlider: UIControl {
 
 extension SRPlayerSlider: SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T) {
-        if let item = item as? SRPlayerSliderItem {
-            minTrackTintColor = UIColor.red
-            maxTrackTintColor = UIColor.green
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.value = 0.5
-            }
-            
-            item.observe(CGFloat.self, "value") { [weak self] newImage in
-                self?.value = item.value
-            }.add(&disposes)
-            
-            addTarget(self, action: #selector(sliderChangeValue(_:)), for: .valueChanged)
-            addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpInside)
-            addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpOutside)
-            addTarget(self, action: #selector(sliderChangeValueCanceled(_:)), for: .touchCancel)
-            addTarget(self, action: #selector(sliderValueBeganChange(_:)), for: .touchDown)
-        }
+        let item = SRPlayerSliderItem.convert(item)
+        minTrackTintColor = item.minTintColor
+        maxTrackTintColor = item.maxTintColor
+        
+        item.observe(CGFloat.self, "value") { [weak self] newImage in
+            self?.value = newImage ?? 0
+        }.add(&disposes)
+        
+        addTarget(self, action: #selector(sliderChangeValue(_:)), for: .valueChanged)
+        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpInside)
+        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpOutside)
+        addTarget(self, action: #selector(sliderChangeValueCanceled(_:)), for: .touchCancel)
+        addTarget(self, action: #selector(sliderValueBeganChange(_:)), for: .touchDown)
+    }
+    
+    @objc func sliderChangeValue(_ slider: SRPlayerSlider) {
+        
+    }
+    
+    @objc func sliderChangeValueEnd(_ slider: SRPlayerSlider) {
+        
+    }
+    
+    @objc func sliderChangeValueCanceled(_ slider: SRPlayerSlider) {
+        
+    }
+    
+    @objc func sliderValueBeganChange(_ slider: SRPlayerSlider) {
+        
     }
 }

@@ -24,6 +24,11 @@ public class SRPlayerItem: NSObject, SRItem {
             return nil
         }
         (barView as? SRItemButton)?.configure(self)
+        
+        (barView as? SRPlayerButton)?.jmAddAction { [weak self] _ in
+            barView.jmRouterEvent(eventName: self?.eventName ?? "", info: self)
+        }
+        
         return barView
     }
     
@@ -48,18 +53,6 @@ public class SRPlayerItem: NSObject, SRItem {
     }
 }
 
-public class SRPlayerEmptyItem: SRPlayerItem {
-    @objc dynamic public var priority: UILayoutPriority = .defaultHigh
-    @objc dynamic public var axis: NSLayoutConstraint.Axis = .vertical
-    
-    init(priority: UILayoutPriority = .defaultHigh, axis: NSLayoutConstraint.Axis = .vertical) {
-        super.init(.empty, direction: .stretchable, location: .bottom)
-        self.className = "SRPlayerEmpty"
-        self.priority = priority
-        self.axis = axis
-    }
-}
-
 public class SRPlayerButtonItem: SRPlayerItem {
     @objc dynamic public var title: String?
     @objc dynamic public var titleColor: UIColor?
@@ -81,13 +74,15 @@ public class SRPlayerSliderItem: SRPlayerItem {
 //    public var dragBegin: String?
 //    public var draging: String?
 //    public var dragEnded: String?
-//    public var canceld: String?
-//    public var thumbSize: CGSize?
+    public let minTintColor: UIColor
+    public let maxTintColor: UIColor
     @objc dynamic public var value: CGFloat = 0     /* From 0 to 1 default 0 */
     @objc dynamic public var secondTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
     @objc dynamic public var thumbImage: UIImage?
 
     init(_ thumbImage: UIImage?, value: CGFloat, secondValue: CGFloat) {
+        self.minTintColor = UIColor.white
+        self.maxTintColor = UIColor.gray
         super.init(.slider, direction: .stretchable, location: .bottom)
         self.className = "SRPlayerSlider"
         self.value = value
