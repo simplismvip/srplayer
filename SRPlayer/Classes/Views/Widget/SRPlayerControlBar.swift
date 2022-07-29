@@ -11,18 +11,26 @@ import ZJMKit
 
 public class SRPlayerControlBar: UIView {
     public var view: UIView
-    public var barStyle: ScreenType
     public var items: [SRPlayerItem]
     public var barType: ControlBarType
+    public var screenType: ScreenType
+    
     private var boxs = [String: JMWeakBox<UIView>]()
     override init(frame: CGRect) {
-        self.barStyle = .half
         self.items = []
+        self.screenType = .half
         self.barType = .top
         self.view = UIView()
         super.init(frame: frame)
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
+    }
+    
+    public func setScreenType(_ type: ScreenType) {
+        SRLogger.debug("\(type)--\(screenType)")
+        if screenType == type { return }
+        self.screenType = type
+        layoutItems()
     }
     
     private func loadPlayer(_ item: SRPlayerItem) -> UIView? {
@@ -68,20 +76,28 @@ public class SRPlayerControlBar: UIView {
     }
 }
 
-extension SRPlayerControlBar: SRControlBar {
+extension SRPlayerControlBar: SRControlBar { 
     public func addItem(_ item: SRPlayerItem) {
         self.items.append(item)
     }
     
     public func layoutItems() {
         self.view.removellSubviews { _ in true }
+        self.boxs.removeAll()
         if items.isEmpty { return }
         if let location = items.first?.location {
+            let targetItems = items
+                .filter({ item in
+                    if screenType == .half {
+                        return !item.isHalfHidden
+                    }
+                    return true
+                })
             switch location {
             case .top, .bottom:
-                horizontalLayout(items.filter { $0.location == location })
+                horizontalLayout(targetItems)
             case .left, .right:
-                verticalLayout(items.filter { $0.location == location })
+                verticalLayout(targetItems)
             }
         }
     }

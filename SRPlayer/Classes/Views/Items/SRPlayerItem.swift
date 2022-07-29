@@ -11,6 +11,7 @@ import Foundation
 public class SRPlayerItem: NSObject, SRItem {
     @objc dynamic public var size: CGSize
     @objc dynamic public var userEnabled: Bool
+    @objc dynamic public var isHalfHidden: Bool
     public var margin: Margin
     public var eventName: String
     public var itemStyle: ItemStyle
@@ -20,15 +21,11 @@ public class SRPlayerItem: NSObject, SRItem {
     public var className: String
     
     var view: UIView? {
-        guard let barView = InitClass<UIView>.instance(className) else {
-            return nil
-        }
+        let barView = InitClass<UIView>.instance(className)
         (barView as? SRItemButton)?.configure(self)
-        
         (barView as? SRPlayerButton)?.jmAddAction { [weak self] _ in
-            barView.jmRouterEvent(eventName: self?.eventName ?? "", info: self)
+            barView?.jmRouterEvent(eventName: self?.eventName ?? "", info: self)
         }
-        
         return barView
     }
     
@@ -37,6 +34,7 @@ public class SRPlayerItem: NSObject, SRItem {
         self.size = CGSize(width: 34, height: 34)
         self.margin = Margin(top: 3, bottom: 3, left: 10, right: 10, space: 5)
         self.userEnabled = true
+        self.isHalfHidden = false
         self.eventName = itemStyle.rawValue
         self.itemStyle = itemStyle
         self.direction = direction
@@ -74,19 +72,19 @@ public class SRPlayerSliderItem: SRPlayerItem {
 //    public var dragBegin: String?
 //    public var draging: String?
 //    public var dragEnded: String?
+    
+    /* From 0 to 1 default 0 */
+    @objc dynamic public var value: CGFloat = 0
+    @objc dynamic public var thumbImage: UIImage?
     public let minTintColor: UIColor
     public let maxTintColor: UIColor
-    @objc dynamic public var value: CGFloat = 0     /* From 0 to 1 default 0 */
-    @objc dynamic public var secondTrackValue: CGFloat = 0     /* From 0 to 1 default 0 */
-    @objc dynamic public var thumbImage: UIImage?
-
-    init(_ thumbImage: UIImage?, value: CGFloat, secondValue: CGFloat) {
+    
+    init(_ thumbImage: UIImage?, value: CGFloat) {
         self.minTintColor = UIColor.white
         self.maxTintColor = UIColor.gray
         super.init(.slider, direction: .stretchable, location: .bottom)
         self.className = "SRPlayerSlider"
         self.value = value
-        self.secondTrackValue = secondValue
     }
 }
 
@@ -99,5 +97,6 @@ public class SRPlayerTitleItem: SRPlayerItem {
         self.title = title
         self.font = font
         self.className = "SRPlayerTitle"
+//        self.isHalfHidden = true
     }
 }

@@ -28,6 +28,58 @@ public class SRPlayerNormalController: SRPlayerController {
         processM.reset()
     }
     
+    func addNotioObserve() {
+        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue) { (notify) in
+            SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
+        }
+        
+        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue) { [weak self] (notify) in
+            let orientation = UIApplication.shared.statusBarOrientation
+            switch (orientation) {
+            case .portrait:
+                SRLogger.debug("half")
+//                self?.remakePlayer(.half)
+                self?.barManager.setScreenType(.half)
+                self?.jmRouterEvent(eventName: "statusBarOrientation", info: 0 as MsgObjc)
+            case .landscapeLeft, .landscapeRight:
+                SRLogger.debug("full")
+//                self?.remakePlayer(.full)
+                self?.jmRouterEvent(eventName: "statusBarOrientation", info: 1 as MsgObjc)
+                self?.barManager.setScreenType(.full)
+            default:
+                SRLogger.debug("statusBarOrientation")
+            }
+        }
+    }
+    
+    func remakePlayer(_ type: ScreenType) {
+        guard let sView = superview else {
+            return
+        }
+        if type == .full {
+            self.snp.remakeConstraints { make in
+                if #available(iOS 11.0, *) {
+                    make.top.equalTo(sView.safeAreaLayoutGuide.snp.top)
+                    make.bottom.equalTo(sView.safeAreaLayoutGuide.snp.bottom)
+                    make.left.width.equalTo(sView.safeAreaLayoutGuide.snp.left)
+                    make.right.width.equalTo(sView.safeAreaLayoutGuide.snp.right)
+                } else {
+                    make.edges.equalTo(sView)
+                }
+            }
+        } else if type == .half {
+            self.snp.remakeConstraints { make in
+                make.left.width.equalTo(sView)
+                make.height.equalTo(sView.jmWidth * 0.56)
+                if #available(iOS 11.0, *) {
+                    make.top.equalTo(sView.safeAreaLayoutGuide.snp.top)
+                } else {
+                    make.top.equalTo(sView.snp.top)
+                }
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -114,6 +166,8 @@ extension SRPlayerNormalController {
         initEdgeItems()
         addEdgeSubViews()
         registerMsg()
+        addNotioObserve()
+        registerEvent()
     }
     
     private func config() {

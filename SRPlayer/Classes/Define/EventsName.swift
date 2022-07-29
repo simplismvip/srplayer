@@ -44,9 +44,11 @@ public let kMsgNamePlayerSeekFailed = "kMsgNamePlayerSeekFailed"
 public let kMsgNamePlayerSeeking = "kMsgNamePlayerSeeking"
 /// 快进、快退结束
 public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
+/// 切换全屏半屏
+public let kEventNameFullScrennAction = "kEventNameFullScrennAction"
+/// 返回
+public let kEventNameBackAction = "kEventNameBackAction"
 
-/// 切换语音和文本输入
-public let kMsgNameSwitchTextVoiceKeyBoard = "kMsgNameSwitchTextVoiceKeyBoard"
 /// 切换语音和文本输入
 public let kMsgNameSwitchTextMoreKeyBoard = "kMsgNameSwitchTextMoreKeyBoard"
 /// 更多键盘点击

@@ -11,7 +11,7 @@ import UIKit
 
 public protocol SRControlBar {
     var barType: ControlBarType { get }
-    var barStyle: ScreenType { get set }
+    var screenType: ScreenType { get set }
     var items: [SRPlayerItem] { get set }
     var view: UIView { get }
     
@@ -30,7 +30,7 @@ public protocol SRBarManager_P {
     var bottom: SRPlayerBottomBar { get }
     var left: SRPlayLeftBar { get }
     var right: SRPlayerRightBar { get }
-    func setupBarStyle(_ style: ScreenType)
+    func setScreenType(_ type: ScreenType)
 }
 
 public protocol SRItem {
@@ -43,6 +43,7 @@ public protocol SRItem {
     var margin: SRPlayerItem.Margin { get }
     var size: CGSize { get set }
     var cornerRadius: CGFloat { get set }
+    var isHalfHidden: Bool { get set }
 }
 
 extension SRItem {

@@ -27,6 +27,16 @@ class ViewController: UIViewController {
         return tableView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let results = DataTool<Results>.decode("urls")?.results {
@@ -54,6 +64,35 @@ class ViewController: UIViewController {
                 make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.bottom.equalTo(view.snp.bottom)
+            }
+        }
+        
+        jmRegisterEvent(eventName: "statusBarOrientation", block: { [weak self] info in
+            if let screen = info as? Int {
+                if screen == 0 {
+                    self?.remakePlayer(.half)
+                } else {
+                    self?.remakePlayer(.full)
+                }
+                
+            }
+        }, next: false)
+    }
+    
+    func remakePlayer(_ type: ScreenType) {
+        if type == .full {
+            player.snp.remakeConstraints { make in
+                make.edges.equalTo(view)
+            }
+        } else if type == .half {
+            player.snp.remakeConstraints { make in
+                make.left.width.equalTo(view)
+                make.height.equalTo(232)
+                if #available(iOS 11.0, *) {
+                    make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                } else {
+                    make.top.equalTo(view.snp.top)
+                }
             }
         }
     }
@@ -95,6 +134,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200.0
+    }
+    
+    override var shouldAutorotate: Bool {    
+        return false
     }
 }
 

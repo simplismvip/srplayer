@@ -11,37 +11,38 @@ import UIKit
 struct ItemFactory {
 
     static func buttonItem(_ itemStyle: ItemStyle, location: Location, title: String? = nil, image: String? = nil) -> SRPlayerButtonItem {
-        let buttomItem = SRPlayerButtonItem(itemStyle, direction: .clockwise, location: location, title: title, image: image)
+        let item = SRPlayerButtonItem(itemStyle, direction: .clockwise, location: location, title: title, image: image)
         if itemStyle == .back {
             
             
         } else if itemStyle == .title {
-            buttomItem.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
-            buttomItem.titleColor = UIColor.white
-            buttomItem.font = UIFont.jmRegular(10)
+            item.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
+            item.titleColor = UIColor.white
+            item.font = UIFont.jmRegular(10)
+//            item.isHalfHidden = true
         } else if itemStyle == .share {
-            buttomItem.direction = .anticlockwis
-            
+            item.direction = .anticlockwis
+            item.isHalfHidden = true
         } else if itemStyle == .more {
-            buttomItem.direction = .anticlockwis
+            item.direction = .anticlockwis
             
         } else if itemStyle == .play {
             
             
         } else if itemStyle == .curTime {
-            buttomItem.title = "1:23"
-            buttomItem.titleColor = UIColor.white
-            buttomItem.font = UIFont.jmRegular(10)
-            buttomItem.size = CGSize(width: 0, height: 34)
+            item.title = "1:23"
+            item.titleColor = UIColor.white
+            item.font = UIFont.jmRegular(10)
+            item.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .next {
-            
-            
+            item.isHalfHidden = true
+
         } else if itemStyle == .tolTime {
-            buttomItem.title = "10:21"
-            buttomItem.titleColor = UIColor.white
-            buttomItem.direction = .anticlockwis
-            buttomItem.font = UIFont.jmRegular(10)
-            buttomItem.size = CGSize(width: 0, height: 34)
+            item.title = "10:21"
+            item.titleColor = UIColor.white
+            item.direction = .anticlockwis
+            item.font = UIFont.jmRegular(10)
+            item.size = CGSize(width: 0, height: 34)
         } else if itemStyle == .slider {
             
             
@@ -49,16 +50,17 @@ struct ItemFactory {
             
             
         } else if itemStyle == .sharpness {
-            buttomItem.direction = .anticlockwis
-            
+            item.direction = .anticlockwis
+            item.isHalfHidden = true
         } else if itemStyle == .playRate {
-            buttomItem.title = "1X"
-            buttomItem.titleColor = UIColor.white
-            buttomItem.direction = .anticlockwis
-            buttomItem.font = UIFont.jmRegular(12)
+            item.title = "1X"
+            item.titleColor = UIColor.white
+            item.direction = .anticlockwis
+            item.font = UIFont.jmRegular(12)
+            item.isHalfHidden = true
         } else if itemStyle == .fullScrenn {
             
-            buttomItem.direction = .anticlockwis
+            item.direction = .anticlockwis
             
         } else if itemStyle == .volume {
             
@@ -67,23 +69,21 @@ struct ItemFactory {
             
             
         } else if itemStyle == .screenShot {
-            
+            item.isHalfHidden = true
             
         } else if itemStyle == .recording {
-            
-            
+//            item.isHalfHidden = true
         } else if itemStyle == .lockScreen {
             
-            
         }
-        return buttomItem
+        return item
     }
     
     static func titleItem(title: String, font: UIFont?) -> SRPlayerTitleItem {
         return SRPlayerTitleItem(title: title, font: font)
     }
     
-    static func sliderItem(value: CGFloat = 0, secondValue: CGFloat) -> SRPlayerSliderItem {
-        return SRPlayerSliderItem("sr_progress".image, value: value, secondValue: secondValue)
+    static func sliderItem(value: CGFloat = 0) -> SRPlayerSliderItem {
+        return SRPlayerSliderItem("sr_progress".image, value: value)
     }
 }

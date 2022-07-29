@@ -21,10 +21,9 @@ public struct SRBarManager: SRBarManager_P {
         right = SRPlayerRightBar(frame: .zero)
     }
     
-    public func setupBarStyle(_ style: ScreenType) {
-        top.barStyle = style
-        bottom.barStyle = style
-        left.barStyle = style
-        right.barStyle = style
+    public func setScreenType(_ type: ScreenType) {
+        [top, bottom, left, right].forEach { bar in
+            bar.setScreenType(type)
+        }
     }
 }

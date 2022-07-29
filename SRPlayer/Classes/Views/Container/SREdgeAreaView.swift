@@ -73,7 +73,12 @@ public class SREdgeAreaView: UIView {
             top_topToTop?.constraint.deactivate()
             top_bottomToTop = make.bottom.equalTo(self)
             
-            make.left.width.equalTo(self)
+            if #available(iOS 11, *) {
+                make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.left.right.equalTo(self)
+            }
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
@@ -109,7 +114,12 @@ public class SREdgeAreaView: UIView {
             bottom_bottomToBottom?.constraint.deactivate()
             bottom_topToBottom = make.top.equalTo(snp.bottom)
             
-            make.left.width.equalTo(self)
+            if #available(iOS 11, *) {
+                make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+            } else {
+                make.left.right.equalTo(self)
+            }
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
     }
