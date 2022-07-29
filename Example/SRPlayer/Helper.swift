@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Combine
+import SRPlayer
+import Kingfisher
 
 class ImageCache {
     static let shared = ImageCache()
@@ -74,6 +75,21 @@ struct DataTool<T: Codable> {
 extension UIImageView {
     func setimage(url: String) {
         image = ImageCache.shared.loaderFor(url: url)
+    }
+    
+    func setImage(url: String?, placeholder: UIImage? = nil, complate: ((UIImage, URL?) -> Void)? = nil ) {
+        if let headerUrl = url {
+            self.kf.setImage(with: URL(string: headerUrl), placeholder: placeholder) { (result) in
+                switch result {
+                case .failure(let error):
+                    SRLogger.error("%@", error.errorDescription ?? "")
+                case .success(let resultImage):
+                    complate?(resultImage.image, resultImage.source.url)
+                }
+            }
+        } else {
+            self.image = placeholder
+        }
     }
 }
 

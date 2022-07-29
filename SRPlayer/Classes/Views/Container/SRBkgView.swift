@@ -10,5 +10,4 @@ import UIKit
 
 public class SRBkgView: UIView {
 
-
 }

@@ -14,7 +14,6 @@ class TableViewCell: UITableViewCell {
     let cover = UIImageView()
     let playBtn = UIButton(type: .system)
     let title = UILabel()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.white
@@ -23,25 +22,27 @@ class TableViewCell: UITableViewCell {
         contentView.addSubview(title)
         contentView.addSubview(playBtn)
         
-        cover.contentMode = .scaleToFill
+        cover.contentMode = .scaleAspectFill
         cover.clipsToBounds = true
         playBtn.setImage("sr_play".image, for: .normal)
-        title.jmConfigLabel(font: UIFont.jmRegular(15), color: UIColor.white)
+        playBtn.tintColor = UIColor.white
+        title.jmConfigLabel(font: UIFont.jmRegular(20), color: UIColor.white)
         layoutViews()
     }
     
     func refresh(_ model: Model) {
         title.text = model.title
-        cover.setimage(url: model.image)
+        cover.setImage(url: model.image, complate: nil)
     }
     
     private func layoutViews() {
         cover.snp.makeConstraints { (make) in
-            make.edges.equalTo(self)
+            make.top.left.width.equalTo(self)
+            make.bottom.equalTo(self.snp.bottom).offset(-8)
         }
         
         title.snp.makeConstraints { (make) in
-            make.top.equalTo(self)
+            make.top.equalTo(self).offset(8)
             make.left.equalTo(self).offset(10)
             make.right.equalTo(self.snp.right).offset(-10)
             make.height.equalTo(34)

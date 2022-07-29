@@ -31,28 +31,16 @@ public class SREdgeAreaView: UIView {
     
     public override init(frame: CGRect) {
         self.top = SRPierceView()
-        self.top.canPierce = true
-        
         self.left = SRPierceView()
-        self.left.canPierce = true
-        
         self.right = SRPierceView()
-        self.right.canPierce = true
-        
         self.bottom = SRPierceView()
-        self.bottom.canPierce = true
-        
         self.visibleUnits = []
         self.visibleAnimate = { unit, a in }
         
         super.init(frame: frame)
-        addSubview(left)
-        addSubview(right)
-        addSubview(top)
-        addSubview(bottom)
         
+        [left, right, top, bottom].forEach { addSubview($0) }
         layoutEdgeViews()
-        subviewsRandColor()
     }
     
     internal func removeOf(_ unit: EdgeAreaUnit) {

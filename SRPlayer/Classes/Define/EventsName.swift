@@ -15,7 +15,7 @@ public let kMsgNameStartPlay = "kMsgNameStartPlay"
 /// 停止播放
 public let kMsgNameStopPlay = "kMsgNameStopPlay"
 /// 暂停播放
-public let kMsgNamePausePlay = "kMsgNamePausePlay"
+public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
 /// 播放
 public let kMsgNameRePlay = "kMsgNameRePlay"
 /// 播放
@@ -48,9 +48,9 @@ public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
 public let kEventNameFullScrennAction = "kEventNameFullScrennAction"
 /// 返回
 public let kEventNameBackAction = "kEventNameBackAction"
+/// 播放暂停
+public let kEventNamePlayAction = "kEventNamePlayAction"
 
-/// 切换语音和文本输入
-public let kMsgNameSwitchTextMoreKeyBoard = "kMsgNameSwitchTextMoreKeyBoard"
 /// 更多键盘点击
 public let kEventNameMoreKeyBoardAction = "kEventNameMoreKeyBoardAction"
 /// 点击确定发送消息

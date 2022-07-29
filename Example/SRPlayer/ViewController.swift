@@ -43,8 +43,6 @@ class ViewController: UIViewController {
             dataSource.append(contentsOf: results)
         }
         
-        title = "播放列表"
-        
         view.addSubview(player)
         player.snp.makeConstraints { make in
             make.left.width.equalTo(view)
@@ -64,35 +62,6 @@ class ViewController: UIViewController {
                 make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.bottom.equalTo(view.snp.bottom)
-            }
-        }
-        
-        jmRegisterEvent(eventName: "statusBarOrientation", block: { [weak self] info in
-            if let screen = info as? Int {
-                if screen == 0 {
-                    self?.remakePlayer(.half)
-                } else {
-                    self?.remakePlayer(.full)
-                }
-                
-            }
-        }, next: false)
-    }
-    
-    func remakePlayer(_ type: ScreenType) {
-        if type == .full {
-            player.snp.remakeConstraints { make in
-                make.edges.equalTo(view)
-            }
-        } else if type == .half {
-            player.snp.remakeConstraints { make in
-                make.left.width.equalTo(view)
-                make.height.equalTo(232)
-                if #available(iOS 11.0, *) {
-                    make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                } else {
-                    make.top.equalTo(view.snp.top)
-                }
             }
         }
     }

@@ -4,4 +4,5 @@ platform :ios, '13.0'
 
 target 'SRPlayer_Example' do
   pod 'SRPlayer', :path => '../'
+  pod 'Kingfisher', '6.3.0'
 end

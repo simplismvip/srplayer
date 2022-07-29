@@ -11,6 +11,7 @@ import ZJMKit
 import IJKMediaFrameworkWithSSL
 
 class SRPlayProcess: NSObject {
+    private var disposes = Set<RSObserver>()
     var model: SRPlayModel
     var containerView: UIView?
     override init() {
@@ -20,6 +21,7 @@ class SRPlayProcess: NSObject {
     
     private func setupPlayer(url: URL) {
         stopPlayer()
+        // IJKFFMonitor
         let player = IJKFFMoviePlayerController(contentURL: url, with: Options.options())
         player?.view?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         player?.scalingMode = .aspectFit
@@ -57,6 +59,13 @@ class SRPlayProcess: NSObject {
         }
     }
     
+    private func addKVO() {
+        
+//        model.player?.observe(NSTimeInterval.self, "currentPlaybackTime") { [weak self] timeback in
+//            
+//        }.add(&disposes)
+    }
+    
     private func installObserver() {
         addObserve(select: #selector(self.loadStateDidChange), name: .change)
         addObserve(select: #selector(self.moviePlayBackDidFinish), name: .finish)
@@ -84,6 +93,8 @@ class SRPlayProcess: NSObject {
     }
     
     deinit {
+        disposes.forEach { $0.deallocObserver() }
+        disposes.removeAll()
         removeObserver()
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
@@ -122,14 +133,12 @@ extension SRPlayProcess: SRProgress {
         }
         
         /// 暂停播放
-        jmReciverMsg(msgName: kMsgNamePausePlay) { [weak self] _ in
+        jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
             if let isPlaying = self?.model.player?.isPlaying(), isPlaying {
                 self?.pause()
+            } else {
+                self?.play()
             }
-            return nil
-        }
-        jmReciverMsg(msgName: kMsgNameRePlay) { [weak self] state in
-            self?.play()
             return nil
         }
         
