@@ -64,6 +64,31 @@ class ViewController: UIViewController {
                 make.bottom.equalTo(view.snp.bottom)
             }
         }
+        
+        jmRegisterEvent(eventName: kEventNameStartPlayDemoVideo, block: { [weak self] model in
+            if let m = model as? Model {
+                if m.type == .local {
+                    if let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") {
+                        let build = PlayerBulider(url: url)
+                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                    }
+                } else {
+                    if let url = URL(string: m.url) {
+                        let build = PlayerBulider(url: url)
+                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                    }
+                }
+                SRLogger.debug(m.title)
+            }
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNamePausePlayDemoVideo, block: { [weak self] info in
+            self?.player.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameStopPlayDemoVideo, block: { [weak self] info in
+            self?.player.jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
+        }, next: false)
     }
     
     @IBAction func testAction(_ sender: Any) {
@@ -83,22 +108,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         (cell as? TableViewCell)?.refresh(dataSource[indexPath.row])
         return cell ?? UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = dataSource[indexPath.row]
-        if model.type == .local {
-            if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
-                let build = PlayerBulider(url: url)
-                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-            }
-        } else {
-            if let url = URL(string: model.url) {
-                let build = PlayerBulider(url: url)
-                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-            }
-        }
-        SRLogger.debug(model.title)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -116,7 +116,9 @@ public let kEventNameUploadImageLibary = "kEventNameUploadImageLibary"
 public let kEventNameGroup_delete_user = "kEventNameGroup_delete_user"
 /// 更新自有ID
 public let kMsgNameUpdateCharID = "kMsgNameUpdateCharID"
-/// 开始播放音频
-public let kEventNameStartPlayAudio = "kEventNameStartPlayAudio"
-/// 结束播放音频
-public let kEventNameStopPlayAudio = "kEventNameStopPlayAudio"
+/// 开始播放视频
+public let kEventNameStartPlayDemoVideo = "kEventNameStartPlayDemoVideo"
+/// 暂停播放视频
+public let kEventNamePausePlayDemoVideo = "kEventNamePausePlayDemoVideo"
+/// 结束播放视频
+public let kEventNameStopPlayDemoVideo = "kEventNameStopPlayDemoVideo"

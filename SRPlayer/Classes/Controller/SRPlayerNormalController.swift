@@ -25,11 +25,6 @@ public class SRPlayerNormalController: SRPlayerController {
         registerEvent()
     }
     
-    public func smallPlayFrameReset() {
-        let video = UIView()
-        self.addPlayer(video)
-    }
-    
     public func reset() {
         processM.reset()
     }

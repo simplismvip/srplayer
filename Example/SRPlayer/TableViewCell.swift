@@ -14,6 +14,7 @@ class TableViewCell: UITableViewCell {
     let cover = UIImageView()
     let playBtn = UIButton(type: .system)
     let title = UILabel()
+    var model: Model?
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.white
@@ -28,9 +29,13 @@ class TableViewCell: UITableViewCell {
         playBtn.tintColor = UIColor.white
         title.jmConfigLabel(font: UIFont.jmRegular(20), color: UIColor.white)
         layoutViews()
+        playBtn.jmAddAction { [weak self] _ in
+            self?.jmRouterEvent(eventName: "kEventNameStartPlayDemoVideo", info: self?.model as? MsgObjc)
+        }
     }
     
     func refresh(_ model: Model) {
+        self.model = model
         title.text = model.title
         cover.setImage(url: model.image, complate: nil)
     }

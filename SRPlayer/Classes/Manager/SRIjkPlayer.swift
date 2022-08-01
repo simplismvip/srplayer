@@ -72,7 +72,7 @@ class SRIjkPlayer: NSObject {
         self.view = ijkPlayer.view
         super.init()
         
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(gatCuttentTime), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(gatCuttentTime), userInfo: nil, repeats: true)
         // self.ijkKvo = IJKKVOController(target: self)
         ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         ijkPlayer.scalingMode = build.scaMode.transTo()
@@ -215,11 +215,12 @@ extension SRIjkPlayer {
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
         SRLogger.debug("mediaIsPreparedToPlayDidChange\n")
-        jmSendMsg(msgName: kMsgNamePrepareToPlay, info: nil)
         self.isPrepareToPlay = true
+        self.gatCuttentTime()
         if !ijkPlayer.shouldAutoplay {
             self.startPlay()
         }
+        jmSendMsg(msgName: kMsgNamePrepareToPlay, info: nil)
     }
     
     @objc func moviePlayBackStateDidChange(_ notification: Notification) {
@@ -231,7 +232,7 @@ extension SRIjkPlayer {
         case .playing:
             SRLogger.debug("playing: playing")
             playState = .playing
-            jmSendMsg(msgName: kMsgNameCurrentPlaying, info: nil)
+            jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
         case .paused:
             SRLogger.debug("pause: paused")
             playState = .pause

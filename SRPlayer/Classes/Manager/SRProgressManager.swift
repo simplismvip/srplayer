@@ -30,6 +30,10 @@ class SRProgressManager: NSObject {
         return items[key] as? P
     }
     
+//    func model<P: SRProgress>() -> P? {
+//        return progress().model
+//    }
+    
     func reset() {
         
     }

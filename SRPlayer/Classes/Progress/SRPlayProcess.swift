@@ -12,8 +12,8 @@ import IJKMediaFrameworkWithSSL
 
 class SRPlayProcess: NSObject {
     private var disposes = Set<RSObserver>()
-    var model: SRPlayModel
-    var player: SRIjkPlayer?
+    internal var model: SRPlayModel
+    private var player: SRIjkPlayer?
     var containerView: UIView?
     
     override init() {
@@ -25,6 +25,7 @@ class SRPlayProcess: NSObject {
         stopPlayer()
         player = SRIjkPlayer(build)
         player?.associatedRouter(self.msgRouter)
+        // 添加视频view到播放器
         jmSendMsg(msgName: kMsgNameAddPlayerView, info: player?.view)
         containerView = player?.view.superview
     }
@@ -47,7 +48,6 @@ extension SRPlayProcess: SRProgress {
         jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
             if let build = builder as? PlayerBulider {
                 self?.setupPlayer(build)
-                SRLogger.debug("Url:\(build.url)")
                 self?.jmSendMsg(msgName: kMsgNameStartLoading, info: nil)
             }
             return nil
@@ -66,7 +66,7 @@ extension SRPlayProcess: SRProgress {
             
             if let ijkPlayer = self?.player {
                 self?.model.isMute = ijkPlayer.isMute
-                self?.model.duration = ijkPlayer.currentTime
+                self?.model.duration = ijkPlayer.duration
                 
                 self?.model.playState = ijkPlayer.playState
                 self?.model.loadState = ijkPlayer.loadState

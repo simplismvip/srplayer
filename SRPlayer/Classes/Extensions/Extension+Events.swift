@@ -36,14 +36,13 @@ extension SRPlayerNormalController {
         jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
             if let view = playView as? UIView {
                 self?.addPlayer(view)
-                SRLogger.debug("开始播放.....")
+                SRLogger.debug("添加播放器到视图.....")
             }
-            
             return nil
         }
         
         /// 准备开始播放
-        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
+        jmReciverMsg(msgName: kMsgNameStartLoading) { _ in
             SRLogger.debug("准备播放.....")
             return nil
         }
@@ -101,5 +100,12 @@ extension SRPlayerNormalController {
             
             return nil
         }
+    }
+}
+
+// KVO 绑定
+extension SRPlayerNormalController {
+    func kvoBing() {
+        let model = self.processM.
     }
 }
