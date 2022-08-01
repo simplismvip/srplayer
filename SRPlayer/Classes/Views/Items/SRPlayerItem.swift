@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 public class SRPlayerItem: NSObject, SRItem {
     @objc dynamic public var size: CGSize
@@ -57,8 +58,10 @@ public class SRPlayerButtonItem: SRPlayerItem {
     @objc dynamic public var tintColor: UIColor?
     @objc dynamic public var image: String?
     @objc dynamic public var font: UIFont?
+    @objc dynamic public var isUserInteractionEnabled: Bool
     
     init(_ itemStyle: ItemStyle, direction: Direction, location: Location, title: String?, image: String?) {
+        self.isUserInteractionEnabled = true
         super.init(itemStyle, direction: .clockwise, location: location)
         self.title = title
         self.image = image
@@ -88,15 +91,13 @@ public class SRPlayerSliderItem: SRPlayerItem {
     }
 }
 
-public class SRPlayerTitleItem: SRPlayerItem {
-    @objc dynamic public var title: String?
-    @objc dynamic public var font: UIFont?
-    
-    init(title: String?, font: UIFont?) {
-        super.init(.title, direction: .stretchable, location: .top)
-        self.title = title
+public class SRPlayerTextItem: SRPlayerItem {
+    @objc dynamic public var text: String?
+    public var font: UIFont?
+    init(text: String?, itemStyle: ItemStyle, direction: Direction, location: Location, font: UIFont?) {
+        super.init(itemStyle, direction: direction, location: location)
+        self.text = text
         self.font = font
-        self.className = "SRPlayerTitle"
-//        self.isHalfHidden = true
+        self.className = "SRPlayerText"
     }
 }

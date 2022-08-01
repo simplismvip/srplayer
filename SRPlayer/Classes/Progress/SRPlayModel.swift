@@ -9,9 +9,9 @@
 import UIKit
 
 class SRPlayModel: NSObject {
-    var isMute: Bool = false
-    var isPlaying: Bool = false
-    var isPrepareToPlay: Bool = false
+    @objc dynamic var isMute: Bool = false
+    @objc dynamic var isPlaying: Bool = false
+    @objc dynamic var isPrepareToPlay: Bool = false
     var airPlayMediaActive: Bool = false
     var playState: PlaybackState = .stop
     var loadState: PlayLoadState = .unknow

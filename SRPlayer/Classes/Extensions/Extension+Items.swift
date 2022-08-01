@@ -14,7 +14,7 @@ extension SRPlayerNormalController {
     func initEdgeItems() {
         // top
         let back = ItemFactory.buttonItem(.back, location: .top, image: "sr_back")
-        let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", font: UIFont.jmRegular(15))
+        let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", itemStyle: .title)
         let share = ItemFactory.buttonItem(.share, location: .top, image: "sr_share")
         let more = ItemFactory.buttonItem(.more, location: .top, image: "sr_more")
         
@@ -25,10 +25,10 @@ extension SRPlayerNormalController {
         
         // bottom
         let play = ItemFactory.buttonItem(.play, location: .bottom, image: "sr_play")
-        let curTime = ItemFactory.buttonItem(.curTime, location: .bottom)
+        let curTime = ItemFactory.buttonItem(.curTime, location: .bottom, title: "00:00")
         let next = ItemFactory.buttonItem(.next, location: .bottom, image: "sr_next")
-        let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
-        let slider = ItemFactory.sliderItem(value: 0.3)
+        let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom, title: "00:00")
+        let slider = ItemFactory.sliderItem(value: 0.0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
         let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscreen")
         

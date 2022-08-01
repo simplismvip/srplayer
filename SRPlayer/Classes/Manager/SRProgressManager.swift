@@ -14,6 +14,7 @@ class SRProgressManager: NSObject {
     private var items: [String: Any]
     override init() {
         items = [:]
+        super.init()
     }
     
     func addProcess<P: SRProgress>(_ progress: P) {
@@ -25,20 +26,18 @@ class SRProgressManager: NSObject {
         items[key] = progress
     }
     
-    func progress<P: SRProgress>() -> P? {
-        let key = P.className()
-        return items[key] as? P
+    func model<P: SRProgress>(_ progress: P.Type) -> P.MODEL? {
+        let key = progress.className()
+        return (items[key] as? P)?.model as? P.MODEL
     }
     
-//    func model<P: SRProgress>() -> P? {
-//        return progress().model
-//    }
-    
-    func reset() {
-        
+    func removeProcess<P: SRProgress>(_ progress: P) {
+        let key = P.className()
+        items.removeValue(forKey: key)
     }
     
     deinit {
         items.removeAll()
     }
 }
+

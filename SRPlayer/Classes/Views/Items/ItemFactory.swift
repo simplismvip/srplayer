@@ -30,19 +30,21 @@ struct ItemFactory {
             
             
         } else if itemStyle == .curTime {
-            item.title = "1:23"
+            item.title = title
             item.titleColor = UIColor.white
-            item.font = UIFont.jmRegular(10)
+            item.font = UIFont.jmRegular(12)
             item.size = CGSize(width: 0, height: 34)
+            item.isUserInteractionEnabled = false
         } else if itemStyle == .next {
             item.isHalfHidden = true
 
         } else if itemStyle == .tolTime {
-            item.title = "10:21"
+            item.title = title
             item.titleColor = UIColor.white
             item.direction = .anticlockwis
-            item.font = UIFont.jmRegular(10)
+            item.font = UIFont.jmRegular(12)
             item.size = CGSize(width: 0, height: 34)
+            item.isUserInteractionEnabled = false
         } else if itemStyle == .slider {
             
             
@@ -57,6 +59,7 @@ struct ItemFactory {
             item.titleColor = UIColor.white
             item.direction = .anticlockwis
             item.font = UIFont.jmRegular(12)
+            item.isUserInteractionEnabled = false
             item.isHalfHidden = true
         } else if itemStyle == .fullScrenn {
             
@@ -79,8 +82,19 @@ struct ItemFactory {
         return item
     }
     
-    static func titleItem(title: String, font: UIFont?) -> SRPlayerTitleItem {
-        return SRPlayerTitleItem(title: title, font: font)
+    static func titleItem(title: String, itemStyle: ItemStyle) -> SRPlayerTextItem {
+        if itemStyle == .curTime {
+            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .clockwise, location: .bottom, font: UIFont.jmRegular(12))
+            item.size = CGSize(width: 0, height: 34)
+            return item
+        } else if itemStyle == .title {
+            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .stretchable, location: .top, font: UIFont.jmRegular(15))
+            return item
+        } else {
+            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .anticlockwis, location: .bottom, font: UIFont.jmRegular(12))
+            item.size = CGSize(width: 0, height: 34)
+            return item
+        }
     }
     
     static func sliderItem(value: CGFloat = 0) -> SRPlayerSliderItem {

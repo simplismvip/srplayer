@@ -26,7 +26,10 @@ extension SRPlayerButton: SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T) {
         let btnItem = SRPlayerButtonItem.convert(item)
         self.item = btnItem
-        
+        self.titleLabel?.font = btnItem.font
+        self.tintColor = btnItem.tintColor
+        self.setTitleColor(btnItem.titleColor, for: .normal)
+        self.isUserInteractionEnabled = btnItem.isUserInteractionEnabled
         btnItem.observe(String.self, "image") { [weak self] newImage in
             self?.setImage(newImage?.image, for: .normal)
         }.add(&disposes)
@@ -35,26 +38,10 @@ extension SRPlayerButton: SRItemButton {
             self?.setTitle(title, for: .normal)
         }.add(&disposes)
         
-        btnItem.observe(UIColor.self, "titleColor") { [weak self] color in
-            self?.setTitleColor(color, for: .normal)
-        }.add(&disposes)
-        
-        btnItem.observe(UIColor.self, "tintColor") { [weak self] color in
-            self?.tintColor = color
-        }.add(&disposes)
-        
-        btnItem.observe(UIFont.self, "titleColor") { [weak self] font in
-            self?.titleLabel?.font = font
-        }.add(&disposes)
-        
         btnItem.observe(CGSize.self, "size") { [weak self] newSize in
             if let size = newSize, let cSize = self?.frame.size, !size.equalTo(cSize) {
                 self?.invalidateIntrinsicContentSize()
             }
         }.add(&disposes)
-        
-//        jmAddAction { [weak self] _ in
-//            self?.jmRouterEvent(eventName: btnItem.eventName, info: btnItem)
-//        }
     }
 }

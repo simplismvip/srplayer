@@ -159,9 +159,9 @@ extension SRPlayerSlider: SRItemButton {
         let item = SRPlayerSliderItem.convert(item)
         minTrackTintColor = item.minTintColor
         maxTrackTintColor = item.maxTintColor
-        
+        updateValue(item.value)
         item.observe(CGFloat.self, "value") { [weak self] newImage in
-            self?.value = newImage ?? 0
+            self?.updateValue(newImage ?? 0)
         }.add(&disposes)
         
         addTarget(self, action: #selector(sliderChangeValue(_:)), for: .valueChanged)

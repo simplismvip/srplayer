@@ -11,6 +11,7 @@ import ZJMKit
 public class SRPlayerNormalController: SRPlayerController {
     let processM: SRProgressManager
     let barManager: SRBarManager
+    var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
         self.barManager = SRBarManager()
@@ -23,10 +24,11 @@ public class SRPlayerNormalController: SRPlayerController {
         registerMsg()
         addNotioObserve()
         registerEvent()
+        kvoBind()
     }
     
     public func reset() {
-        processM.reset()
+//        processM.reset()
     }
     
     private func addNotioObserve() {
@@ -72,6 +74,12 @@ public class SRPlayerNormalController: SRPlayerController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        disposes.forEach { $0.deallocObserver() }
+        disposes.removeAll()
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

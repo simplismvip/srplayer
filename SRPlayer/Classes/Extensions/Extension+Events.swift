@@ -36,6 +36,7 @@ extension SRPlayerNormalController {
         jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
             if let view = playView as? UIView {
                 self?.addPlayer(view)
+                self?.view.bkgView.startPlay()
                 SRLogger.debug("添加播放器到视图.....")
             }
             return nil
@@ -50,6 +51,18 @@ extension SRPlayerNormalController {
         /// 开始播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
             SRLogger.debug("开始播放.....")
+            return nil
+        }
+        
+        /// 停止播放
+        jmReciverMsg(msgName: kMsgNameStopPlay) { [weak self] _ in
+            self?.view.bkgView.endPlay()
+            return nil
+        }
+        
+        /// 意外终止播放
+        jmReciverMsg(msgName: kMsgNameFinishedPlay) { [weak self] _ in
+            self?.view.bkgView.endPlay()
             return nil
         }
         
@@ -105,7 +118,43 @@ extension SRPlayerNormalController {
 
 // KVO 绑定
 extension SRPlayerNormalController {
-    func kvoBing() {
-        let model = self.processM.
+    func kvoBind() {
+        
+        let model = self.processM.model(SRPlayProcess.self)
+//        model?.observe(TimeInterval.self, "duration") { [weak self] duration in
+//
+//        }.add(&disposes)
+        
+        let sliderItem = self.barManager.bottom.sliderItem()
+        let curTimeItem = self.barManager.bottom.buttonItem(.curTime)
+        let tolTimeItem = self.barManager.bottom.buttonItem(.tolTime)
+        model?.observe(TimeInterval.self, "currentTime") { currentTime in
+            if let progress = model?.progress,
+                let duration = model?.duration,
+                let currTime = currentTime {
+                sliderItem?.value = progress
+                curTimeItem?.title = Int(currTime).format
+                tolTimeItem?.title = Int(duration).format
+            }
+        }.add(&disposes)
+        
+//        model?.observe(TimeInterval.self, "cacheDuration") { [weak self] cacheDuration in
+//
+//        }.add(&disposes)
+        
+//        model?.observe(Bool.self, "isMute") { [weak self] isMute in
+//
+//        }.add(&disposes)
+        
+        let playItem = self.barManager.bottom.buttonItem(.play)
+        model?.observe(Bool.self, "isPlaying") { isPlaying in
+            if let play = isPlaying {
+                playItem?.image = play ? "sr_pause" : "sr_play"
+            }
+        }.add(&disposes)
+        
+//        model?.observe(Bool.self, "isPrepareToPlay") { [weak self] isPrepareToPlay in
+//
+//        }.add(&disposes)
     }
 }

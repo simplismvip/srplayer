@@ -93,23 +93,13 @@ extension SRPlayProcess: SRProgress {
             return nil
         }
         
-        /// 停止播放
-        jmReciverMsg(msgName: kMsgNameStopPlay) { [weak self] _ in
-            self?.model.isPlaying = false
-            return nil
-        }
-        
-        /// 意外终止播放
-        jmReciverMsg(msgName: kMsgNameFinishedPlay) { _ in
-            
-            return nil
-        }
-        
         /// 暂停播放
         jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
             if let isPlaying = self?.player?.isPlaying, isPlaying {
                 self?.player?.pause()
+                self?.model.isPlaying = false
             } else {
+                self?.model.isPlaying = true
                 self?.player?.startPlay()
             }
             return nil

@@ -87,9 +87,14 @@ extension Bundle {
 
 extension Int {
     var format: String {
-        return jmCurrentTime
-            .replacingOccurrences(of: "时", with: ":")
-            .replacingOccurrences(of: "分", with: ":")
-            .replacingOccurrences(of: "秒", with: "")
+        if self > 3600 {
+            return String(format: "%02d:%02d:%02d", (self/3600), (self/60%60), (self%60))
+        } else if self > 60 && self < 3600 {
+            return String(format: "%02d:%02d", (self/60), (self%60))
+        } else if self < 60 {
+            return String(format: "00:%02d", self)
+        } else {
+            return "00:00"
+        }
     }
 }

@@ -81,6 +81,22 @@ extension SRPlayerControlBar: SRControlBar {
         self.items.append(item)
     }
     
+    public func itemOfStyle(_ style: ItemStyle) -> SRPlayerItem? {
+        return self.items.filter { $0.itemStyle == style }.first
+    }
+    
+    public func sliderItem() -> SRPlayerSliderItem? {
+        return itemOfStyle(.slider) as? SRPlayerSliderItem
+    }
+    
+    public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
+        return itemOfStyle(style) as? SRPlayerButtonItem
+    }
+    
+    public func titleItem(_ style: ItemStyle) -> SRPlayerTextItem? {
+        return itemOfStyle(style) as? SRPlayerTextItem
+    }
+    
     public func layoutItems() {
         self.view.removellSubviews { _ in true }
         self.boxs.removeAll()
@@ -184,7 +200,7 @@ extension SRPlayerControlBar {
                     make.centerY.equalTo(self.view.snp.centerY)
                     make.top.bottom.equalTo(self.view)
                     if let l = findView(tempLeftLastItem), let r = findView(tempRightLastItem) {
-                        make.left.equalTo(l.snp.right)
+                        make.left.equalTo(l.snp.right).offset(item.margin.space)
                         make.right.equalTo(r.snp.left).offset(-item.margin.space)
                     } else {
                         make.left.equalTo(self.view.snp.right).offset(item.margin.left)
