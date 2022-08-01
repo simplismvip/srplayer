@@ -13,131 +13,104 @@ import IJKMediaFrameworkWithSSL
 class SRPlayProcess: NSObject {
     private var disposes = Set<RSObserver>()
     var model: SRPlayModel
+    var player: SRIjkPlayer?
     var containerView: UIView?
+    
     override init() {
         self.model = SRPlayModel()
         super.init()
     }
     
-    private func setupPlayer(url: URL) {
+    private func setupPlayer(_ build: PlayerBulider) {
         stopPlayer()
-        // IJKFFMonitor
-        let player = IJKFFMoviePlayerController(contentURL: url, with: Options.options())
-        player?.view?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        player?.scalingMode = .aspectFit
-        player?.allowsMediaAirPlay = true
-        player?.shouldAutoplay = true
-        player?.prepareToPlay()
-        installObserver()
-        model.setModel(player)
+        player = SRIjkPlayer(build)
+        player?.associatedRouter(self.msgRouter)
         jmSendMsg(msgName: kMsgNameAddPlayerView, info: player?.view)
         containerView = player?.view.superview
     }
     
     private func stopPlayer() {
-        if (model.player != nil) {
-            removeObserver()
-            stop()
-            shutdown()
-            model.player?.view.removeFromSuperview()
-            model.player = nil
-            SRLogger.debug("🤬🤬🤬🤬🤬 - 释放播放器")
-        }
-    }
-    
-    private func addObserve(select: Selector, name: Noti) {
-        NotificationCenter.default.addObserver(self, selector: select, name: name.name, object: model.player)
-    }
-    
-    private func remove(_ name: Noti) {
-        NotificationCenter.default.removeObserver(self, name: name.name, object: model.player)
-    }
-    
-    private func removeObserver() {
-        [Noti.change, Noti.finish, Noti.isPrepared, Noti.stateChange].forEach {
-            remove($0)
-        }
-    }
-    
-    private func addKVO() {
-        
-//        model.player?.observe(NSTimeInterval.self, "currentPlaybackTime") { [weak self] timeback in
-//            
-//        }.add(&disposes)
-    }
-    
-    private func installObserver() {
-        addObserve(select: #selector(self.loadStateDidChange), name: .change)
-        addObserve(select: #selector(self.moviePlayBackDidFinish), name: .finish)
-        addObserve(select: #selector(self.mediaIsPreparedToPlayDidChange), name: .isPrepared)
-        addObserve(select: #selector(self.moviePlayBackStateDidChange), name: .stateChange)
-    }
-    
-    enum Noti {
-        case change
-        case finish
-        case isPrepared
-        case stateChange
-        var name: NSNotification.Name {
-            switch self {
-            case .change:
-                return NSNotification.Name.IJKMPMoviePlayerLoadStateDidChange
-            case .finish:
-                return NSNotification.Name.IJKMPMoviePlayerPlaybackDidFinish
-            case .isPrepared:
-                return NSNotification.Name.IJKMPMediaPlaybackIsPreparedToPlayDidChange
-            case .stateChange:
-                return NSNotification.Name.IJKMPMoviePlayerPlaybackStateDidChange
-            }
-        }
+        player?.stopPlayer()
+        player = nil
     }
     
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        removeObserver()
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
 extension SRPlayProcess: SRProgress {
     func configProcess() {
+        /// 准备初始化
+        jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
+            if let build = builder as? PlayerBulider {
+                self?.setupPlayer(build)
+                SRLogger.debug("Url:\(build.url)")
+                self?.jmSendMsg(msgName: kMsgNameStartLoading, info: nil)
+            }
+            return nil
+        }
+        
+        /// 准备播放
+        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
+            self?.model.isPrepareToPlay = true
+            return nil
+        }
+        
         /// 开始播放
         jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
-            if let build = builder as? PlayerBulider {
-                self?.setupPlayer(url: build.url)
-                SRLogger.debug("Url:\(build.url)")
+            self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
+            self?.model.isPlaying = true
+            
+            if let ijkPlayer = self?.player {
+                self?.model.isMute = ijkPlayer.isMute
+                self?.model.duration = ijkPlayer.currentTime
+                
+                self?.model.playState = ijkPlayer.playState
+                self?.model.loadState = ijkPlayer.loadState
+                self?.model.scalingMode = ijkPlayer.scalingMode
+                
+                self?.model.naturalSize = ijkPlayer.naturalSize
+                self?.model.playbackRate = ijkPlayer.playbackRate
             }
             return nil
         }
         
         /// 播放
         jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
-            if let playView = self.model.playView, let containerView = self.containerView {
+            if let playView = self.player?.view, let containerView = self.containerView {
                 containerView.addSubview(playView)
                 playView.translatesAutoresizingMaskIntoConstraints = true
                 playView.frame = containerView.bounds;
             }
         
-            if self.model.isPlaying {
-                self.play()
-            }
+//            if self.model.isPlaying {
+//                self.play()
+//            }
             
             return nil
         }
         
         /// 停止播放
-        jmReciverMsg(msgName: kMsgNameStopPlay) { _ in
+        jmReciverMsg(msgName: kMsgNameStopPlay) { [weak self] _ in
+            self?.model.isPlaying = false
+            return nil
+        }
+        
+        /// 意外终止播放
+        jmReciverMsg(msgName: kMsgNameFinishedPlay) { _ in
             
             return nil
         }
         
         /// 暂停播放
         jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
-            if let isPlaying = self?.model.player?.isPlaying(), isPlaying {
-                self?.pause()
+            if let isPlaying = self?.player?.isPlaying, isPlaying {
+                self?.player?.pause()
             } else {
-                self?.play()
+                self?.player?.startPlay()
             }
             return nil
         }
@@ -156,7 +129,7 @@ extension SRPlayProcess: SRProgress {
         
         /// 静音
         jmReciverMsg(msgName: kMsgNameActionMute) { [weak self] _ in
-            self?.setMute()
+            self?.player?.setMute()
             return nil
         }
         
@@ -177,114 +150,37 @@ extension SRPlayProcess: SRProgress {
             
             return nil
         }
-    }
-}
-
-extension SRPlayProcess {
-    @objc func loadStateDidChange(_ notification: Notification) {
-        if let loadState = model.player?.loadState {
-            if loadState.contains(.playthroughOK) {
-                SRLogger.debug("loadStateDidChange: IJKMPMovieLoadStatePlaythroughOK: \(loadState)\n")
-            } else if loadState.contains(.stalled) {
-                SRLogger.debug("loadStateDidChange: IJKMPMovieLoadStateStalled: \(loadState)\n")
-            } else {
-                SRLogger.debug("loadStateDidChange: ???: \(loadState)\n")
+        
+        /// 添加播放器view到视图
+        jmReciverMsg(msgName: kMsgNameAddPlayerView) { _ in
+            
+            return nil
+        }
+        
+        /// 播放器播放进度更新
+        jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { [weak self] _ in
+            if let ijkPlayer = self?.player {
+                self?.model.currentTime = ijkPlayer.currentTime
+                self?.model.cacheDuration = ijkPlayer.videoCacheDuration
+                SRLogger.debug("当前时长：\(Int(ijkPlayer.currentTime).format)")
+                SRLogger.debug("总时长：\(Int(ijkPlayer.duration).format)")
+                SRLogger.debug("播放进度：\(self?.model.progress ?? 0.0)")
+                // SRLogger.debug("视频缓存时长：\(Int(ijkPlayer.videoCacheDuration).format)")
+                // SRLogger.debug("当前速率：\(ijkPlayer.playbackRate)")
             }
+            return nil
         }
-    }
-    
-    @objc func moviePlayBackDidFinish(_ notification: Notification) {
-        let reason = notification.userInfo?[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] as! Int
-        switch reason {
-        case FinishReason.ended.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonPlaybackEnded: \(reason)\n")
-        case FinishReason.exited.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonUserExited: \(reason)\n")
-        case FinishReason.error.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonPlaybackError: \(reason)\n")
-        default:
-            SRLogger.debug("playbackPlayBackDidFinish: ???: \(reason)\n")
+        
+        /// 快进、快退
+        jmReciverMsg(msgName: kMsgNamePlayerSeeking) { _ in
+            
+            return nil
         }
-    }
-    
-    @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
-        SRLogger.debug("mediaIsPreparedToPlayDidChange\n")
-    }
-    
-    @objc func moviePlayBackStateDidChange(_ notification: Notification) {
-        guard model.player != nil else {
-            return
+        
+        /// 快进、快退结束
+        jmReciverMsg(msgName: kMsgNamePlayerSeekEnded) { _ in
+            
+            return nil
         }
-        switch model.player!.playbackState {
-        case .stopped:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): stoped")
-            break
-        case .playing:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): playing")
-            break
-        case .paused:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): paused")
-            break
-        case .interrupted:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): interrupted")
-            break
-        case .seekingForward, .seekingBackward:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): seeking")
-            break
-        }
-    }
-}
-
-/// Public Func
-extension SRPlayProcess {
-    public func thumbnailImageAtCurrentTime() -> UIImage? {
-        return model.player?.thumbnailImageAtCurrentTime()
-    }
-    
-    public func setAllowsMediaAirPlay(_ airplay: Bool) {
-        model.player?.allowsMediaAirPlay = airplay
-    }
-    
-    public func setDanmakuMediaAirPlay(_ airplay: Bool) {
-        model.player?.isDanmakuMediaAirPlay = airplay
-    }
-    
-    public func setPlayerRate(_ playbackRate: Float) {
-        model.player?.playbackRate = playbackRate
-    }
-    
-    public func setPlayerVolume(_ playbackVolume: Float) {
-        model.player?.playbackVolume = playbackVolume
-    }
-}
-
-// 播放器相关
-extension SRPlayProcess {
-    private func prepareToPlay() {
-        model.player?.prepareToPlay()
-    }
-    
-    private func play() {
-        model.player?.play()
-    }
-    
-    private func pause() {
-        model.player?.pause()
-    }
-    
-    private func stop() {
-        model.player?.stop()
-    }
-    
-    private func setMute() {
-        model.player?.playbackVolume = 0
-    }
-    
-    private func shutdown() {
-        model.player?.shutdown()
-    }
-    
-    private func setPauseInBackground(_ pause: Bool) {
-        model.player?.setPauseInBackground(pause)
     }
 }

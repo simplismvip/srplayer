@@ -20,7 +20,6 @@
 		6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBF2883F9F800DBFFE7 /* Helper.swift */; };
 		68BFC5EF2896287000966C4D /* 001.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 68BFC5ED2896287000966C4D /* 001.MOV */; };
 		68BFC5F02896287000966C4D /* 002.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 68BFC5EE2896287000966C4D /* 002.MOV */; };
-		68BFC5F228962A7900966C4D /* 003.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 68BFC5F128962A7900966C4D /* 003.MOV */; };
 		E9A54FB428880B37006E71E8 /* urls2.json in Resources */ = {isa = PBXBuildFile; fileRef = E9A54FB328880B37006E71E8 /* urls2.json */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +52,6 @@
 		6855BCBF2883F9F800DBFFE7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		68BFC5ED2896287000966C4D /* 001.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 001.MOV; sourceTree = "<group>"; };
 		68BFC5EE2896287000966C4D /* 002.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 002.MOV; sourceTree = "<group>"; };
-		68BFC5F128962A7900966C4D /* 003.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 003.MOV; sourceTree = "<group>"; };
 		8C04F2B8971D51E94520EEAB /* Pods-SRPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B69914A295CBA1DEDFF7466E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		DA0864BA7AE36D40752C2E97 /* SRPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SRPlayer.podspec; path = ../SRPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -178,7 +176,6 @@
 			children = (
 				68BFC5ED2896287000966C4D /* 001.MOV */,
 				68BFC5EE2896287000966C4D /* 002.MOV */,
-				68BFC5F128962A7900966C4D /* 003.MOV */,
 			);
 			name = Source;
 			path = SRPlayer/Source;
@@ -275,7 +272,6 @@
 			files = (
 				68BFC5EF2896287000966C4D /* 001.MOV in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
-				68BFC5F228962A7900966C4D /* 003.MOV in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				68BFC5F02896287000966C4D /* 002.MOV in Resources */,

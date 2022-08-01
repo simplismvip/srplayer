@@ -27,6 +27,14 @@ public enum StreamType {
     case live // 解锁
 }
 
+public enum PlaybackRate: CGFloat {
+    case rate0x75 = 0.75 // 0.75x
+    case rate1x0 = 1.0 // 1.0x
+    case rate1x25 = 1.25 // 1.25x
+    case rate1x5 = 1.5 // 1.5x
+    case rate2x0 = 2.0 // 2.0x
+}
+
 public enum PlaybackState {
     case stop // 停止
     case playing // 播放
@@ -103,7 +111,7 @@ public enum PlayLoadState {
     }
 }
 
-enum ScalingMode {
+public enum ScalingMode {
     case none
     case aspectFit
     case aspectFill

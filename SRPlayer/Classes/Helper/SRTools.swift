@@ -12,6 +12,8 @@ struct Tools {
     func a() {
         let b = InitClass<UIView>.instance("SRPlayerBottomBar")
     }
+    
+    
 }
 
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")
@@ -83,3 +85,11 @@ extension Bundle {
     }
 }
 
+extension Int {
+    var format: String {
+        return jmCurrentTime
+            .replacingOccurrences(of: "时", with: ":")
+            .replacingOccurrences(of: "分", with: ":")
+            .replacingOccurrences(of: "秒", with: "")
+    }
+}

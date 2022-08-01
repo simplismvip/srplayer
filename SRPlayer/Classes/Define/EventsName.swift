@@ -10,10 +10,18 @@ import Foundation
 
 // ------------- Msg Name -------------
 // 起播
+/// 准备初始化
+public let kMsgNamePlayStartSetup = "kMsgNamePlayStartSetup"
+/// 准备播放
+public let kMsgNamePrepareToPlay = "kMsgNamePrepareToPlay"
 /// 开始播放
 public let kMsgNameStartPlay = "kMsgNameStartPlay"
+/// 正在播放
+public let kMsgNameCurrentPlaying = "kMsgNameCurrentPlaying"
 /// 停止播放
 public let kMsgNameStopPlay = "kMsgNameStopPlay"
+/// 结束播放
+public let kMsgNameFinishedPlay = "kMsgNameFinishedPlay"
 /// 暂停播放
 public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
 /// 播放
@@ -34,8 +42,6 @@ public let kMsgNameChangeScalingMode = "kMsgNameChangeScalingMode"
 public let kMsgNameShotScreen = "kMsgNameShotScreen"
 /// 添加播放器view到视图
 public let kMsgNameAddPlayerView = "kMsgNameAddPlayerView"
-/// 准备播放
-public let kMsgNamePrepareToPlay = "kMsgNamePrepareToPlay"
 /// 播放器播放进度更新
 public let kMsgNamePlaybackTimeUpdate = "kMsgNamePlaybackTimeUpdate"
 /// 快进、快退失败
@@ -44,6 +50,15 @@ public let kMsgNamePlayerSeekFailed = "kMsgNamePlayerSeekFailed"
 public let kMsgNamePlayerSeeking = "kMsgNamePlayerSeeking"
 /// 快进、快退结束
 public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
+
+///  展示loading动画
+public let kMsgNameStartLoading = "kMsgNameStartLoading"
+/// 结束loading动画
+public let kMsgNameEndLoading = "kMsgNameEndLoading"
+
+
+
+// ------------- Event Name -------------
 /// 切换全屏半屏
 public let kEventNameFullScrennAction = "kEventNameFullScrennAction"
 /// 返回
@@ -84,7 +99,6 @@ public let kEventNameDidSelectImage = "kEventNameDidSelectImage"
 /// 点击图文混合消息
 public let kEventNameDidSelectImageAndText = "kEventNameDidSelectImageAndText"
 
-// ------------- Event Name -------------
 
 /// 弹出文本键盘
 public let kEventNameKeyboardWeakup = "kEventNameKeyboardWeakup"

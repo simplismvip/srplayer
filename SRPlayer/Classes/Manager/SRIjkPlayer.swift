@@ -7,25 +7,28 @@
 
 import UIKit
 import IJKMediaFrameworkWithSSL
+import ZJMKit
 
 class SRIjkPlayer: NSObject {
 //    IJKMediaPlayback
     /** 显示视频的视图 */
-    var playView: UIView?
+    let view: UIView
     /** 是否播放 */
     var isPlaying: Bool = false
     /** 播放流类型 */
-    var streamType: StreamType = .vod
+    var streamType: StreamType
     /** 播放器播放状态 */
     var playState: PlaybackState = .stop
     /** 播放器载入状态 */
     var loadState: PlayLoadState = .unknow
     /** 缩放模式 */
     var scalingMode : ScalingMode = .none
+    /** 结束播放原因 */
+    var finish: FinishReason?
     /** 是否准备播放 */
     var isPrepareToPlay: Bool = false
-    /** 是否正在切换视频质量 */
-    var isSwitchingQuality: Bool = false
+//    /** 是否正在切换视频质量 */
+//    var isSwitchingQuality: Bool = false
     /** 是否静音 */
     var isMute: Bool = false
     /** 是否准备播放 */
@@ -33,7 +36,7 @@ class SRIjkPlayer: NSObject {
     /** 视频时长，如果是直播，则为0,单位是秒 */
     var duration: TimeInterval = 0
     /** 当前播放时间,单位是秒 */
-    var currentPlaybackTime: TimeInterval = 0
+    @objc dynamic var currentTime: TimeInterval = 0
     /** 可以播放时长 */
     var playableDuration: TimeInterval = 0
     /** 偏移时长 */
@@ -41,7 +44,7 @@ class SRIjkPlayer: NSObject {
     /** 视频缓存时长 */
     var videoCacheDuration: TimeInterval = 0
     /** 播放速率 */
-    var playbackRate: Float = 0
+    var playbackRate: PlaybackRate
     /** buffer时长 */
     var bufferingProgress: Int = 0
     /** 可以播放时长 */
@@ -54,61 +57,140 @@ class SRIjkPlayer: NSObject {
     var naturalSize: CGSize = CGSize.zero
     /** 可以播放时长 */
     var airPlayMediaActive: Bool = false
+    var volume: Float = 0
     /** 播放器 */
-    private var player: IJKMediaPlayback
+    private var ijkPlayer: IJKMediaPlayback
     /** kvo监听 */
-    private var kvo: IJKKVOController?
+    private var ijkKvo: IJKKVOController?
+    /** 开启时间循环 */
+    private var timer: Timer?
     
-    init(url: URL) {
-        self.player = IJKFFMoviePlayerController(contentURL: url, with: Options.options())
+    init(_ build: PlayerBulider) {
+        self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.url, with: Options.options())
+        self.streamType = build.streamType
+        self.playbackRate = build.playbackRate
+        self.view = ijkPlayer.view
         super.init()
-        self.kvo = IJKKVOController(target: self)
-//        player?.view?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        player?.scalingMode = .aspectFit
-//        player?.allowsMediaAirPlay = true
-//        player?.shouldAutoplay = true
-//        player?.prepareToPlay()
-    }
-    
-    func prepareToPlay() {
-//        IJKMediaEvent
-    }
-    
-    func aplay() {
         
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(gatCuttentTime), userInfo: nil, repeats: true)
+        // self.ijkKvo = IJKKVOController(target: self)
+        ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        ijkPlayer.scalingMode = build.scaMode.transTo()
+        ijkPlayer.allowsMediaAirPlay = build.allowsAirPlay
+        ijkPlayer.shouldAutoplay = build.shouldAutoplay
+        ijkPlayer.prepareToPlay()
+        addPlayerObserver()
     }
     
-    func pause() {
-        
+    func associatedRouter(_ router: JMRouter?) {
+        guard let r = router else { return }
+        jmSetAssociatedMsgRouter(router: r)
     }
     
-    func stop() {
-        
+    func stopPlayer() {
+        playState = .stop
+        timer?.invalidate()
+        timer = nil
+        stop()
+        shutdown()
+        ijkPlayer.view.removeFromSuperview()
+        removePlayerObserver()
+        SRLogger.debug("‼️‼️‼️‼️‼️‼️ - SRIjkPlayer 释放播放器")
     }
     
-    func setMute() {
-        
-    }
-    
-    func shutdown() {
-        
-    }
-    
-    func setPauseInBackground(_ pause: Bool) {
-        
+    @objc private func gatCuttentTime() {
+        if ijkPlayer.isPlaying() {
+            if currentTime != ijkPlayer.currentPlaybackTime {
+                currentTime = ijkPlayer.currentPlaybackTime
+            }
+            
+            if duration != ijkPlayer.duration {
+                duration = ijkPlayer.duration
+            }
+            
+            if playableDuration != ijkPlayer.playableDuration {
+                playableDuration = ijkPlayer.playableDuration
+            }
+            
+            if volume != ijkPlayer.playbackVolume {
+                volume = ijkPlayer.playbackVolume
+                isMute = !(volume > 0)
+            }
+            jmSendMsg(msgName: kMsgNamePlaybackTimeUpdate, info: nil)
+            
+//            bufferingProgress = ijkPlayer.bufferingProgress
+//            playState = PlaybackState.transFrom(ijkPlayer.playbackState)
+//            loadState = PlayLoadState.transFrom(ijkPlayer.loadState)
+//
+//            isSeekBuffering = Int(ijkPlayer.isSeekBuffering)
+//            isAudioSync = Int(ijkPlayer.isAudioSync)
+//            isVideoSync = Int(ijkPlayer.isVideoSync)
+//
+//            scalingMode = ScalingMode.transFrom(ijkPlayer.scalingMode)
+//            airPlayMediaActive = ijkPlayer.airPlayMediaActive
+        }
     }
 }
 
+/// MARK: -- IJKPlayer 通知
 extension SRIjkPlayer {
-    @objc func loadStateDidChange(_ notification: Notification) {
-        if let loadState = player?.loadState {
-            if loadState.contains(.playthroughOK) {
-                SRLogger.debug("loadStateDidChange: IJKMPMovieLoadStatePlaythroughOK: \(loadState)\n")
-            } else if loadState.contains(.stalled) {
-                SRLogger.debug("loadStateDidChange: IJKMPMovieLoadStateStalled: \(loadState)\n")
-            } else {
-                SRLogger.debug("loadStateDidChange: ???: \(loadState)\n")
+    enum Noti {
+        case change
+        case finish
+        case isPrepared
+        case stateChange
+        var name: NSNotification.Name {
+            switch self {
+            case .change:
+                return NSNotification.Name.IJKMPMoviePlayerLoadStateDidChange
+            case .finish:
+                return NSNotification.Name.IJKMPMoviePlayerPlaybackDidFinish
+            case .isPrepared:
+                return NSNotification.Name.IJKMPMediaPlaybackIsPreparedToPlayDidChange
+            case .stateChange:
+                return NSNotification.Name.IJKMPMoviePlayerPlaybackStateDidChange
             }
+        }
+    }
+    
+    struct Action {
+        var name: String
+        var target: NSObject
+        var select: Selector
+    }
+    
+    private func addObserve(select: Selector, name: Noti) {
+        NotificationCenter.default.addObserver(self, selector: select, name: name.name, object: ijkPlayer)
+    }
+    
+    private func remove(_ name: Noti) {
+        NotificationCenter.default.removeObserver(self, name: name.name, object: ijkPlayer)
+    }
+    
+    private func removePlayerObserver() {
+        [Noti.change, Noti.finish, Noti.isPrepared, Noti.stateChange].forEach {
+            remove($0)
+        }
+    }
+    
+    private func addPlayerObserver() {
+        [(#selector(loadStateDidChange), Noti.change),
+         (#selector(moviePlayBackDidFinish), Noti.finish),
+         (#selector(mediaIsPreparedToPlayDidChange), Noti.isPrepared),
+         (#selector(moviePlayBackStateDidChange), Noti.stateChange)] .forEach {
+            addObserve(select: $0.0, name: $0.1)
+        }
+    }
+    
+    @objc func loadStateDidChange(_ notification: Notification) {
+        if ijkPlayer.loadState.contains(.playthroughOK) {
+            loadState = .playthroughOK
+            SRLogger.debug("playthroughOK")
+        } else if ijkPlayer.loadState.contains(.stalled) {
+            SRLogger.debug("stateStalled")
+            loadState = .stateStalled
+        } else {
+            SRLogger.debug("loadStateDidChange: ???: \(loadState)\n")
         }
     }
     
@@ -116,40 +198,56 @@ extension SRIjkPlayer {
         let reason = notification.userInfo?[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] as! Int
         switch reason {
         case FinishReason.ended.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonPlaybackEnded: \(reason)\n")
+            SRLogger.debug("Finish Ended: \(reason)\n")
+            finish = .ended
         case FinishReason.exited.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonUserExited: \(reason)\n")
+            SRLogger.debug("Finish UserExited: \(reason)\n")
+            finish = .exited
         case FinishReason.error.ijk:
-            SRLogger.debug("playbackStateDidChange: IJKMPMovieFinishReasonPlaybackError: \(reason)\n")
+            SRLogger.debug("Finish PlaybackError: \(reason)\n")
+            finish = .error
         default:
-            SRLogger.debug("playbackPlayBackDidFinish: ???: \(reason)\n")
+            SRLogger.debug("Finish: ???: \(reason)\n")
         }
+        stopPlayer()
+        jmSendMsg(msgName: kMsgNameFinishedPlay, info: finish as MsgObjc)
     }
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
         SRLogger.debug("mediaIsPreparedToPlayDidChange\n")
+        jmSendMsg(msgName: kMsgNamePrepareToPlay, info: nil)
+        self.isPrepareToPlay = true
+        if !ijkPlayer.shouldAutoplay {
+            self.startPlay()
+        }
     }
     
     @objc func moviePlayBackStateDidChange(_ notification: Notification) {
-        guard player != nil else {
-            return
-        }
-        switch player!.playbackState {
+        switch ijkPlayer.playbackState {
         case .stopped:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): stoped")
-            break
+            SRLogger.debug("stop: stoped")
+            playState = .stop
+            jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
         case .playing:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): playing")
-            break
+            SRLogger.debug("playing: playing")
+            playState = .playing
+            jmSendMsg(msgName: kMsgNameCurrentPlaying, info: nil)
         case .paused:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): paused")
-            break
+            SRLogger.debug("pause: paused")
+            playState = .pause
+            jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         case .interrupted:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): interrupted")
-            break
-        case .seekingForward, .seekingBackward:
-            SRLogger.debug("IJKMPMoviePlayBackStateDidChange \(String(describing: model.player?.playbackState)): seeking")
-            break
+            SRLogger.debug("interrupted: interrupted")
+            playState = .interrupted
+            jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
+        case .seekingForward:
+            SRLogger.debug("seekingBackward: seeking")
+            playState = .seekingForward
+            jmSendMsg(msgName: kMsgNameActionSeekTo, info: playState as MsgObjc)
+        case .seekingBackward:
+            SRLogger.debug("seekingBackward: seeking")
+            playState = .seekingBackward
+            jmSendMsg(msgName: kMsgNameActionSeekTo, info: playState as MsgObjc)
         }
     }
 }
@@ -157,46 +255,51 @@ extension SRIjkPlayer {
 /// Public Func
 extension SRIjkPlayer {
     public func thumbnailImageAtCurrentTime() -> UIImage? {
-        return player.thumbnailImageAtCurrentTime()
+        return ijkPlayer.thumbnailImageAtCurrentTime()
     }
     
     public func setAllowsMediaAirPlay(_ airplay: Bool) {
-        player.allowsMediaAirPlay = airplay
+        ijkPlayer.allowsMediaAirPlay = airplay
     }
     
     public func setDanmakuMediaAirPlay(_ airplay: Bool) {
-        player.isDanmakuMediaAirPlay = airplay
+        ijkPlayer.isDanmakuMediaAirPlay = airplay
     }
     
     public func setPlayerRate(_ playbackRate: Float) {
-        player.playbackRate = playbackRate
+        ijkPlayer.playbackRate = playbackRate
     }
     
     public func setPlayerVolume(_ playbackVolume: Float) {
-        player.playbackVolume = playbackVolume
+        ijkPlayer.playbackVolume = playbackVolume
     }
-}
-
-
-extension SRIjkPlayer {
-    private func addKVOObaser() {
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "currentPlaybackTime", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "duration", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "playableDuration", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "bufferingProgress", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isPreparedToPlay", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "playbackState", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "loadState", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isSeekBuffering", options: [.new, .initial], context: nil)
-        
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isAudioSync", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isVideoSync", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "numberOfBytesTransferred", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "bufferingProgress", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isPreparedToPlay", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "playbackState", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "loadState", options: [.new, .initial], context: nil)
-        self.kvo?.safelyAddObserver(self.player as? NSObject, forKeyPath: "isSeekBuffering", options: [.new, .initial], context: nil)
+    
+    public func prepareToPlay() {
+        ijkPlayer.prepareToPlay()
+    }
+    
+    public func startPlay() {
+        ijkPlayer.play()
+    }
+    
+    public func pause() {
+        ijkPlayer.pause()
+    }
+    
+    public func stop() {
+        ijkPlayer.stop()
+    }
+    
+    public func setMute() {
+        ijkPlayer.playbackVolume = 0.0
+    }
+    
+    public func shutdown() {
+        ijkPlayer.shutdown()
+    }
+    
+    public func setPauseInBackground(_ pause: Bool) {
+        ijkPlayer.setPauseInBackground(pause)
     }
 }
 

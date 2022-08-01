@@ -90,12 +90,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if model.type == .local {
             if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
                 let build = PlayerBulider(url: url)
-                player.jmSendMsg(msgName: kMsgNameStartPlay, info: build as MsgObjc)
+                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
             }
         } else {
             if let url = URL(string: model.url) {
                 let build = PlayerBulider(url: url)
-                player.jmSendMsg(msgName: kMsgNameStartPlay, info: build as MsgObjc)
+                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
             }
         }
         SRLogger.debug(model.title)
