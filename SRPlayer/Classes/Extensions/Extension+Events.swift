@@ -2,7 +2,8 @@
 //  Extension+Events.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/7/29.
+//  Created by JunMing on 2022/7/29.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
