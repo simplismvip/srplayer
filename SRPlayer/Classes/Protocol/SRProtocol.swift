@@ -19,46 +19,51 @@ public protocol SRPierce {
 }
 
 /// MARK: -- 播放手势协议
+public protocol SRPlayerGesture {
+    /** 左侧垂直方向 开始拖动*/
+    func panBeginLeftVertical(_ player: UIView)
+    /** 左侧垂直方向 正在拖动*/
+    func panMoveLeftVertical(player: UIView, offsetValue: CGFloat)
+    /** 左侧垂直方向 结束拖动*/
+    func panEndedLeftVertical(_ player: UIView)
+    /** 左侧垂直方向 取消拖动*/
+    func panCancelledLeftVertical(_ player: UIView)
+    /** 右侧垂直方向 开始拖动*/
+    func panBeginRightVertical(_ player: UIView)
+    /** 右侧垂直方向 正在拖动*/
+    func panMoveRightVertical(player: UIView, offsetValue: CGFloat)
+    /** 右侧垂直方向 结束拖动*/
+    func panEndedRightVertical(_ player: UIView)
+    /** 右侧垂直方向 取消拖动*/
+    func panCancelledRightVertical(_ player: UIView)
+    /** 水平方向 开始拖动*/
+    func panBeginHorizontal(_ player: UIView)
+    /** 水平方向 正在拖动*/
+    func panMoveHorizontal(player: UIView, offsetValue: CGFloat)
+    /** 水平方向 结束拖动*/
+    func panEndedHorizontal(_ player: UIView)
+    /** 水平方向 取消拖动*/
+    func panCancelledHorizontal(_ player: UIView)
+    /** 单击*/
+    func click(_ player: UIView)
+    /** 双击*/
+    func doubleClick(_ player: UIView)
+    /** 长按 **/
+    func longPress(player: UIView)
+}
+
+/// MARK: -- 播放手势协议
 public protocol SRPlayer_P {
     /** 可响应的events*/
     var activityEvents: [PlayerEventUnit] { get }
+    /** 手势协议*/
+    var delegate: SRPlayerGesture? { set get }
     /** 激活事件*/
     func activeEvents(_ events: [PlayerEventUnit])
     /** 关闭事件*/
     func deactiveEvents(_ events: [PlayerEventUnit])
     /** 判断events是否可响应*/
     func eventsActivity(_ event: PlayerEventUnit) -> Bool
-    
-//    /** 左侧垂直方向 开始拖动*/
-//    func panBeginLeftVertical(_ player: UIView)
-//    /** 左侧垂直方向 正在拖动*/
-//    func panMoveLeftVertical(player: UIView, offsetValue: CGFloat)
-//    /** 左侧垂直方向 结束拖动*/
-//    func panEndedLeftVertical(_ player: UIView)
-//    /** 左侧垂直方向 取消拖动*/
-//    func panCancelledLeftVertical(_ player: UIView)
-//    /** 右侧垂直方向 开始拖动*/
-//    func panBeginRightVertical(_ player: UIView)
-//    /** 右侧垂直方向 正在拖动*/
-//    func panMoveRightVertical(player: UIView, offsetValue: CGFloat)
-//    /** 右侧垂直方向 结束拖动*/
-//    func panEndedRightVertical(_ player: UIView)
-//    /** 右侧垂直方向 取消拖动*/
-//    func panCancelledRightVertical(_ player: UIView)
-//    /** 水平方向 开始拖动*/
-//    func panBeginHorizontal(_ player: UIView)
-//    /** 水平方向 正在拖动*/
-//    func panMoveHorizontal(player: UIView, offsetValue: CGFloat)
-//    /** 水平方向 结束拖动*/
-//    func panEndedHorizontal(_ player: UIView)
-//    /** 水平方向 取消拖动*/
-//    func panCancelledHorizontal(_ player: UIView)
-//    /** 单击*/
-//    func click(_ player: UIView)
-//    /** 双击*/
-//    func doubleClick(_ player: UIView)
-//    /** 捏合 **/
-//    func pinchOfPlayerFrameShell(player: UIView, scaleValue: CGFloat)
 }
 
 /// MARK: -- 背景层协议
@@ -126,7 +131,7 @@ public protocol SRBaseContainer {
     associatedtype MaskView: SRMask
     
     /** 播放器层 */
-    var player: PlayerView { get }
+    var playerView: PlayerView { get }
     /** 背景层 */
     var bkgView: BKGView { get }
     /** 弹幕层（预留） */

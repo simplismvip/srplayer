@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-public class SREdgeAreaView: UIView {
+public class SREdgeAreaView: SRPierceView {
     public var top: SRPierceView
     public var left: SRPierceView
     public var right: SRPierceView

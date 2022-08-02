@@ -10,8 +10,8 @@ import UIKit
 
 public class SRPlayerController: UIView {
     public let view: SRContainerView
-    public var edgeVisibleUnit: EdgeAreaUnit
     public var moreAreaVisible: Bool
+    public var edgeVisibleUnit: EdgeAreaUnit
     public var edgeVisibleAnimate: SREdgeVisible
     public var moreVisibleAnimate: SRVisible
     
@@ -22,6 +22,7 @@ public class SRPlayerController: UIView {
         self.edgeVisibleAnimate = { visible, unit in }
         self.moreVisibleAnimate = { _ in }
         super.init(frame: frame)
+        view.playerView.delegate = self
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
         showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
@@ -60,11 +61,11 @@ extension SRPlayerController: CotrolProtocol {
     }
     
     public func addPlayer(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.player, layout: layout)
+        addFill(content: content, player: view.playerView, layout: layout)
     }
     
     public func removePlayerContent() {
-        removeFill(view.player)
+        removeFill(view.playerView)
     }
 
     public func addBackground(_ content: UIView) {
@@ -226,5 +227,67 @@ extension SRPlayerController: CotrolProtocol {
     
     public func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish) {
         view.edgeAreaView.visibleUnit(units: units, visible: false, animation: animation)
+    }
+}
+
+extension SRPlayerController: SRPlayerGesture {
+    public func panBeginLeftVertical(_ player: UIView) {
+        
+    }
+    
+    public func panMoveLeftVertical(player: UIView, offsetValue: CGFloat) {
+        
+    }
+    
+    public func panEndedLeftVertical(_ player: UIView) {
+        
+    }
+    
+    public func panCancelledLeftVertical(_ player: UIView) {
+        
+    }
+    
+    public func panBeginRightVertical(_ player: UIView) {
+        
+    }
+    
+    public func panMoveRightVertical(player: UIView, offsetValue: CGFloat) {
+        
+    }
+    
+    public func panEndedRightVertical(_ player: UIView) {
+        
+    }
+    
+    public func panCancelledRightVertical(_ player: UIView) {
+        
+    }
+    
+    public func panBeginHorizontal(_ player: UIView) {
+        
+    }
+    
+    public func panMoveHorizontal(player: UIView, offsetValue: CGFloat) {
+        
+    }
+    
+    public func panEndedHorizontal(_ player: UIView) {
+        
+    }
+    
+    public func panCancelledHorizontal(_ player: UIView) {
+        
+    }
+    
+    public func click(_ player: UIView) {
+        
+    }
+    
+    public func doubleClick(_ player: UIView) {
+        
+    }
+    
+    public func longPress(player: UIView) {
+        
     }
 }

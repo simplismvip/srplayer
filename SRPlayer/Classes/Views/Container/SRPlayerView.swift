@@ -8,7 +8,8 @@
 
 import UIKit
 
-public class SRPlayerView: UIView {
+public class SRPlayerView: SRPierceView {
+    public var delegate: SRPlayerGesture?
     public var activityEvents: [PlayerEventUnit]
     var currentEvent: PlayerEventUnit
     var panDirection: PanDirection
@@ -33,25 +34,22 @@ public class SRPlayerView: UIView {
         return gesture
     }()
     
-    lazy var pinchGesture: UIPinchGestureRecognizer = {
-        let gesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureAction(_:)))
+    lazy var longPressGesture: UILongPressGestureRecognizer = {
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        gesture.minimumPressDuration = 1.0
+        gesture.numberOfTouchesRequired = 1
+        gesture.delegate = self
         return gesture
     }()
     
     override init(frame: CGRect) {
-        activityEvents = [.pan, .singleClick, .doubleClick, .pinch]
+        activityEvents = [.pan, .singleClick, .doubleClick, .longPress]
         panDirection = .vertical
         currentEvent = .horiPan
         super.init(frame: frame)
-        
         addGestureRecognizer(panGesture)
         addGestureRecognizer(clickGesture)
         addGestureRecognizer(doubleClickGesture)
-        addGestureRecognizer(pinchGesture)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     @objc func panGestureAction(_ gesture: UIPanGestureRecognizer) {
@@ -71,13 +69,16 @@ public class SRPlayerView: UIView {
                 SRLogger.debug("began:水平移动")
                 panDirection = .horizontal
                 currentEvent = .horiPan
+                delegate?.panBeginHorizontal(self)
             } else if x < y {
                 if (location.x > bounds.size.width / 2) && activityEvents.contains(.pan) {
                     SRLogger.debug("右侧垂直滑动")
                     currentEvent = .vertRightPan
+                    delegate?.panBeginLeftVertical(self)
                 } else if (location.x <= bounds.size.width / 2) && activityEvents.contains(.pan) {
                     SRLogger.debug("左侧垂直滑动")
                     currentEvent = .vertLeftPan
+                    delegate?.panBeginLeftVertical(self)
                 } else {
                     SRLogger.debug("无滑动")
                 }
@@ -87,35 +88,42 @@ public class SRPlayerView: UIView {
             let value = (panDirection == .vertical) ? velocty.y : velocty.x
             SRLogger.debug("changed:\(value)")
             if currentEvent == .horiPan {
-                
+                SRLogger.debug("began:水平移动")
+                delegate?.panMoveHorizontal(player: self, offsetValue: value)
             } else if currentEvent == .vertLeftPan {
-                
+                SRLogger.debug("左侧垂直滑动")
+                delegate?.panMoveLeftVertical(player: self, offsetValue: value)
             } else if currentEvent == .vertRightPan {
-                
+                SRLogger.debug("右侧垂直滑动")
+                delegate?.panMoveRightVertical(player: self, offsetValue: value)
             } else {
                 SRLogger.debug("无滑动")
             }
         case .ended:
             SRLogger.debug("ended")
             if currentEvent == .horiPan {
-                
+                SRLogger.debug("began:水平移动")
+                delegate?.panEndedHorizontal(self)
             } else if currentEvent == .vertLeftPan {
-                
+                SRLogger.debug("左侧垂直滑动")
+                delegate?.panEndedLeftVertical(self)
             } else if currentEvent == .vertRightPan {
-                
+                SRLogger.debug("右侧垂直滑动")
+                delegate?.panEndedRightVertical(self)
             } else {
                 SRLogger.debug("无滑动")
             }
-        case .cancelled:
-            SRLogger.debug("")
-        case .failed:
+        case .cancelled, .failed:
             SRLogger.debug("failed")
             if currentEvent == .horiPan {
-                
+                SRLogger.debug("began:水平移动")
+                delegate?.panCancelledHorizontal(self)
             } else if currentEvent == .vertLeftPan {
-                
+                SRLogger.debug("左侧垂直滑动")
+                delegate?.panCancelledLeftVertical(self)
             } else if currentEvent == .vertRightPan {
-                
+                SRLogger.debug("右侧垂直滑动")
+                delegate?.panCancelledRightVertical(self)
             } else {
                 SRLogger.debug("无滑动")
             }
@@ -126,20 +134,27 @@ public class SRPlayerView: UIView {
     
     @objc func clickGestureAction(_ gesture: UITapGestureRecognizer) {
         if currentEvent != .singleClick { return }
+        delegate?.click(self)
     }
     
     @objc func doubleClickGestureAction(_ gesture: UITapGestureRecognizer) {
         if currentEvent != .doubleClick { return }
+        delegate?.doubleClick(self)
     }
     
-    @objc func pinchGestureAction(_ gesture: UIPinchGestureRecognizer) {
-        if (gesture.state != .ended) || currentEvent != .pinch { return }
-        
+    @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
+        if currentEvent != .longPress { return }
+        delegate?.longPress(player: self)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension SRPlayerView: UIGestureRecognizerDelegate {
     private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        SRLogger.debug("---gestureRecognizer")
         if let isKind = otherGestureRecognizer.view?.isKind(of: UITableView.self), isKind && (gestureRecognizer == panGesture) {
             return true
         }
@@ -147,6 +162,7 @@ extension SRPlayerView: UIGestureRecognizerDelegate {
     }
     
     private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        SRLogger.debug("gestureRecognizer---")
         if gestureRecognizer == panGesture {
             return false
         }
@@ -174,8 +190,8 @@ extension SRPlayerView: SRPlayer_P {
                 doubleClickGesture.isEnabled = true
             }
             
-            if unit == .pinch {
-                pinchGesture.isEnabled = true
+            if unit == .longPress {
+                longPressGesture.isEnabled = true
             }
         }
     }
@@ -194,8 +210,8 @@ extension SRPlayerView: SRPlayer_P {
                 doubleClickGesture.isEnabled = false
             }
             
-            if unit == .pinch {
-                pinchGesture.isEnabled = false
+            if unit == .longPress {
+                longPressGesture.isEnabled = false
             }
         }
     }

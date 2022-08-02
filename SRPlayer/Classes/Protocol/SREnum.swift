@@ -31,7 +31,7 @@ public enum PlayerEventUnit {
     case pan        // 垂直 & 水平 拖动 [vertLeftPan, vertRightPan, horiPan]
     case singleClick       // 单击
     case doubleClick       // 双击
-    case pinch             // 捏合
+    case longPress         // 长按
     // case all               // 所有事件 [vertLeftPan, vertRightPan, horiPan, singleClick, doubleClick, pinch]
     
 //    static var allEvents: [PlayerEventUnit] {

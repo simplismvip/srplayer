@@ -10,16 +10,15 @@ import UIKit
 import SnapKit
 
 public class SRContainerView: UIView, SRBaseContainer {
-    public var player: SRPlayerView
-    public var bkgView: SRBkgView
-    public var barrageView: SRBarrageView
-    public var floatView: SRFloatView
-    public var edgeAreaView: SREdgeAreaView
-    public var moreAreaView: SRMoreAreaView
-    public var maskAreaView: SRMaskView
-    
+    public let playerView: SRPlayerView
+    public let bkgView: SRBkgView
+    public let barrageView: SRBarrageView
+    public let floatView: SRFloatView
+    public let edgeAreaView: SREdgeAreaView
+    public let moreAreaView: SRMoreAreaView
+    public let maskAreaView: SRMaskView
     public override init(frame: CGRect) {
-        self.player = SRPlayerView()
+        self.playerView = SRPlayerView()
         self.bkgView = SRBkgView()
         self.barrageView = SRBarrageView()
         self.edgeAreaView = SREdgeAreaView()
@@ -27,9 +26,9 @@ public class SRContainerView: UIView, SRBaseContainer {
         self.moreAreaView = SRMoreAreaView()
         self.maskAreaView = SRMaskView()
         super.init(frame: frame)
-        
-        addSubview(player)
-        player.snp.makeConstraints { make in
+        playerView.canPierce = false
+        addSubview(playerView)
+        playerView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         
@@ -48,10 +47,8 @@ public class SRContainerView: UIView, SRBaseContainer {
             make.edges.equalTo(self)
         }
         
-//        subviewsRandColor()
-        
-//        addSubview(floatView)
-//        floatView.snp.makeConstraints { make in
+//        addSubview(barrageView)
+//        barrageView.snp.makeConstraints { make in
 //            make.edges.equalTo(self)
 //        }
         

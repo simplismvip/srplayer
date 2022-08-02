@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SRMaskView: UIView, SRMask {
+public class SRMaskView: SRPierceView, SRMask {
 
     /*
     // Only override draw() if you perform custom drawing.

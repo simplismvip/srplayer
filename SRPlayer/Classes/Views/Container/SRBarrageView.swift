@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SRBarrageView: UIView, SRBarrage {
+public class SRBarrageView: SRPierceView, SRBarrage {
 
     /*
     // Only override draw() if you perform custom drawing.

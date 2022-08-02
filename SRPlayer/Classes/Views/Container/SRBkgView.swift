@@ -8,39 +8,25 @@
 
 import UIKit
 
-public class SRBkgView: UIView {
-    private let text: UILabel
+public class SRBkgView: SRPierceView {
     private let imageView: UIImageView
     public override init(frame: CGRect) {
-        text = UILabel()
         imageView = UIImageView()
+//        imageView.isUserInteractionEnabled = true
         super.init(frame: frame)
-        text.text = "SRPlayer"
-        text.font = UIFont.jmRegular(10)
-        text.textColor = UIColor.white
-        backgroundColor = UIColor.black.jmComponent(0.2)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         addSubview(imageView)
         imageView.snp.makeConstraints { $0.edges.equalTo(self) }
         imageView.image = "sr_1_background".image
-//        addSubview(text)
-//        text.snp.makeConstraints { make in
-//            make.centerX.equalTo(snp.centerX)
-//            make.centerY.equalTo(snp.centerY)
-//            make.height.equalTo(40)
-//        }
     }
     
     func startPlay() {
-        text.isHidden = true
-        backgroundColor = nil
+        imageView.isHidden = true
     }
     
     func endPlay() {
-        text.isHidden = false
-        text.text = "播放完成✅。。。"
-        backgroundColor = UIColor.black.jmComponent(0.2)
+        imageView.isHidden = false
     }
     
     required init?(coder: NSCoder) {

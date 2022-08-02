@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SRMoreAreaView: UIView {
+public class SRMoreAreaView: SRPierceView {
 
     /*
     // Only override draw() if you perform custom drawing.

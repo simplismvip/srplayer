@@ -10,7 +10,6 @@ import UIKit
 
 public class SRPierceView: UIView, SRPierce {
     public var canPierce: Bool = true
-
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if !canPierce {
             return super.hitTest(point, with: event)
@@ -20,11 +19,14 @@ public class SRPierceView: UIView, SRPierce {
             return nil
         }
 
-        let view = super.hitTest(point, with: event)
-        if let ieE = view?.isEqual(self), ieE {
-            return nil
+        if let view = super.hitTest(point, with: event) {
+            if view.isEqual(self) {
+                return nil
+            } else {
+                return view
+            }
         } else {
-            return view
+            return nil
         }
     }
 }

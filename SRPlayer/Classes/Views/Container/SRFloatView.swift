@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SRFloatView: UIView, SRFloat_P {
+public class SRFloatView: SRPierceView, SRFloat_P {
     let loading: SRLoading
     public override init(frame: CGRect) {
         loading = SRLoading()
