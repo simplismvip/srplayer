@@ -9,7 +9,7 @@ import UIKit
 import ZJMKit
 
 extension SRPlayerNormalController {
-    func registerEvent() {
+    func registerItemsEvent() {
         jmRegisterEvent(eventName: kEventNameFullScrennAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .half {
                 UIDevice.setNewOrientation(.landscapeLeft)
@@ -28,6 +28,34 @@ extension SRPlayerNormalController {
         
         jmRegisterEvent(eventName: kEventNamePlayAction, block: { [weak self] info in
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] info in
+            SRLogger.debug("更多")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in
+            SRLogger.debug("切换播放速率")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameShareAction, block: { [weak self] info in
+            SRLogger.debug("分享")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameNextAction, block: { [weak self] info in
+            SRLogger.debug("播放下一个")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameScreenShotAction, block: { [weak self] info in
+            SRLogger.debug("截屏")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameRecordingAction, block: { [weak self] info in
+            SRLogger.debug("录像")
+        }, next: false)
+        
+        jmRegisterEvent(eventName: kEventNameLockScreenAction, block: { [weak self] info in
+            SRLogger.debug("锁屏")
         }, next: false)
     }
     

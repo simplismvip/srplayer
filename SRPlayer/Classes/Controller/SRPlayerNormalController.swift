@@ -23,7 +23,7 @@ public class SRPlayerNormalController: SRPlayerController {
         addEdgeSubViews()
         registerMsg()
         addNotioObserve()
-        registerEvent()
+        registerItemsEvent()
         kvoBind()
     }
     

@@ -65,27 +65,28 @@ public let kEventNameFullScrennAction = "kEventNameFullScrennAction"
 public let kEventNameBackAction = "kEventNameBackAction"
 /// 播放暂停
 public let kEventNamePlayAction = "kEventNamePlayAction"
+/// 更多
+public let kEventNameMoreAction = "kEventNameMoreAction"
+/// 切换速率
+public let kEventNamePlayRateAction = "kEventNamePlayRateAction"
+/// 切换速率
+public let kEventNameSwitchQuality = "kEventNameSwitchQuality"
+/// 分享
+public let kEventNameShareAction = "kEventNameShareAction"
+/// next
+public let kEventNameNextAction = "kEventNameNextAction"
+/// 截屏
+public let kEventNameScreenShotAction = "kEventNameScreenShotAction"
+/// 录像
+public let kEventNameRecordingAction = "kEventNameRecordingAction"
+/// 锁屏
+public let kEventNameLockScreenAction = "kEventNameLockScreenAction"
+/// 音量
+public let kEventNameVolumeAction = "kEventNameVolumeAction"
+/// 亮度
+public let kEventNameBrightLightAction = "kEventNameBrightLightAction"
 
-/// 更多键盘点击
-public let kEventNameMoreKeyBoardAction = "kEventNameMoreKeyBoardAction"
-/// 点击确定发送消息
-public let kEventNameKeyBoardSendMsg = "kEventNameKeyBoardSendMsg"
-/// 开始录音
-public let kMsgNameStartRecording = "kMsgNameStartRecording"
-/// 停止录音
-public let kMsgNameStopRecording = "kMsgNameStopRecording"
-/// 取消录音
-public let kMsgNameCancleRecording = "kMsgNameCancleRecording"
-/// 语音消息错误
-public let kMsgNameRecordVoiceError = "kMsgNameRecordVoiceError"
-/// 说话时间太短
-public let kMsgNameRecordVoiceSpeakShort = "kMsgNameRecordVoiceSpeakShort"
-/// 说话时间太长
-public let kMsgNameRecordVoiceSpeakLong = "kMsgNameRecordVoiceSpeakLong"
-/// 更新音量
-public let kMsgNameRecordUpdatePower = "kMsgNameRecordUpdatePower"
-/// 语音消息
-public let kEventNameVoiceTouchDown = "kEventNameVoiceTouchDown"
+
 /// 切换语音和文本输入
 public let kEventNameVoiceTouchDragInside = "kEventNameVoiceTouchDragInside"
 /// 切换语音和文本输入

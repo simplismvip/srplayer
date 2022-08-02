@@ -9,13 +9,35 @@
 import UIKit
 
 public class SRFloatView: UIView, SRFloat_P {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    let loading: SRLoading
+    public override init(frame: CGRect) {
+        loading = SRLoading()
+        super.init(frame: frame)
+        loading.isHidden = true
+        addSubview(loading)
+        loading.snp.makeConstraints { make in
+            make.width.equalTo(80)
+            make.height.equalTo(30)
+            make.centerY.equalTo(snp.centerY)
+            make.centerX.equalTo(snp.centerX)
+        }
     }
-    */
-
+    
+    func startLoading() {
+        loading.start()
+        loading.isHidden = false
+    }
+    
+    func stopLoading() {
+        loading.stop()
+        loading.isHidden = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        stopLoading()
+    }
 }

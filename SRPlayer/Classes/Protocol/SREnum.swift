@@ -103,7 +103,4 @@ public enum ItemStyle: String {
 
     // left
     case lockScreen = "kEventNameLockScreenAction"// 锁屏
-    
-    // empty
-    case empty = "kEventNameLockEmptyAction"
 }

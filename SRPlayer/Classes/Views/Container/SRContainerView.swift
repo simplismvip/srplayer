@@ -38,8 +38,8 @@ public class SRContainerView: UIView, SRBaseContainer {
             make.edges.equalTo(self)
         }
         
-        addSubview(barrageView)
-        barrageView.snp.makeConstraints { make in
+        addSubview(floatView)
+        floatView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         
