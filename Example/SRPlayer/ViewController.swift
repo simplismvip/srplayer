@@ -69,7 +69,8 @@ class ViewController: UIViewController {
             if let m = model as? Model {
                 if m.type == .local {
                     if let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") {
-                        let build = PlayerBulider(url: url)
+                        let urlmkv = URL(fileURLWithPath: "/Users/jl/Desktop/000002.mkv")
+                        let build = PlayerBulider(url: urlmkv)
                         self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
                     }
                 } else {
