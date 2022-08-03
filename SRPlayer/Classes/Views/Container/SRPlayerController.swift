@@ -10,10 +10,10 @@ import UIKit
 
 public class SRPlayerController: UIView {
     public let view: SRContainerView
-    public var moreAreaVisible: Bool
-    public var processM: SRProgressManager
-    public var barManager: SRBarManager
+    public let processM: SRProgressManager
+    public let barManager: SRBarManager
     var disposes = Set<RSObserver>()
+    public var moreAreaVisible: Bool
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
@@ -76,6 +76,8 @@ public class SRPlayerController: UIView {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
+        NotificationCenter.default.jm.removeObserver(target: self, NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue)
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
