@@ -11,8 +11,8 @@ import UIKit
 public class SRPlayerController: UIView {
     public let view: SRContainerView
     public var moreAreaVisible: Bool
-    let processM: SRProgressManager
-    let barManager: SRBarManager
+    public var processM: SRProgressManager
+    public var barManager: SRBarManager
     var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
@@ -81,130 +81,7 @@ public class SRPlayerController: UIView {
 }
 
 extension SRPlayerController: CotrolProtocol {
-    // 添加Edge区域
-    public func addEdgeArea(_ subview: UIView, type: BarType) {
-        if type == .top {
-            add(subview: subview, content: view.edgeAreaView.top) { make, view in
-                make.edges.equalTo(view)
-            }
-        }
-        
-        if type == .bottom {
-            add(subview: subview, content: view.edgeAreaView.bottom) { make, view in
-                make.edges.equalTo(view)
-            }
-        }
-        
-        if type == .left {
-            add(subview: subview, content: view.edgeAreaView.left) { make, view in
-                make.edges.equalTo(view)
-            }
-        }
-        
-        if type == .right {
-            add(subview: subview, content: view.edgeAreaView.right) { make, view in
-                make.edges.equalTo(view)
-            }
-        }
-    }
-    
-    public func removeEdgeArea(_ type: BarType) {
-        if type == .top {
-            remove(view.edgeAreaView.top)
-        }
-        
-        if type == .bottom {
-            remove(view.edgeAreaView.bottom)
-        }
-        
-        if type == .left {
-            remove(view.edgeAreaView.left)
-        }
-        
-        if type == .right {
-            remove(view.edgeAreaView.right)
-        }
-    }
-
-    
-    // 添加播放器视图到 view.player
-    public func addPlayer(_ subview: UIView) {
-        add(subview: subview, content: view.playerView) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func removePlayerContent() {
-        remove(view.playerView)
-    }
-
-    public func addBackground(_ subview: UIView) {
-        add(subview: subview, content: view.bkgView) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func removeBackground() {
-        remove(view.bkgView)
-    }
-
-    public func addBarrage(_ content: UIView) {
-        addBarrage(content) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addBarrage(_ subview: UIView, layout: SRLayout) {
-        add(subview: subview, content: view.barrageView, layout: layout)
-    }
-    
-    public func removeBarrage() {
-        remove(view.barrageView)
-    }
-
-    public func addMoreArea(_ subview: UIView) {
-        add(subview: subview, content: view.moreAreaView) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addMoreArea(_ subview: UIView, layout: SRLayout) {
-        add(subview: subview, content: view.moreAreaView, layout: layout)
-    }
-    
-    public func removeMoreArea() {
-        
-    }
-
-    public func addMask(_ content: UIView) {
-        addMask(content) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addMask(_ subview: UIView, layout: SRLayout) {
-        add(subview: subview, content: view.maskAreaView, layout: layout)
-    }
-    
-    public func removeMask() {
-        remove(view.maskAreaView)
-    }
-
-    public func addFloat(_ subview: UIView) {
-        add(subview: subview, content: view.floatView) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func removeFloat(_ content: UIView) {
-        
-    }
-
     public func showMoreArea(width: CGFloat, animation: Bool) {
-        
-    }
-    
-    public func showMoreArea(width: CGFloat, animation: Bool, completion: @escaping SRFinish) {
         
     }
     
@@ -212,27 +89,11 @@ extension SRPlayerController: CotrolProtocol {
         
     }
     
-    public func hideMoreArea(animation: Bool, completion: @escaping SRFinish) {
-        
-    }
-    
     public func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool) {
-        showEdgeAreaUnit(units: units, animation: animation) {
-            SRLogger.debug("showEdgeAreaUnit")
-        }
-    }
-    
-    public func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish) {
         self.view.edgeAreaView.showUnit(units: units, visible: true)
     }
     
     public func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool) {
-        hideEdgeAreaUnit(units: units, animation: animation) {
-            SRLogger.debug("showEdgeAreaUnit")
-        }
-    }
-    
-    public func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish) {
         view.edgeAreaView.showUnit(units: units, visible: false)
     }
 }

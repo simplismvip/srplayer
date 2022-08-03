@@ -55,15 +55,15 @@ public protocol SRPlayerGesture {
 /// MARK: -- 播放手势协议
 public protocol SRPlayer_P: UIView {
     /** 可响应的events*/
-    var activityEvents: [PlayerEventUnit] { get }
+    var activityEvents: [GestureUnit] { get }
     /** 手势协议*/
     var delegate: SRPlayerGesture? { set get }
     /** 激活事件*/
-    func activeEvents(_ events: [PlayerEventUnit])
+    func activeEvents(_ events: [GestureUnit])
     /** 关闭事件*/
-    func deactiveEvents(_ events: [PlayerEventUnit])
+    func deactiveEvents(_ events: [GestureUnit])
     /** 判断events是否可响应*/
-    func eventsActivity(_ event: PlayerEventUnit) -> Bool
+    func eventsActivity(_ event: GestureUnit) -> Bool
 }
 
 /// MARK: -- 背景层协议
@@ -110,25 +110,26 @@ public protocol SREdgeArea: UIView {
 }
 
 extension SREdgeArea {
+    public func current(_ type: EdgeAreaUnit) -> UIView {
+        switch type {
+        case .top:
+            return top
+        case .left:
+            return self.left
+        case .bottom:
+            return bottom
+        case .right:
+            return self.right
+        }
+    }
+}
+
+extension SREdgeArea {
     /** 显示/隐藏 子区域视图 */
     public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, completion: SRFinish?) {
         UIView.animate(withDuration: 0.3) {
             units.forEach { unit in
-                if unit == .top {
-                    self.top.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .left {
-                    self.left.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .right {
-                    self.right.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .bottom {
-                    self.bottom.alpha = visible ? 1 : 0
-                }
+                self.current(unit).alpha = visible ? 1 : 0
             }
         } completion: { finsh in
             completion?()
@@ -182,63 +183,50 @@ public protocol SRContent {
     var maskAreaView: MaskView { get }
 }
 
+extension SRContent {
+    public func current(unit: PlayerUnit) -> UIView {
+        switch unit {
+        case .player:
+            return playerView
+        case .bkground:
+            return bkgView
+        case .barrage:
+            return barrageView
+        case .float:
+            return floatView
+        case .edgeArea:
+            return edgeAreaView
+        case .moreArea:
+            return moreAreaView
+        case .maskArea:
+            return maskAreaView
+        }
+    }
+}
+
 /// MARK: -- 控制协议
 public protocol CotrolProtocol {
     associatedtype ContentView: SRContent
     /** 添加PlayerFrame层内容视图*/
     var view: ContentView { get }
-    /** more区域视图是否出现*/
-    var moreAreaVisible: Bool { get }
-    
     /** 添加PlayerFrame层内容视图*/
-    func addPlayer(_ content: UIView)
-    /** 移除PlayerFrame层内容视图*/
-    func removePlayerContent()
-
-    /** 添加Background层内容视图*/
-    func addBackground(_ content: UIView)
-    /** 移除Background层内容视图*/
-    func removeBackground()
-
-    /** 添加Barrage层内容视图*/
-    func addBarrage(_ content: UIView)
-    /** 移除Barrage层内容视图*/
-    func removeBarrage()
-    
-    /** 添加MoreArea moreContainer层内容视图*/
-    func addMoreArea(_ content: UIView)
-    /** 移除MoreArea moreContainer 层内容视图*/
-    func removeMoreArea()
-
-    /** 添加Mask 层内容视图*/
-    func addMask(_ content: UIView)
-    /** 移除Mask 层内容视图*/
-    func removeMask()
-
-    /** 添加Float 层子视图*/
-    func addFloat(_ content: UIView)
-    /** 移除Float 层子视图 */
-    func removeFloat(_ content: UIView);
-
+    var processM: SRProgressManager { get }
+    /** 添加PlayerFrame层内容视图*/
+    var barManager: SRBarManager { get }
     /*显示更多区域*/
     func showMoreArea(width: CGFloat, animation: Bool)
-    func showMoreArea(width: CGFloat, animation: Bool, completion: @escaping SRFinish)
     /*隐藏更多区域*/
     func hideMoreArea(animation: Bool)
-    func hideMoreArea(animation: Bool, completion: @escaping SRFinish)
-
     /*
      显示Edge 子区域
      unit: 子区域集合
      */
     func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool)
-    func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish)
     /*
      隐藏Edge 子区域
      unit: 子区域集合
      */
     func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool)
-    func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish)
 }
 
 extension CotrolProtocol {
@@ -255,17 +243,37 @@ extension CotrolProtocol {
         content.layoutIfNeeded()
     }
     
-    public  func remove(_ content: UIView) {
+    public func remove(_ content: UIView) {
         content.removellSubviews { _ in true }
     }
     
-    func addSubview(_ subview: UIView) {
-//        addFill(content: subview, player: self.view.playerView) { make, view in
-//            make.edges.equalTo(view)
-//        }
+    // 添加图层子视图
+    public func addSubview(_ subview: UIView, unit: PlayerUnit) {
+        let content = self.view.current(unit: unit)
+        add(subview: subview, content: content) { make, view in
+            make.edges.equalTo(view)
+        }
     }
     
-    func removeSubview() {
-        
+    // 移除图层子视图
+    public func removeSubview(_ unit: PlayerUnit) {
+        let content = self.view.current(unit: unit)
+        remove(content)
+        content.removeFromSuperview()
+    }
+    
+    // 添加Edge区域
+    public func addEdgeArea(_ unit: EdgeAreaUnit) {
+        let subview = self.barManager.current(unit)
+        let content = self.view.edgeAreaView.current(unit)
+        add(subview: subview, content: content) { make, view in
+            make.edges.equalTo(view)
+        }
+    }
+    
+    // 移除Edge区域
+    public func removeEdgeArea(_ unit: EdgeAreaUnit) {
+        let content = self.view.edgeAreaView.current(unit)
+        remove(content)
     }
 }

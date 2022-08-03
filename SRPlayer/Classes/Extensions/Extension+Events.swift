@@ -64,7 +64,7 @@ extension SRPlayerNormalController {
         /// 开始播放
         jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
             if let view = playView as? UIView {
-                self?.addPlayer(view)
+                self?.addSubview(view, unit: .player)
                 self?.view.bkgView.startPlay()
                 SRLogger.debug("添加播放器到视图.....")
             }

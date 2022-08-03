@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public protocol SRControlBar {
-    var barType: BarType { get }
+    var barType: EdgeAreaUnit { get }
     var screenType: ScreenType { get set }
     var items: [SRPlayerItem] { get set }
     var view: UIView { get }
@@ -31,6 +31,21 @@ public protocol SRBarManager_P {
     var left: SRPlayLeftBar { get }
     var right: SRPlayerRightBar { get }
     func setScreenType(_ type: ScreenType)
+}
+
+extension SRBarManager {
+    public func current(_ type: EdgeAreaUnit) -> UIView {
+        switch type {
+        case .top:
+            return top
+        case .left:
+            return self.left
+        case .bottom:
+            return bottom
+        case .right:
+            return self.right
+        }
+    }
 }
 
 public protocol SRItem {

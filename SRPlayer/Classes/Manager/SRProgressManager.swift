@@ -10,7 +10,7 @@ import UIKit
 import Combine
 import ZJMKit
 
-class SRProgressManager: NSObject {
+public class SRProgressManager: NSObject {
     private var items: [String: Any]
     override init() {
         items = [:]

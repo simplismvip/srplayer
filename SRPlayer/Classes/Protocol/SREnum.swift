@@ -8,16 +8,16 @@
 
 import UIKit
 
-///** 播放器层枚举 */
-//public enum PlayerView {
-//    case player(UIView)   // 播放器层
-//    case bkground(UIView)  // 背景层
-//    case barrage(UIView)  // 弹幕层
-//    case float(UIView) // 悬浮控件
-//    case edgeArea(UIView)  // 边缘区域层
-//    case moreArea(UIView) // 更多
-//    case maskArea(UIView) // 遮罩层
-//}
+/** 播放器层枚举 */
+public enum PlayerUnit {
+    case player   // 播放器层
+    case bkground  // 背景层
+    case barrage  // 弹幕层
+    case float // 悬浮控件
+    case edgeArea  // 边缘区域层
+    case moreArea // 更多
+    case maskArea // 遮罩层
+}
 
 public enum EdgeAreaUnit {
     case left   // 左侧
@@ -26,15 +26,8 @@ public enum EdgeAreaUnit {
     case bottom // 底部
 }
 
-public enum BarType {
-    case left   // 左侧
-    case right  // 右侧
-    case top  // 顶部
-    case bottom // 底部
-}
-
 // 屏幕手势事件
-public enum PlayerEventUnit {
+public enum GestureUnit {
     case vertLeftPan   // 左侧垂直拖动
     case vertRightPan  // 右侧垂直拖动
     case horiPan      // 水平拖动

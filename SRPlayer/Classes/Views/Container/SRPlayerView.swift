@@ -10,8 +10,8 @@ import UIKit
 
 public class SRPlayerView: SRPierceView {
     public var delegate: SRPlayerGesture?
-    public var activityEvents: [PlayerEventUnit]
-    var currentEvent: PlayerEventUnit
+    public var activityEvents: [GestureUnit]
+    var currentEvent: GestureUnit
     var panDirection: PanDirection
     
     lazy var panGesture: UIPanGestureRecognizer = {
@@ -176,7 +176,7 @@ extension SRPlayerView: UIGestureRecognizerDelegate {
 }
 
 extension SRPlayerView: SRPlayer_P {
-    public func activeEvents(_ events: [PlayerEventUnit]) {
+    public func activeEvents(_ events: [GestureUnit]) {
         events.forEach { unit in
             if unit == .pan {
                 panGesture.isEnabled = true
@@ -196,7 +196,7 @@ extension SRPlayerView: SRPlayer_P {
         }
     }
     
-    public func deactiveEvents(_ events: [PlayerEventUnit]) {
+    public func deactiveEvents(_ events: [GestureUnit]) {
         events.forEach { unit in
             if unit == .pan {
                 panGesture.isEnabled = false
@@ -216,7 +216,7 @@ extension SRPlayerView: SRPlayer_P {
         }
     }
     
-    public func eventsActivity(_ event: PlayerEventUnit) -> Bool {
+    public func eventsActivity(_ event: GestureUnit) -> Bool {
         return activityEvents.contains(event)
     }
 }
