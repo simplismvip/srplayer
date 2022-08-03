@@ -82,7 +82,7 @@ public class SRPlayerController: UIView {
 
 extension SRPlayerController: CotrolProtocol {
     // 添加Edge区域
-    public func addEdgeArea(_ subview: UIView, type: ControlBarType) {
+    public func addEdgeArea(_ subview: UIView, type: BarType) {
         if type == .top {
             addFill(content: subview, player: view.edgeAreaView.top) { make, view in
                 make.edges.equalTo(view)
@@ -108,7 +108,7 @@ extension SRPlayerController: CotrolProtocol {
         }
     }
     
-    public func removeEdgeArea(_ type: ControlBarType) {
+    public func removeEdgeArea(_ type: BarType) {
         if type == .top {
             removeFill(view.edgeAreaView.top)
         }

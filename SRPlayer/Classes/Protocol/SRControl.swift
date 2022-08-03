@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public protocol SRControlBar {
-    var barType: ControlBarType { get }
+    var barType: BarType { get }
     var screenType: ScreenType { get set }
     var items: [SRPlayerItem] { get set }
     var view: UIView { get }

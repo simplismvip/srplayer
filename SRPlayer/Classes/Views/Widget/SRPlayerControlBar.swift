@@ -12,7 +12,7 @@ import ZJMKit
 public class SRPlayerControlBar: UIView {
     public var view: UIView
     public var items: [SRPlayerItem]
-    public var barType: ControlBarType
+    public var barType: BarType
     public var screenType: ScreenType
     
     private var boxs = [String: JMWeakBox<UIView>]()

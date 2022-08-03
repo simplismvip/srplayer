@@ -26,7 +26,7 @@ public enum EdgeAreaUnit {
     case bottom // 底部
 }
 
-public enum ControlBarType {
+public enum BarType {
     case left   // 左侧
     case right  // 右侧
     case top  // 顶部
@@ -42,15 +42,6 @@ public enum PlayerEventUnit {
     case singleClick       // 单击
     case doubleClick       // 双击
     case longPress         // 长按
-    // case all               // 所有事件 [vertLeftPan, vertRightPan, horiPan, singleClick, doubleClick, pinch]
-    
-//    static var allEvents: [PlayerEventUnit] {
-//        return [.vertLeftPan, .vertRightPan, .horiPan, .singleClick, .doubleClick, .pinch]
-//    }
-//    
-//    static var vL_vR_horPan: [PlayerEventUnit] {
-//        return [.vertLeftPan, .vertRightPan, .horiPan]
-//    }
 }
 
 // 滑动方向
@@ -66,8 +57,6 @@ public enum Direction {
     case clockwise            //顺时针约束 | --> 根据最左侧view布局，布局优先级高
     case anticlockwis         //逆时针 <-- | 根据最右侧view布局，布局优先级高
     case stretchable          //剩余空间两端约束  <- | -> 根据左侧、右侧view布局，布局优先级最低
-//    case centerOfSpare        //剩余空间中间约束  -> | <-
-//    case centerOfView         //视图中心约束
 }
 
 // 布局方向
