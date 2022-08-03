@@ -93,16 +93,13 @@ public protocol SREdgeArea {
     var right: View { get }
     /** bottom容器视图*/
     var bottom: View { get }
-    /** 可见子区域 */
-    var visibleUnits: [EdgeAreaUnit] { get set }
-    
-    /** 子区域显示动画hock*/
-    var visibleAnimate: SREdgeVisible { get }
+    /** 当前区域 */
+    var units: [EdgeAreaUnit] { get set }
+
     /** 显示/隐藏 子区域视图 */
-    func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool)
-    func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool, completion: @escaping SRFinish)
+    func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool, completion: SRFinish?)
     /** 获取子区域是否显示*/
-    func subAreaUnitCurrentDisplayed(unit: EdgeAreaUnit) -> Bool
+    func unitVisible(_ unit: EdgeAreaUnit) -> Bool
 }
 
 /// MARK: -- 更多层协议
@@ -152,7 +149,7 @@ public protocol CotrolProtocol {
     /** 添加PlayerFrame层内容视图*/
     var view: BKContainer { get }
     /** 边缘可见子区域*/
-    var edgeVisibleUnit: EdgeAreaUnit { get set}
+    var edgeVisibleUnit: [EdgeAreaUnit] { get set}
     /** more区域视图是否出现*/
     var moreAreaVisible: Bool { get }
     /** more区域动画执行hock */

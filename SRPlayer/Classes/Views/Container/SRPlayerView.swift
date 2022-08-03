@@ -133,17 +133,17 @@ public class SRPlayerView: SRPierceView {
     }
     
     @objc func clickGestureAction(_ gesture: UITapGestureRecognizer) {
-        if currentEvent != .singleClick { return }
+//        if currentEvent != .singleClick { return }
         delegate?.click(self)
     }
     
     @objc func doubleClickGestureAction(_ gesture: UITapGestureRecognizer) {
-        if currentEvent != .doubleClick { return }
+//        if currentEvent != .doubleClick { return }
         delegate?.doubleClick(self)
     }
     
     @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
-        if currentEvent != .longPress { return }
+//        if currentEvent != .longPress { return }
         delegate?.longPress(player: self)
     }
     

@@ -59,9 +59,11 @@ public class SRPlayerButtonItem: SRPlayerItem {
     @objc dynamic public var image: String?
     @objc dynamic public var font: UIFont?
     @objc dynamic public var isUserInteractionEnabled: Bool
+    @objc dynamic public var isLockScreen: Bool
     
     init(_ itemStyle: ItemStyle, direction: Direction, location: Location, title: String?, image: String?) {
         self.isUserInteractionEnabled = true
+        self.isLockScreen = false
         super.init(itemStyle, direction: .clockwise, location: location)
         self.title = title
         self.image = image

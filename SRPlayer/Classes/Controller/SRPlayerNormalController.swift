@@ -9,20 +9,12 @@ import UIKit
 import ZJMKit
 
 public class SRPlayerNormalController: SRPlayerController {
-    let processM: SRProgressManager
-    let barManager: SRBarManager
-    var disposes = Set<RSObserver>()
-    
     public override init(frame: CGRect) {
-        self.barManager = SRBarManager()
-        self.processM = SRProgressManager()
         super.init(frame: frame)
-        
         config()
         initEdgeItems()
         addEdgeSubViews()
         registerMsg()
-        addNotioObserve()
         registerItemsEvent()
         kvoBind()
     }
@@ -31,54 +23,11 @@ public class SRPlayerNormalController: SRPlayerController {
 //        processM.reset()
     }
     
-    private func addNotioObserve() {
-        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue) { (notify) in
-            SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
-        }
-        
-        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue) { [weak self] (notify) in
-            let orientation = UIApplication.shared.statusBarOrientation
-            switch (orientation) {
-            case .portrait:
-                SRLogger.debug("half")
-                self?.remakePlayer(.half)
-                self?.barManager.setScreenType(.half)
-            case .landscapeLeft, .landscapeRight:
-                SRLogger.debug("full")
-                self?.remakePlayer(.full)
-                self?.barManager.setScreenType(.full)
-            default:
-                SRLogger.debug("statusBarOrientation")
-            }
-        }
-    }
-    
-    private func remakePlayer(_ type: ScreenType) {
-        guard let sView = superview else { return }
-        if type == .full {
-            self.snp.remakeConstraints { make in
-                make.edges.equalTo(sView)
-            }
-        } else if type == .half {
-            self.snp.remakeConstraints { make in
-                make.left.width.equalTo(sView)
-                make.height.equalTo(min(sView.jmWidth, sView.jmHeight) * 0.56)
-                if #available(iOS 11.0, *) {
-                    make.top.equalTo(sView.safeAreaLayoutGuide.snp.top)
-                } else {
-                    make.top.equalTo(sView.snp.top)
-                }
-            }
-        }
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
-        disposes.forEach { $0.deallocObserver() }
-        disposes.removeAll()
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }

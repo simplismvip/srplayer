@@ -9,23 +9,70 @@
 import UIKit
 
 public class SRPlayerController: UIView {
+    let processM: SRProgressManager
+    let barManager: SRBarManager
+    var disposes = Set<RSObserver>()
     public let view: SRContainerView
     public var moreAreaVisible: Bool
-    public var edgeVisibleUnit: EdgeAreaUnit
+    public var edgeVisibleUnit: [EdgeAreaUnit]
     public var edgeVisibleAnimate: SREdgeVisible
     public var moreVisibleAnimate: SRVisible
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
-        self.edgeVisibleUnit = .all
+        self.barManager = SRBarManager()
+        self.processM = SRProgressManager()
+        self.edgeVisibleUnit = [.left, .right, .top, .bottom]
         self.moreAreaVisible = false
         self.edgeVisibleAnimate = { visible, unit in }
         self.moreVisibleAnimate = { _ in }
         super.init(frame: frame)
+        addNotioObserve()
         view.playerView.delegate = self
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
-        showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
+        showEdgeAreaUnit(units: self.edgeVisibleUnit, animation: true)
+    }
+    
+    private func addNotioObserve() {
+        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue) { (notify) in
+            SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
+        }
+        
+        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue) { [weak self] (notify) in
+            let orientation = UIApplication.shared.statusBarOrientation
+            switch (orientation) {
+            case .portrait:
+                SRLogger.debug("half")
+                self?.remakePlayer(.half)
+                self?.barManager.setScreenType(.half)
+            case .landscapeLeft, .landscapeRight:
+                SRLogger.debug("full")
+                self?.remakePlayer(.full)
+                self?.barManager.setScreenType(.full)
+            default:
+                SRLogger.debug("statusBarOrientation")
+            }
+        }
+    }
+    
+    private func remakePlayer(_ type: ScreenType) {
+        guard let sView = superview else { return }
+        if type == .full {
+            self.snp.remakeConstraints { make in
+                make.edges.equalTo(sView)
+            }
+        } else if type == .half {
+            self.snp.remakeConstraints { make in
+                make.left.width.equalTo(sView)
+                make.height.equalTo(min(sView.jmWidth, sView.jmHeight) * 0.56)
+                if #available(iOS 11.0, *) {
+                    make.top.equalTo(sView.safeAreaLayoutGuide.snp.top)
+                } else {
+                    make.top.equalTo(sView.snp.top)
+                }
+            }
+        }
     }
 
     internal func addFill(content: UIView, player: UIView, layout: SRLayout) {
@@ -49,6 +96,12 @@ public class SRPlayerController: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        disposes.forEach { $0.deallocObserver() }
+        disposes.removeAll()
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
@@ -280,7 +333,27 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func click(_ player: UIView) {
-        
+        if edgeVisibleUnit.isEmpty { // 展示
+            if let item = self.barManager.left.buttonItem(.lockScreen) {
+                if item.isLockScreen {
+                    view.edgeAreaView.visibleUnit(units: [.left], visible: true, animation: true)
+                    edgeVisibleUnit.append(.left)
+                } else {
+                    view.edgeAreaView.visibleUnit(units: [.left, .right, .top, .bottom], visible: true, animation: true)
+                    edgeVisibleUnit.append(contentsOf: [.left, .right, .top, .bottom])
+                }
+            }
+        } else {
+            if let item = self.barManager.left.buttonItem(.lockScreen) {
+                if item.isLockScreen {
+                    view.edgeAreaView.visibleUnit(units: [.left], visible: false, animation: true)
+                    edgeVisibleUnit.removeAll()
+                } else {
+                    view.edgeAreaView.visibleUnit(units: [.left, .right, .top, .bottom], visible: false, animation: true)
+                    edgeVisibleUnit.removeAll()
+                }
+            }
+        }
     }
     
     public func doubleClick(_ player: UIView) {

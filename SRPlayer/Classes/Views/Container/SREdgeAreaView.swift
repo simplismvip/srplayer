@@ -14,100 +14,62 @@ public class SREdgeAreaView: SRPierceView {
     public var left: SRPierceView
     public var right: SRPierceView
     public var bottom: SRPierceView
-    public var visibleUnits: [EdgeAreaUnit]
-    public var visibleAnimate: SREdgeVisible
-    
-    private var top_topToTop: ConstraintMakerEditable?
-    private var top_bottomToTop: ConstraintMakerEditable?
-    
-    private var left_leftToLeft: ConstraintMakerEditable?
-    private var left_rightToLeft: ConstraintMakerEditable?
-    
-    private var right_rightToRight: ConstraintMakerEditable?
-    private var right_leftToRight: ConstraintMakerEditable?
-    
-    private var bottom_bottomToBottom: ConstraintMakerEditable?
-    private var bottom_topToBottom: ConstraintMakerEditable?
-    
+    public var units: [EdgeAreaUnit]
+    public var visible: Bool = false
     public override init(frame: CGRect) {
         self.top = SRPierceView()
         self.left = SRPierceView()
         self.right = SRPierceView()
         self.bottom = SRPierceView()
-        self.visibleUnits = []
-        self.visibleAnimate = { unit, a in }
-        
+        self.units = []
         super.init(frame: frame)
-        
-        [left, right, top, bottom].forEach { addSubview($0) }
         layoutEdgeViews()
     }
     
-    internal func removeOf(_ unit: EdgeAreaUnit) {
-        if let index = visibleUnits.index(of: unit) {
-            visibleUnits.remove(at: index)
-        }
-    }
-    
-    internal func allUnits(callback: (_ unit: EdgeAreaUnit) -> Void) {
-        for unit in visibleUnits {
-            callback(unit)
-        }
-    }
-    
-    internal func layoutEdgeViews() {
+    private func layoutEdgeViews() {
+        [left, right, top, bottom].forEach { addSubview($0) }
         top.snp.makeConstraints { make in
-            top_topToTop = make.top.equalTo(self)
-            top_topToTop?.constraint.deactivate()
-            top_bottomToTop = make.bottom.equalTo(self)
-            
             if #available(iOS 11, *) {
                 make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
                 make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             } else {
                 make.left.right.equalTo(self)
+                make.top.equalTo(self)
             }
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
         left.snp.makeConstraints { make in
             if #available(iOS 11.0, *) {
-                left_leftToLeft = make.left.equalTo(safeAreaLayoutGuide.snp.left)
+                make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
             } else {
-                left_leftToLeft = make.left.equalTo(snp.left)
+                make.left.equalTo(self)
             }
-            left_leftToLeft?.constraint.deactivate()
-            left_rightToLeft = make.right.equalTo(snp.left)
-            
             make.top.bottom.equalTo(self)
             make.width.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
         right.snp.makeConstraints { make in
             if #available(iOS 11, *) {
-                right_rightToRight = make.right.equalTo(safeAreaLayoutGuide.snp.right)
+                make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
             } else {
-                right_rightToRight = make.right.equalTo(self)
+                make.right.equalTo(self)
             }
-            
-            right_rightToRight?.constraint.deactivate()
-            right_leftToRight = make.left.equalTo(snp.right)
-            
             make.top.bottom.equalTo(self)
             make.width.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
         bottom.snp.makeConstraints { make in
-            bottom_bottomToBottom = make.bottom.equalTo(self)
-            bottom_bottomToBottom?.constraint.deactivate()
-            bottom_topToBottom = make.top.equalTo(snp.bottom)
-            
             if #available(iOS 11, *) {
                 make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
                 make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.left.right.equalTo(self)
+                make.bottom.equalTo(self)
             }
+            
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
     }
@@ -118,75 +80,33 @@ public class SREdgeAreaView: SRPierceView {
 }
 
 extension SREdgeAreaView: SREdgeArea {
-    public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool) {
-        visibleUnit(units: units, visible: visible, animation: animation) {
-            print("visibleUnit")
+    public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool, completion: SRFinish? = nil) {
+        self.units = units
+        self.visible = visible
+        UIView.animate(withDuration: 0.3) {
+            units.forEach { unit in
+                if unit == .top {
+                    self.top.alpha = visible ? 1 : 0
+                }
+                
+                if unit == .left {
+                    self.left.alpha = visible ? 1 : 0
+                }
+                
+                if unit == .right {
+                    self.right.alpha = visible ? 1 : 0
+                }
+                
+                if unit == .bottom {
+                    self.bottom.alpha = visible ? 1 : 0
+                }
+            }
+        } completion: { finsh in
+            completion?()
         }
     }
     
-    public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool, completion: @escaping SRFinish) {
-        visibleUnits.append(contentsOf: units)
-        allUnits { unit in
-            if unit == .top {
-                top.isHidden = !visible
-                if visible {
-                    top_topToTop?.constraint.activate()
-                    top_bottomToTop?.constraint.deactivate()
-                } else {
-                    top_topToTop?.constraint.deactivate()
-                    top_bottomToTop?.constraint.activate()
-                }
-            }
-            
-            if unit == .left {
-                self.left.isHidden = !visible
-                if visible {
-                    left_leftToLeft?.constraint.activate()
-                    left_rightToLeft?.constraint.deactivate()
-                } else {
-                    left_leftToLeft?.constraint.deactivate()
-                    left_rightToLeft?.constraint.activate()
-                }
-            }
-            
-            if unit == .right {
-                self.right.isHidden = !visible
-                if visible {
-                    right_rightToRight?.constraint.activate()
-                    right_leftToRight?.constraint.deactivate()
-                } else {
-                    right_rightToRight?.constraint.deactivate()
-                    right_leftToRight?.constraint.activate()
-                }
-            }
-            
-            if unit == .bottom {
-                bottom.isHidden = !visible
-                if visible {
-                    bottom_bottomToBottom?.constraint.activate()
-                    bottom_topToBottom?.constraint.deactivate()
-                } else {
-                    bottom_bottomToBottom?.constraint.deactivate()
-                    bottom_topToBottom?.constraint.activate()
-                }
-            }
-        }
-        
-        if animation {
-            UIView.animate(withDuration: 0.3) {
-                self.layoutIfNeeded()
-                self.allUnits { unit in
-                    self.visibleAnimate(visible, unit)
-                }
-            } completion: { finished in
-                completion()
-            }
-        } else {
-            completion()
-        }
-    }
-    
-    public func subAreaUnitCurrentDisplayed(unit: EdgeAreaUnit) -> Bool {
-        return visibleUnits.contains { unit == $0 }
+    public func unitVisible(_ unit: EdgeAreaUnit) -> Bool {
+        return units.contains { unit == $0 }
     }
 }

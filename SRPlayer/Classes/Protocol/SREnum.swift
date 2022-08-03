@@ -13,7 +13,6 @@ public enum EdgeAreaUnit {
     case right  // 右侧
     case top  // 顶部
     case bottom // 底部
-    case all    // 所有
 }
 
 public enum ControlBarType {
