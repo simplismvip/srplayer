@@ -56,10 +56,10 @@ extension SRPlayerNormalController {
     }
     
     func addEdgeSubViews() {
-        self.addEdgeAreaTop(self.barManager.top)
-        self.addEdgeAreaLeft(self.barManager.left)
-        self.addEdgeAreaBottom(self.barManager.bottom)
-        self.addEdgeAreaRight(self.barManager.right)
+        self.addEdgeArea(self.barManager.top, type: .top)
+        self.addEdgeArea(self.barManager.bottom, type: .bottom)
+        self.addEdgeArea(self.barManager.left, type: .left)
+        self.addEdgeArea(self.barManager.right, type: .right)
         
         self.barManager.top.layoutItems()
         self.barManager.bottom.layoutItems()

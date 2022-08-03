@@ -9,29 +9,23 @@
 import UIKit
 
 public class SRPlayerController: UIView {
+    public let view: SRContainerView
+    public var moreAreaVisible: Bool
     let processM: SRProgressManager
     let barManager: SRBarManager
     var disposes = Set<RSObserver>()
-    public let view: SRContainerView
-    public var moreAreaVisible: Bool
-    public var edgeVisibleUnit: [EdgeAreaUnit]
-    public var edgeVisibleAnimate: SREdgeVisible
-    public var moreVisibleAnimate: SRVisible
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()
         self.processM = SRProgressManager()
-        self.edgeVisibleUnit = [.left, .right, .top, .bottom]
         self.moreAreaVisible = false
-        self.edgeVisibleAnimate = { visible, unit in }
-        self.moreVisibleAnimate = { _ in }
         super.init(frame: frame)
-        addNotioObserve()
-        view.playerView.delegate = self
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
-        showEdgeAreaUnit(units: self.edgeVisibleUnit, animation: true)
+        addNotioObserve()
+        showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
+        view.playerView.delegate = self
     }
     
     private func addNotioObserve() {
@@ -75,25 +69,6 @@ public class SRPlayerController: UIView {
         }
     }
 
-    internal func addFill(content: UIView, player: UIView, layout: SRLayout) {
-        content.superview?.removeFromSuperview()
-        removeFill(player)
-        
-        player.addSubview(content)
-        content.snp.makeConstraints { make in
-            layout(make, player)
-        }
-        
-        player.setNeedsLayout()
-        player.layoutIfNeeded()
-    }
-    
-    internal func removeFill(_ player: UIView) {
-        for subview in player.subviews {
-            subview.removeFromSuperview()
-        }
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -106,15 +81,57 @@ public class SRPlayerController: UIView {
 }
 
 extension SRPlayerController: CotrolProtocol {
-    // 添加播放器视图到 view.player
-    public func addPlayer(_ content: UIView) {
-        addPlayer(content) { make, view in
-            make.edges.equalTo(view)
+    // 添加Edge区域
+    public func addEdgeArea(_ subview: UIView, type: ControlBarType) {
+        if type == .top {
+            addFill(content: subview, player: view.edgeAreaView.top) { make, view in
+                make.edges.equalTo(view)
+            }
+        }
+        
+        if type == .bottom {
+            addFill(content: subview, player: view.edgeAreaView.bottom) { make, view in
+                make.edges.equalTo(view)
+            }
+        }
+        
+        if type == .left {
+            addFill(content: subview, player: view.edgeAreaView.left) { make, view in
+                make.edges.equalTo(view)
+            }
+        }
+        
+        if type == .right {
+            addFill(content: subview, player: view.edgeAreaView.right) { make, view in
+                make.edges.equalTo(view)
+            }
         }
     }
     
-    public func addPlayer(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.playerView, layout: layout)
+    public func removeEdgeArea(_ type: ControlBarType) {
+        if type == .top {
+            removeFill(view.edgeAreaView.top)
+        }
+        
+        if type == .bottom {
+            removeFill(view.edgeAreaView.bottom)
+        }
+        
+        if type == .left {
+            removeFill(view.edgeAreaView.left)
+        }
+        
+        if type == .right {
+            removeFill(view.edgeAreaView.right)
+        }
+    }
+
+    
+    // 添加播放器视图到 view.player
+    public func addPlayer(_ content: UIView) {
+        addFill(content: content, player: view.playerView) { make, view in
+            make.edges.equalTo(view)
+        }
     }
     
     public func removePlayerContent() {
@@ -122,13 +139,9 @@ extension SRPlayerController: CotrolProtocol {
     }
 
     public func addBackground(_ content: UIView) {
-        addBackground(content) { make, view in
+        addFill(content: content, player: view.bkgView) { make, view in
             make.edges.equalTo(view)
         }
-    }
-    
-    public func addBackground(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.bkgView, layout: layout)
     }
     
     public func removeBackground() {
@@ -148,65 +161,6 @@ extension SRPlayerController: CotrolProtocol {
     public func removeBarrage() {
         removeFill(view.barrageView)
     }
-    
-
-    public func addEdgeAreaTop(_ content: UIView) {
-        addFill(content: content, player: view.edgeAreaView.top) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addEdgeAreaTop(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.edgeAreaView.top, layout: layout)
-    }
-    
-    public func removeEdgeAreaTop() {
-        
-    }
-
-    public func addEdgeAreaLeft(_ content: UIView) {
-        addFill(content: content, player: view.edgeAreaView.left) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addEdgeAreaLeftContent(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.edgeAreaView.left, layout: layout)
-    }
-    
-    public func removeEdgeAreaLeft() {
-        
-    }
-    
-
-    public func addEdgeAreaRight(_ content: UIView) {
-        addFill(content: content, player: view.edgeAreaView.right) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addEdgeAreaRight(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.edgeAreaView.right, layout: layout)
-    }
-    
-    public func removeEdgeAreaRight() {
-        
-    }
-
-    public func addEdgeAreaBottom(_ content: UIView) {
-        addFill(content: content, player: view.edgeAreaView.bottom) { make, view in
-            make.edges.equalTo(view)
-        }
-    }
-    
-    public func addEdgeAreaBottom(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.edgeAreaView.bottom, layout: layout)
-    }
-    
-    public func removeEdgeAreaBottom() {
-        
-    }
-    
 
     public func addMoreArea(_ content: UIView) {
         addFill(content: content, player: view.moreAreaView) { make, view in
@@ -269,7 +223,7 @@ extension SRPlayerController: CotrolProtocol {
     }
     
     public func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish) {
-        self.view.edgeAreaView.visibleUnit(units: units, visible: true, animation: animation)
+        self.view.edgeAreaView.showUnit(units: units, visible: true)
     }
     
     public func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool) {
@@ -279,7 +233,7 @@ extension SRPlayerController: CotrolProtocol {
     }
     
     public func hideEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool, completion: @escaping SRFinish) {
-        view.edgeAreaView.visibleUnit(units: units, visible: false, animation: animation)
+        view.edgeAreaView.showUnit(units: units, visible: false)
     }
 }
 
@@ -333,24 +287,20 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func click(_ player: UIView) {
-        if edgeVisibleUnit.isEmpty { // 展示
+        if view.edgeAreaView.visible { // 展示
             if let item = self.barManager.left.buttonItem(.lockScreen) {
                 if item.isLockScreen {
-                    view.edgeAreaView.visibleUnit(units: [.left], visible: true, animation: true)
-                    edgeVisibleUnit.append(.left)
+                    view.edgeAreaView.showUnit(units: [.left], visible: false)
                 } else {
-                    view.edgeAreaView.visibleUnit(units: [.left, .right, .top, .bottom], visible: true, animation: true)
-                    edgeVisibleUnit.append(contentsOf: [.left, .right, .top, .bottom])
+                    view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: false)
                 }
             }
         } else {
             if let item = self.barManager.left.buttonItem(.lockScreen) {
                 if item.isLockScreen {
-                    view.edgeAreaView.visibleUnit(units: [.left], visible: false, animation: true)
-                    edgeVisibleUnit.removeAll()
+                    view.edgeAreaView.showUnit(units: [.left], visible: true)
                 } else {
-                    view.edgeAreaView.visibleUnit(units: [.left, .right, .top, .bottom], visible: false, animation: true)
-                    edgeVisibleUnit.removeAll()
+                    view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: true)
                 }
             }
         }

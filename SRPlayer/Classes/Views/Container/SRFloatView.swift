@@ -9,7 +9,7 @@
 import UIKit
 
 public class SRFloatView: SRPierceView, SRFloat_P {
-    let loading: SRLoading
+    public var loading: SRLoading
     public override init(frame: CGRect) {
         loading = SRLoading()
         super.init(frame: frame)
@@ -21,16 +21,6 @@ public class SRFloatView: SRPierceView, SRFloat_P {
             make.centerY.equalTo(snp.centerY)
             make.centerX.equalTo(snp.centerX)
         }
-    }
-    
-    func startLoading() {
-        loading.start()
-        loading.isHidden = false
-    }
-    
-    func stopLoading() {
-        loading.stop()
-        loading.isHidden = true
     }
     
     required init?(coder: NSCoder) {

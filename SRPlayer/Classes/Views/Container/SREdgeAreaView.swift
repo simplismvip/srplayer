@@ -9,13 +9,14 @@
 import UIKit
 import SnapKit
 
-public class SREdgeAreaView: SRPierceView {
-    public var top: SRPierceView
-    public var left: SRPierceView
-    public var right: SRPierceView
-    public var bottom: SRPierceView
+public class SREdgeAreaView: SRPierceView, SREdgeArea {
+    public let top: SRPierceView
+    public let left: SRPierceView
+    public let right: SRPierceView
+    public let bottom: SRPierceView
     public var units: [EdgeAreaUnit]
-    public var visible: Bool = false
+    public var visible: Bool = true
+    
     public override init(frame: CGRect) {
         self.top = SRPierceView()
         self.left = SRPierceView()
@@ -74,39 +75,13 @@ public class SREdgeAreaView: SRPierceView {
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension SREdgeAreaView: SREdgeArea {
-    public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, animation: Bool, completion: SRFinish? = nil) {
+    public func showUnit(units: [EdgeAreaUnit], visible: Bool) {
         self.units = units
         self.visible = visible
-        UIView.animate(withDuration: 0.3) {
-            units.forEach { unit in
-                if unit == .top {
-                    self.top.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .left {
-                    self.left.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .right {
-                    self.right.alpha = visible ? 1 : 0
-                }
-                
-                if unit == .bottom {
-                    self.bottom.alpha = visible ? 1 : 0
-                }
-            }
-        } completion: { finsh in
-            completion?()
-        }
+        visibleUnit(units: units, visible: visible, completion: nil)
     }
     
-    public func unitVisible(_ unit: EdgeAreaUnit) -> Bool {
-        return units.contains { unit == $0 }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

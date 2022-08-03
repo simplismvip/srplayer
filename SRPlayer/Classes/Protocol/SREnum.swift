@@ -8,6 +8,17 @@
 
 import UIKit
 
+///** 播放器层枚举 */
+//public enum PlayerView {
+//    case player(UIView)   // 播放器层
+//    case bkground(UIView)  // 背景层
+//    case barrage(UIView)  // 弹幕层
+//    case float(UIView) // 悬浮控件
+//    case edgeArea(UIView)  // 边缘区域层
+//    case moreArea(UIView) // 更多
+//    case maskArea(UIView) // 遮罩层
+//}
+
 public enum EdgeAreaUnit {
     case left   // 左侧
     case right  // 右侧
