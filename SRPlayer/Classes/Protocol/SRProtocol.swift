@@ -67,9 +67,9 @@ public protocol SRPlayer_P: UIView {
 }
 
 /// MARK: -- 背景层协议
-public protocol SRBkg_P: UIView {
-    var currentColor: UIColor { get }
-    var alpha: CGFloat { get }
+public protocol SRBackground: UIView {
+//    var currentColor: UIColor { get }
+//    var alpha: CGFloat { get }
 }
 
 /// MARK: -- 弹幕层协议
@@ -78,12 +78,11 @@ public protocol SRBarrage: UIView {
 }
 
 /// MARK: -- 浮动层协议
-public protocol SRFloat_P {
+public protocol SRFloat_P: UIView {
     var loading: SRLoading { get }
 }
 
 extension SRFloat_P {
-    
     public func startLoading() {
         loading.start()
         loading.isHidden = false
@@ -144,12 +143,12 @@ extension SREdgeArea {
 
 /// MARK: -- 更多层协议
 public protocol SRMoreArea: UIView {
-    /** More容器视图*/
-    var moreContainer: UIView { get }
-    /** More 显示/隐藏 动画hock*/
-    var visibleAnimate: SRVisible { get }
-    /**显示/隐藏 More容器*/
-    func visibleMore(visible: Bool, animation: Bool, completion: @escaping SRFinish)
+//    /** More容器视图*/
+//    var moreContainer: UIView { get }
+//    /** More 显示/隐藏 动画hock*/
+//    var visibleAnimate: SRVisible { get }
+//    /**显示/隐藏 More容器*/
+//    func visibleMore(visible: Bool, animation: Bool, completion: @escaping SRFinish)
 }
 
 /// MARK: -- 遮罩层协议
@@ -158,19 +157,19 @@ public protocol SRMask: UIView {
 }
 
 /// MARK: -- 容器层协议
-public protocol SRBaseContainer {
-    associatedtype PlayerView//: SRPlayer_P
-    associatedtype BKGView//: SRBkg_P
+public protocol SRContent {
+    associatedtype PlayerView: SRPlayer_P
+    associatedtype BackgroundView: SRBackground
     associatedtype BarrageView: SRBarrage
     associatedtype FloatView: SRFloat_P
     associatedtype EdgeAreaView: SREdgeArea
-    associatedtype MoreAreaView//: SRMoreArea
+    associatedtype MoreAreaView: SRMoreArea
     associatedtype MaskView: SRMask
     
     /** 播放器层 */
     var playerView: PlayerView { get }
     /** 背景层 */
-    var bkgView: BKGView { get }
+    var bkgView: BackgroundView { get }
     /** 弹幕层（预留） */
     var barrageView: BarrageView { get }
     /** 悬浮控件 */
@@ -185,9 +184,9 @@ public protocol SRBaseContainer {
 
 /// MARK: -- 控制协议
 public protocol CotrolProtocol {
-    associatedtype BKContainer: SRBaseContainer
+    associatedtype ContentView: SRContent
     /** 添加PlayerFrame层内容视图*/
-    var view: BKContainer { get }
+    var view: ContentView { get }
     /** more区域视图是否出现*/
     var moreAreaVisible: Bool { get }
     
@@ -243,23 +242,21 @@ public protocol CotrolProtocol {
 }
 
 extension CotrolProtocol {
-    public func addFill(content: UIView, player: UIView, layout: SRLayout) {
-        content.superview?.removeFromSuperview()
-        removeFill(player)
+    public func add(subview: UIView, content: UIView, layout: SRLayout) {
+        subview.superview?.removeFromSuperview()
+        remove(content)
         
-        player.addSubview(content)
-        content.snp.makeConstraints { make in
-            layout(make, player)
+        content.addSubview(subview)
+        subview.snp.makeConstraints { make in
+            layout(make, content)
         }
         
-        player.setNeedsLayout()
-        player.layoutIfNeeded()
+        content.setNeedsLayout()
+        content.layoutIfNeeded()
     }
     
-    public  func removeFill(_ player: UIView) {
-        for subview in player.subviews {
-            subview.removeFromSuperview()
-        }
+    public  func remove(_ content: UIView) {
+        content.removellSubviews { _ in true }
     }
     
     func addSubview(_ subview: UIView) {

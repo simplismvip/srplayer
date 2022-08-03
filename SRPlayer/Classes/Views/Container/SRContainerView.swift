@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-public class SRContainerView: UIView, SRBaseContainer {
+public class SRContainerView: UIView, SRContent {
     public let playerView: SRPlayerView
     public let bkgView: SRBkgView
     public let barrageView: SRBarrageView

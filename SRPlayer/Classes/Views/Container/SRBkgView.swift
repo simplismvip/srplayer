@@ -33,3 +33,7 @@ public class SRBkgView: SRPierceView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+extension SRBkgView: SRBackground {
+    
+}

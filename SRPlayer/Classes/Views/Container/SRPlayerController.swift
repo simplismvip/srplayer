@@ -84,25 +84,25 @@ extension SRPlayerController: CotrolProtocol {
     // 添加Edge区域
     public func addEdgeArea(_ subview: UIView, type: BarType) {
         if type == .top {
-            addFill(content: subview, player: view.edgeAreaView.top) { make, view in
+            add(subview: subview, content: view.edgeAreaView.top) { make, view in
                 make.edges.equalTo(view)
             }
         }
         
         if type == .bottom {
-            addFill(content: subview, player: view.edgeAreaView.bottom) { make, view in
+            add(subview: subview, content: view.edgeAreaView.bottom) { make, view in
                 make.edges.equalTo(view)
             }
         }
         
         if type == .left {
-            addFill(content: subview, player: view.edgeAreaView.left) { make, view in
+            add(subview: subview, content: view.edgeAreaView.left) { make, view in
                 make.edges.equalTo(view)
             }
         }
         
         if type == .right {
-            addFill(content: subview, player: view.edgeAreaView.right) { make, view in
+            add(subview: subview, content: view.edgeAreaView.right) { make, view in
                 make.edges.equalTo(view)
             }
         }
@@ -110,42 +110,42 @@ extension SRPlayerController: CotrolProtocol {
     
     public func removeEdgeArea(_ type: BarType) {
         if type == .top {
-            removeFill(view.edgeAreaView.top)
+            remove(view.edgeAreaView.top)
         }
         
         if type == .bottom {
-            removeFill(view.edgeAreaView.bottom)
+            remove(view.edgeAreaView.bottom)
         }
         
         if type == .left {
-            removeFill(view.edgeAreaView.left)
+            remove(view.edgeAreaView.left)
         }
         
         if type == .right {
-            removeFill(view.edgeAreaView.right)
+            remove(view.edgeAreaView.right)
         }
     }
 
     
     // 添加播放器视图到 view.player
-    public func addPlayer(_ content: UIView) {
-        addFill(content: content, player: view.playerView) { make, view in
+    public func addPlayer(_ subview: UIView) {
+        add(subview: subview, content: view.playerView) { make, view in
             make.edges.equalTo(view)
         }
     }
     
     public func removePlayerContent() {
-        removeFill(view.playerView)
+        remove(view.playerView)
     }
 
-    public func addBackground(_ content: UIView) {
-        addFill(content: content, player: view.bkgView) { make, view in
+    public func addBackground(_ subview: UIView) {
+        add(subview: subview, content: view.bkgView) { make, view in
             make.edges.equalTo(view)
         }
     }
     
     public func removeBackground() {
-        removeFill(view.bkgView)
+        remove(view.bkgView)
     }
 
     public func addBarrage(_ content: UIView) {
@@ -154,22 +154,22 @@ extension SRPlayerController: CotrolProtocol {
         }
     }
     
-    public func addBarrage(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.barrageView, layout: layout)
+    public func addBarrage(_ subview: UIView, layout: SRLayout) {
+        add(subview: subview, content: view.barrageView, layout: layout)
     }
     
     public func removeBarrage() {
-        removeFill(view.barrageView)
+        remove(view.barrageView)
     }
 
-    public func addMoreArea(_ content: UIView) {
-        addFill(content: content, player: view.moreAreaView) { make, view in
+    public func addMoreArea(_ subview: UIView) {
+        add(subview: subview, content: view.moreAreaView) { make, view in
             make.edges.equalTo(view)
         }
     }
     
-    public func addMoreArea(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.moreAreaView, layout: layout)
+    public func addMoreArea(_ subview: UIView, layout: SRLayout) {
+        add(subview: subview, content: view.moreAreaView, layout: layout)
     }
     
     public func removeMoreArea() {
@@ -182,16 +182,16 @@ extension SRPlayerController: CotrolProtocol {
         }
     }
     
-    public func addMask(_ content: UIView, layout: SRLayout) {
-        addFill(content: content, player: view.maskAreaView, layout: layout)
+    public func addMask(_ subview: UIView, layout: SRLayout) {
+        add(subview: subview, content: view.maskAreaView, layout: layout)
     }
     
     public func removeMask() {
-        removeFill(view.maskAreaView)
+        remove(view.maskAreaView)
     }
 
-    public func addFloat(_ content: UIView) {
-        addFill(content: content, player: view.floatView) { make, view in
+    public func addFloat(_ subview: UIView) {
+        add(subview: subview, content: view.floatView) { make, view in
             make.edges.equalTo(view)
         }
     }

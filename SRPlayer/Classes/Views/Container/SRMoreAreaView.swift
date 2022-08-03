@@ -19,3 +19,8 @@ public class SRMoreAreaView: SRPierceView {
     */
 
 }
+
+extension SRMoreAreaView: SRMoreArea {
+    
+}
+
