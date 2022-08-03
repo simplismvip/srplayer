@@ -135,25 +135,6 @@ class SRIjkPlayer: NSObject {
 
 /// MARK: -- IJKPlayer 通知
 extension SRIjkPlayer {
-    enum Noti {
-        case change
-        case finish
-        case isPrepared
-        case stateChange
-        var name: NSNotification.Name {
-            switch self {
-            case .change:
-                return NSNotification.Name.IJKMPMoviePlayerLoadStateDidChange
-            case .finish:
-                return NSNotification.Name.IJKMPMoviePlayerPlaybackDidFinish
-            case .isPrepared:
-                return NSNotification.Name.IJKMPMediaPlaybackIsPreparedToPlayDidChange
-            case .stateChange:
-                return NSNotification.Name.IJKMPMoviePlayerPlaybackStateDidChange
-            }
-        }
-    }
-    
     struct Action {
         var name: String
         var target: NSObject

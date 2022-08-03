@@ -29,11 +29,11 @@ public class SRPlayerController: UIView {
     }
     
     private func addNotioObserve() {
-        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue) { (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.willChangeStatusBar.name.rawValue) { (notify) in
             SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue) { [weak self] (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.didChangeStatusBar.name.rawValue) { [weak self] (notify) in
             let orientation = UIApplication.shared.statusBarOrientation
             switch (orientation) {
             case .portrait:
@@ -47,6 +47,14 @@ public class SRPlayerController: UIView {
             default:
                 SRLogger.debug("statusBarOrientation")
             }
+        }
+        
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.name.rawValue) { (notify) in
+            SRLogger.debug("enterBackground")
+        }
+        
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.name.rawValue) { (notify) in
+            SRLogger.debug("becomeActive")
         }
     }
     
@@ -76,8 +84,10 @@ public class SRPlayerController: UIView {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        NotificationCenter.default.jm.removeObserver(target: self, NSNotification.Name.UIApplicationWillChangeStatusBarOrientation.rawValue)
-        NotificationCenter.default.jm.removeObserver(target: self, NSNotification.Name.UIApplicationDidChangeStatusBarOrientation.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.willChangeStatusBar.name.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.didChangeStatusBar.name.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.enterBackground.name.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.becomeActive.name.rawValue)
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
