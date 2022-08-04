@@ -9,12 +9,29 @@
 import Foundation
 
 enum VideoType: Int {
-    case living = 0
-    case vod = 1
+    case home = 0
     case local = 2
-    case normal = 3
+    case remote = 3
     case rtsp = 4
     case rtmp = 5
+    case living = 6
+    
+    var name: String {
+        switch self {
+        case .home:
+            return "home"
+        case .local:
+            return "local"
+        case .remote:
+            return "remote"
+        case .rtmp:
+            return "rtmp"
+        case .rtsp:
+            return "rtsp"
+        case .living:
+            return "living"
+        }
+    }
 }
 
 extension VideoType: Codable { }

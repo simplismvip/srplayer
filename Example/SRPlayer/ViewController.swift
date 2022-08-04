@@ -11,7 +11,8 @@ import SnapKit
 
 class ViewController: UIViewController {
     var dataSource = [Model]()
-    var type: videoType = .home
+    var type: VideoType = .home
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.bounds, style: .plain)
         tableView.delegate = self
@@ -63,32 +64,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(DetailController(), animated: true)
-    }
-}
-
-enum videoType {
-    case home
-    case local
-    case remote
-    case rtmp
-    case rtsp
-    case living
-    
-    var name: String {
-        switch self {
-        case .home:
-            return "home"
-        case .local:
-            return "local"
-        case .remote:
-            return "remote"
-        case .rtmp:
-            return "rtmp"
-        case .rtsp:
-            return "rtsp"
-        case .living:
-            return "living"
-        }
+        navigationController?.pushViewController(DetailController(dataSource[indexPath.row].type), animated: true)
     }
 }

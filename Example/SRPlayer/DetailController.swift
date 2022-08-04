@@ -12,7 +12,7 @@ import SnapKit
 import SRPlayer
 
 class DetailController: ViewController {
-    let player = SRPlayerNormalController()
+    let player: SRPlayerNormalController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -23,6 +23,16 @@ class DetailController: ViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
+    init(_ type: VideoType) {
+        self.player = SRPlayerNormalController()
+        super.init(nibName: nil, bundle: nil)
+        self.type = type
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerEvent()
@@ -86,7 +96,7 @@ class DetailController: ViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "DetailViewCell")
         if cell == nil {
-            tableView.register(TableViewCell.self, forCellReuseIdentifier: "DetailViewCell")
+            tableView.register(DetailViewCell.self, forCellReuseIdentifier: "DetailViewCell")
             cell = tableView.dequeueReusableCell(withIdentifier: "DetailViewCell")
         }
         (cell as? DetailViewCell)?.refresh(dataSource[indexPath.row])
