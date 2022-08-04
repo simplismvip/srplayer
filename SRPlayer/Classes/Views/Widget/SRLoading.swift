@@ -108,7 +108,7 @@ public class SRLoading: UIView {
     }
     
     @objc func update() {
-        SRLogger.error("update")
+        // SRLogger.error("update")
         if direction == .positive {
             var center = left.center
             center.x += 0.7

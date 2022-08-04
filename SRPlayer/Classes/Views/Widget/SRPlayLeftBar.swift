@@ -9,14 +9,14 @@
 import UIKit
 
 public class SRPlayLeftBar: SRPlayerControlBar {
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-////        self.view.axis = .vertical
-////        self.view.distribution = .fill
-////        self.view.alignment = .center
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    override func setupPadding() {
+        
+    }
+
+    override func setupShadow() {
+        let gradient = CAGradientLayer()
+        gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradient.colors = [UIColor.black.jmComponent(0.75), UIColor.jmHexColor("0x272727").jmComponent(0.0)].map({ $0.cgColor })
+    }
 }

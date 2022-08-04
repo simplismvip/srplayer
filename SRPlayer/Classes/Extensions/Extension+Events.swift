@@ -23,7 +23,7 @@ extension SRPlayerNormalController {
             if self?.barManager.top.screenType == .half {
                 
             } else if self?.barManager.top.screenType == .full {
-                
+                UIDevice.setNewOrientation(.portrait)
             }
         }, next: false)
         

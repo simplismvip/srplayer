@@ -44,20 +44,25 @@ public class SREdgeAreaView: SRPierceView, SREdgeArea {
         left.snp.makeConstraints { make in
             if #available(iOS 11.0, *) {
                 make.left.equalTo(self.safeAreaLayoutGuide.snp.left)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.left.equalTo(self)
+                make.top.bottom.equalTo(self)
             }
-            make.top.bottom.equalTo(self)
             make.width.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         
         right.snp.makeConstraints { make in
             if #available(iOS 11, *) {
                 make.right.equalTo(self.safeAreaLayoutGuide.snp.right)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             } else {
                 make.right.equalTo(self)
+                make.top.bottom.equalTo(self)
             }
-            make.top.bottom.equalTo(self)
+            
             make.width.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
         

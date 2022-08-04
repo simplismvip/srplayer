@@ -27,16 +27,16 @@ class ViewController: UIViewController {
         return tableView
     }()
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: true)
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        navigationController?.setNavigationBarHidden(false, animated: true)
-//    }
-//
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if let results = DataTool<Results>.decode("urls")?.results {
@@ -122,6 +122,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 class SecondController :UIViewController {
     let v = SRLoading()
+    let b = SRBatteryView()
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -131,7 +132,15 @@ class SecondController :UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-    
+        b.backgroundColor = UIColor.green
+        self.view.addSubview(b)
+        b.snp.makeConstraints { make in
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(12)
+            make.top.equalTo(view.snp.top).offset(100)
+            make.centerX.equalTo(view.snp.centerX)
+        }
+        
         self.view.addSubview(v)
         v.snp.makeConstraints { make in
             make.width.equalTo(100)

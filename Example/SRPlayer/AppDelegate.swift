@@ -42,10 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-            if 横屏条件 {
-                return UIInterfaceOrientationMask.allButUpsideDown
-            }
-            return UIInterfaceOrientationMask.portrait
+//            if 横屏条件 {
+//                return UIInterfaceOrientationMask.allButUpsideDown
+//            }
+//            return UIInterfaceOrientationMask.portrait
+        return UIInterfaceOrientationMask.allButUpsideDown
     }
 
 

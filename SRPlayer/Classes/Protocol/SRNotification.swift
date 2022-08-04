@@ -16,6 +16,7 @@ enum Noti {
     case didChangeStatusBar
     case enterBackground
     case becomeActive
+    case battery
     
     var name: NSNotification.Name {
         switch self {
@@ -35,6 +36,8 @@ enum Noti {
             return NSNotification.Name.UIApplicationDidEnterBackground
         case .becomeActive:
             return NSNotification.Name.UIApplicationDidBecomeActive
+        case .battery:
+            return NSNotification.Name.UIDeviceBatteryLevelDidChange
         }
     }
 }

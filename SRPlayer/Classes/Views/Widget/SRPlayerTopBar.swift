@@ -9,28 +9,51 @@
 import UIKit
 
 public class SRPlayerTopBar: SRPlayerControlBar {
-
-    override func setupContentPadding() {
-        
+    let battery: SRBatteryView
+    override init(frame: CGRect) {
+        self.battery = SRBatteryView()
+        super.init(frame: frame)
+        battery.isHidden = true
+        addSubview(battery)
     }
 
-    override func setupShadowLayerIfNeed() {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func setupPadding() {
+        battery.isHidden = !(screenType == .full)
+        if screenType == .full {
+            battery.snp.remakeConstraints { make in
+                make.top.equalTo(self).offset(8)
+                make.left.equalTo(self).offset(20)
+                make.right.equalTo(self.snp.right).offset(-20)
+                make.height.equalTo(10)
+            }
+            
+            view.snp.remakeConstraints { make in
+                make.top.equalTo(self).offset(18)
+                make.left.width.bottom.equalTo(self)
+            }
+        } else {
+            battery.snp.remakeConstraints { make in
+                make.top.equalTo(self).offset(8)
+                make.left.equalTo(self).offset(20)
+                make.right.equalTo(self.snp.right).offset(-20)
+                make.height.equalTo(0)
+            }
+            
+            view.snp.remakeConstraints { make in
+                make.top.equalTo(self).offset(4)
+                make.left.width.bottom.equalTo(self)
+            }
+        }
+    }
+
+    override func setupShadow() {
         let gradient = CAGradientLayer()
         gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
         gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
         gradient.colors = [UIColor.black.jmComponent(0.75), UIColor.jmHexColor("0x272727").jmComponent(0.0)].map({ $0.cgColor })
     }
 }
-//- (void)setupShadowLayerIfNeed {
-//    CAGradientLayer *gradientLayer = (CAGradientLayer *)self.layer;
-//    if (self.shadow) {
-//        gradientLayer.startPoint = CGPointMake(0.5f, 0.f);
-//        gradientLayer.endPoint = CGPointMake(0.5f, 1.f);
-//        gradientLayer.colors = @[
-//                                 (__bridge id)[UIColor colorWithRGB:0x0 alpha:0.75f].CGColor,
-//                                 (__bridge id)[UIColor colorWithRGB:0x272727 alpha:0.f].CGColor];
-//    }else {
-//        gradientLayer.colors = nil;
-//    }
-//
-//}

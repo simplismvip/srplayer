@@ -51,6 +51,17 @@ extension UIDevice {
     static func setNewOrientation(_ orientation: UIDeviceOrientation) {
         UIDevice.current.setValue(UIDeviceOrientation.faceUp.rawValue, forKey: "orientation")
         UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
+        
+//        let orientation = UIDevice.current.orientation
+//        if orientation.isLandscape {
+//            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+//        } else {
+//            let orientationRawValue = UIInterfaceOrientation.landscapeRight.rawValue
+//            UIDevice.current.setValue(orientationRawValue, forKey: "orientation")
+//        }
+
+//        self.setNeedsStatusBarAppearanceUpdate()
+//        UIViewController.attemptRotationToDeviceOrientation()
     }
     
 //    var interfaceOrientations: UIInterfaceOrientationMask = [.landscapeLeft, .landscapeRight] {
