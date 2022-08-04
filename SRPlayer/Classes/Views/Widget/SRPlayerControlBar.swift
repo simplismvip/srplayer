@@ -66,7 +66,7 @@ public class SRPlayerControlBar: UIView {
            return boxs[item.eventName]?.weakObjc
        }
        return nil
-   }
+    }
     
     func setupPadding() { }
 
@@ -78,6 +78,10 @@ public class SRPlayerControlBar: UIView {
             return hv
         }
         return nil
+    }
+    
+    deinit {
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {

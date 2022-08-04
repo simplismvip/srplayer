@@ -12,8 +12,6 @@ struct Tools {
     func a() {
         let b = InitClass<UIView>.instance("SRPlayerBottomBar")
     }
-    
-    
 }
 
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")

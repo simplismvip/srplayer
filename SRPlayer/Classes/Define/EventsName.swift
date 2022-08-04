@@ -123,3 +123,5 @@ public let kEventNameStartPlayDemoVideo = "kEventNameStartPlayDemoVideo"
 public let kEventNamePausePlayDemoVideo = "kEventNamePausePlayDemoVideo"
 /// 结束播放视频
 public let kEventNameStopPlayDemoVideo = "kEventNameStopPlayDemoVideo"
+/// 返回
+public let kEventNamePopController = "kEventNamePopController"

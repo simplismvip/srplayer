@@ -3,7 +3,7 @@
 //  SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/17.
-//  Copyright © 2022 CocoaPods. All rights reserved.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
@@ -11,6 +11,30 @@ import ZJMKit
 import SnapKit
 
 class TableViewCell: UITableViewCell {
+    let title = UILabel()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = UIColor.white
+        addSubview(title)
+        title.jmConfigLabel(font: UIFont.jmRegular(18), color: UIColor.black)
+        
+        title.snp.makeConstraints { (make) in
+            make.left.equalTo(self).offset(20)
+            make.top.height.equalTo(self)
+        }
+    }
+    
+    func refresh(_ model: Model) {
+        title.text = model.title
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError(" implemented")
+    }
+}
+
+class DetailViewCell: UITableViewCell {
     let cover = UIImageView()
     let playBtn = UIButton(type: .system)
     let title = UILabel()

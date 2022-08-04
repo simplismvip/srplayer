@@ -44,7 +44,7 @@ public class SRPlayerTopBar: SRPlayerControlBar {
             }
             
             view.snp.remakeConstraints { make in
-                make.top.equalTo(self).offset(4)
+                make.top.equalTo(self).offset(8)
                 make.left.width.bottom.equalTo(self)
             }
         }

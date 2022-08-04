@@ -66,4 +66,8 @@ public class SRContainerView: UIView, SRContent {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
 }

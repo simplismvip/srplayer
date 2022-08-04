@@ -21,7 +21,7 @@ extension SRPlayerNormalController {
         
         jmRegisterEvent(eventName: kEventNameBackAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .half {
-                
+                self?.jmRouterEvent(eventName: kEventNamePopController, info: nil)
             } else if self?.barManager.top.screenType == .full {
                 UIDevice.setNewOrientation(.portrait)
             }

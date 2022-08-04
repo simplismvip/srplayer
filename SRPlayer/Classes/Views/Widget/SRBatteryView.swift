@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class SRBatteryView: UIView {
+class SRBatteryView: UIView {
     private var is12Hour = false
     private let wifi: UILabel
     private let timeL: UILabel

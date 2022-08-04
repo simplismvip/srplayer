@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  SRPlayer
 //
-//  Created by simplismvip on 07/13/2022.
-//  Copyright (c) 2022 simplismvip. All rights reserved.
+//  Created by JunMing on 07/13/2022.
+//  Copyright (c) 2022 JunMing. All rights reserved.
 //
 
 import UIKit

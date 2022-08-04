@@ -3,7 +3,7 @@
 //  SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/17.
-//  Copyright © 2022 CocoaPods. All rights reserved.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import Foundation
