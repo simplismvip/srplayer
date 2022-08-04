@@ -9,7 +9,7 @@
 import UIKit
 
 public class SRPlayerView: SRPierceView {
-    public var delegate: SRPlayerGesture?
+    public weak var delegate: SRPlayerGesture?
     public var activityEvents: [GestureUnit]
     var currentEvent: GestureUnit
     var panDirection: PanDirection

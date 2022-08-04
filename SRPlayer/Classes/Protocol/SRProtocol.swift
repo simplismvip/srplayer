@@ -19,7 +19,7 @@ public protocol SRPierce {
 }
 
 /// MARK: -- 播放手势协议
-public protocol SRPlayerGesture {
+public protocol SRPlayerGesture: NSObject {
     /** 左侧垂直方向 开始拖动*/
     func panBeginLeftVertical(_ player: UIView)
     /** 左侧垂直方向 正在拖动*/

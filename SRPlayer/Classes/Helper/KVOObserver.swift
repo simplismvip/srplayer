@@ -15,52 +15,6 @@ protocol KVOObservableProtocol {
     var options: NSKeyValueObservingOptions { get }
 }
 
-class RSObserver: KVOObserver {
-    typealias Callback = (Any?) -> Void
-    var retainSelf: KVOObserver?
-
-    init(parent: KVOObservableProtocol, callback: @escaping Callback) {
-        super.init(target: parent.target, keyPath: parent.keyPath, retainTarget: parent.retainTarget, options: parent.options, callback: callback)
-        self.retainSelf = self
-    }
-
-    override func deallocObserver() {
-        super.deallocObserver()
-        self.retainSelf = nil
-    }
-
-    func add(_ items: inout Set<RSObserver>) {
-        items.insert(self)
-    }
-    
-    deinit {
-        #if TRACE_RESOURCES
-            _ = Resources.decrementTotal()
-        #endif
-    }
-}
-
-final class KVOObservable<Element>: KVOObservableProtocol {
-    typealias Element = Element?
-
-    unowned var target: NSObject
-    var strongTarget: AnyObject?
-
-    var keyPath: String
-    var options: NSKeyValueObservingOptions
-    var retainTarget: Bool
-
-    init(object: NSObject, keyPath: String, options: NSKeyValueObservingOptions, retainTarget: Bool) {
-        self.target = object
-        self.keyPath = keyPath
-        self.options = options
-        self.retainTarget = retainTarget
-        if retainTarget {
-            self.strongTarget = object
-        }
-    }
-}
-
 @objc class KVOObserver: NSObject {
     typealias Callback = (Any?) -> Void
     @objc dynamic var target: NSObject?
@@ -88,6 +42,54 @@ final class KVOObservable<Element>: KVOObservableProtocol {
         self.target = nil
         self.retainedTarget = nil
     }
+    
+    deinit {
+        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
+}
+
+class RSObserver: KVOObserver {
+    typealias Callback = (Any?) -> Void
+    var retainSelf: KVOObserver?
+
+    init(parent: KVOObservableProtocol, callback: @escaping Callback) {
+        super.init(target: parent.target, keyPath: parent.keyPath, retainTarget: parent.retainTarget, options: parent.options, callback: callback)
+        self.retainSelf = self
+    }
+
+    override func deallocObserver() {
+        super.deallocObserver()
+        self.retainSelf = nil
+    }
+
+    func add(_ items: inout Set<RSObserver>) {
+        items.insert(self)
+    }
+}
+
+final class KVOObservable<Element>: KVOObservableProtocol {
+    typealias Element = Element?
+
+    unowned var target: NSObject
+    var strongTarget: AnyObject?
+
+    var keyPath: String
+    var options: NSKeyValueObservingOptions
+    var retainTarget: Bool
+
+    init(object: NSObject, keyPath: String, options: NSKeyValueObservingOptions, retainTarget: Bool) {
+        self.target = object
+        self.keyPath = keyPath
+        self.options = options
+        self.retainTarget = retainTarget
+        if retainTarget {
+            self.strongTarget = object
+        }
+    }
+    
+//    deinit {
+//        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+//    }
 }
 
 extension NSObject {

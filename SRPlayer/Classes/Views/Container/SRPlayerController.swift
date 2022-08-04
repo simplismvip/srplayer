@@ -12,8 +12,8 @@ public class SRPlayerController: UIView {
     public let view: SRContainerView
     public let processM: SRProgressManager
     public let barManager: SRBarManager
-    var disposes = Set<RSObserver>()
     public var moreAreaVisible: Bool
+    var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
