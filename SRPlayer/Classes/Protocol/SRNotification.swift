@@ -2,7 +2,8 @@
 //  SRNotification.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/3.
+//  Created by JunMing on 2022/8/3.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit

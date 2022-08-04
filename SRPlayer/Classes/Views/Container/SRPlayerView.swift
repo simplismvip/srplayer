@@ -50,6 +50,7 @@ public class SRPlayerView: SRPierceView {
         addGestureRecognizer(panGesture)
         addGestureRecognizer(clickGesture)
         addGestureRecognizer(doubleClickGesture)
+        addGestureRecognizer(longPressGesture)
     }
     
     @objc func panGestureAction(_ gesture: UIPanGestureRecognizer) {
@@ -69,16 +70,16 @@ public class SRPlayerView: SRPierceView {
                 SRLogger.debug("began:水平移动")
                 panDirection = .horizontal
                 currentEvent = .horiPan
-                delegate?.panBeginHorizontal(self)
+                delegate?.panHorizontal(self, state: .begin)
             } else if x < y {
                 if (location.x > bounds.size.width / 2) && activityEvents.contains(.pan) {
                     SRLogger.debug("右侧垂直滑动")
                     currentEvent = .vertRightPan
-                    delegate?.panBeginLeftVertical(self)
+                    delegate?.panRightVertical(self, state: .begin)
                 } else if (location.x <= bounds.size.width / 2) && activityEvents.contains(.pan) {
                     SRLogger.debug("左侧垂直滑动")
                     currentEvent = .vertLeftPan
-                    delegate?.panBeginLeftVertical(self)
+                    delegate?.panLeftVertical(self, state: .begin)
                 } else {
                     SRLogger.debug("无滑动")
                 }
@@ -89,13 +90,13 @@ public class SRPlayerView: SRPierceView {
             SRLogger.debug("changed:\(value)")
             if currentEvent == .horiPan {
                 SRLogger.debug("began:水平移动")
-                delegate?.panMoveHorizontal(player: self, offsetValue: value)
+                delegate?.panHorizontal(self, state: .change(value))
             } else if currentEvent == .vertLeftPan {
                 SRLogger.debug("左侧垂直滑动")
-                delegate?.panMoveLeftVertical(player: self, offsetValue: value)
+                delegate?.panLeftVertical(self, state: .change(value))
             } else if currentEvent == .vertRightPan {
                 SRLogger.debug("右侧垂直滑动")
-                delegate?.panMoveRightVertical(player: self, offsetValue: value)
+                delegate?.panRightVertical(self, state: .change(value))
             } else {
                 SRLogger.debug("无滑动")
             }
@@ -103,13 +104,13 @@ public class SRPlayerView: SRPierceView {
             SRLogger.debug("ended")
             if currentEvent == .horiPan {
                 SRLogger.debug("began:水平移动")
-                delegate?.panEndedHorizontal(self)
+                delegate?.panHorizontal(self, state: .end)
             } else if currentEvent == .vertLeftPan {
                 SRLogger.debug("左侧垂直滑动")
-                delegate?.panEndedLeftVertical(self)
+                delegate?.panLeftVertical(self, state: .end)
             } else if currentEvent == .vertRightPan {
                 SRLogger.debug("右侧垂直滑动")
-                delegate?.panEndedRightVertical(self)
+                delegate?.panRightVertical(self, state: .end)
             } else {
                 SRLogger.debug("无滑动")
             }
@@ -117,13 +118,13 @@ public class SRPlayerView: SRPierceView {
             SRLogger.debug("failed")
             if currentEvent == .horiPan {
                 SRLogger.debug("began:水平移动")
-                delegate?.panCancelledHorizontal(self)
+                delegate?.panHorizontal(self, state: .cancle)
             } else if currentEvent == .vertLeftPan {
                 SRLogger.debug("左侧垂直滑动")
-                delegate?.panCancelledLeftVertical(self)
+                delegate?.panLeftVertical(self, state: .cancle)
             } else if currentEvent == .vertRightPan {
                 SRLogger.debug("右侧垂直滑动")
-                delegate?.panCancelledRightVertical(self)
+                delegate?.panRightVertical(self, state: .cancle)
             } else {
                 SRLogger.debug("无滑动")
             }
@@ -134,17 +135,28 @@ public class SRPlayerView: SRPierceView {
     
     @objc func clickGestureAction(_ gesture: UITapGestureRecognizer) {
 //        if currentEvent != .singleClick { return }
-        delegate?.click(self)
+        delegate?.singleClick()
     }
     
     @objc func doubleClickGestureAction(_ gesture: UITapGestureRecognizer) {
 //        if currentEvent != .doubleClick { return }
-        delegate?.doubleClick(self)
+        delegate?.doubleClick()
     }
     
     @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
 //        if currentEvent != .longPress { return }
-        delegate?.longPress(player: self)
+        switch gesture.state {
+        case .began:
+            delegate?.longPress(.begin)
+        case .changed:
+            delegate?.longPress(.change(0))
+        case .cancelled, .failed:
+            delegate?.longPress(.cancle)
+        case .possible:
+            SRLogger.debug("无长按")
+        case .ended:
+            delegate?.longPress(.end)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -176,42 +188,22 @@ extension SRPlayerView: UIGestureRecognizerDelegate {
 }
 
 extension SRPlayerView: SRPlayer_P {
-    public func activeEvents(_ events: [GestureUnit]) {
+    public func enableEvents(_ events: [GestureUnit], enabled: Bool) {
         events.forEach { unit in
             if unit == .pan {
-                panGesture.isEnabled = true
+                panGesture.isEnabled = enabled
             }
             
             if unit == .singleClick {
-                clickGesture.isEnabled = true
+                clickGesture.isEnabled = enabled
             }
             
             if unit == .doubleClick {
-                doubleClickGesture.isEnabled = true
+                doubleClickGesture.isEnabled = enabled
             }
             
             if unit == .longPress {
-                longPressGesture.isEnabled = true
-            }
-        }
-    }
-    
-    public func deactiveEvents(_ events: [GestureUnit]) {
-        events.forEach { unit in
-            if unit == .pan {
-                panGesture.isEnabled = false
-            }
-            
-            if unit == .singleClick {
-                clickGesture.isEnabled = false
-            }
-            
-            if unit == .doubleClick {
-                doubleClickGesture.isEnabled = false
-            }
-            
-            if unit == .longPress {
-                longPressGesture.isEnabled = false
+                longPressGesture.isEnabled = enabled
             }
         }
     }

@@ -19,6 +19,14 @@ public enum PlayerUnit {
     case maskArea // 遮罩层
 }
 
+// 手势状态状态
+public enum GestureState {
+    case begin
+    case change(CGFloat)
+    case end
+    case cancle
+}
+
 public enum EdgeAreaUnit {
     case left   // 左侧
     case right  // 右侧

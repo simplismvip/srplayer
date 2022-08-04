@@ -8,16 +8,6 @@
 
 import UIKit
 
-public struct View {
-    public let v: UIView
-    public init() {
-        self.v = SRPlayerSlider()
-        self.v.backgroundColor = UIColor.gray
-        (self.v as? SRPlayerSlider)?.minTrackTintColor = UIColor.red
-        (self.v as? SRPlayerSlider)?.maxTrackTintColor = UIColor.green
-    }
-}
-
 class SRPlayerSlider: UIControl {
     var trackLock: Bool = false
     var thumbSize: CGSize
@@ -41,12 +31,13 @@ class SRPlayerSlider: UIControl {
     
     /* From 0 to 1 */
     var value: CGFloat = 0.0
+    let thumbImageView: UIImageView
     
     private var loadFirst: Bool = true
-    private let thumbImageView: UIImageView
     private let minTrackColorLayer: CALayer
     private let maxTrackColorLayer: CALayer
     private var disposes = Set<RSObserver>()
+    
     override init(frame: CGRect) {
         minTrackColorLayer = CALayer()
         maxTrackColorLayer = CALayer()
@@ -138,8 +129,6 @@ class SRPlayerSlider: UIControl {
         if loadFirst {
             updateValue(self.value)
             loadFirst.toggle()
-        } else {
-            return
         }
     }
     

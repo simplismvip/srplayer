@@ -111,55 +111,46 @@ extension SRPlayerController: CotrolProtocol {
 }
 
 extension SRPlayerController: SRPlayerGesture {
-    public func panBeginLeftVertical(_ player: UIView) {
-        
+    public func panLeftVertical(_ player: UIView, state: GestureState) {
+        switch state {
+        case .begin:
+            view.floatView.show(.brightness)
+        case .change(let value):
+            SRLogger.debug(value)
+            view.floatView.update(value)
+        case .end, .cancle:
+            SRLogger.debug("end")
+            view.floatView.hide()
+        }
     }
     
-    public func panMoveLeftVertical(player: UIView, offsetValue: CGFloat) {
-        
+    public func panRightVertical(_ player: UIView, state: GestureState) {
+        switch state {
+        case .begin:
+            view.floatView.show(.volume)
+        case .change(let value):
+            SRLogger.debug(value)
+            view.floatView.update(value)
+        case .end, .cancle:
+            SRLogger.debug("end")
+            view.floatView.hide()
+        }
     }
     
-    public func panEndedLeftVertical(_ player: UIView) {
-        
+    public func panHorizontal(_ player: UIView, state: GestureState) {
+        switch state {
+        case .begin:
+            view.floatView.show(.seekBack)
+        case .change(let value):
+            SRLogger.debug(value)
+            view.floatView.update(value)
+        case .end, .cancle:
+            SRLogger.debug("end")
+            view.floatView.hide()
+        }
     }
     
-    public func panCancelledLeftVertical(_ player: UIView) {
-        
-    }
-    
-    public func panBeginRightVertical(_ player: UIView) {
-        
-    }
-    
-    public func panMoveRightVertical(player: UIView, offsetValue: CGFloat) {
-        
-    }
-    
-    public func panEndedRightVertical(_ player: UIView) {
-        
-    }
-    
-    public func panCancelledRightVertical(_ player: UIView) {
-        
-    }
-    
-    public func panBeginHorizontal(_ player: UIView) {
-        
-    }
-    
-    public func panMoveHorizontal(player: UIView, offsetValue: CGFloat) {
-        
-    }
-    
-    public func panEndedHorizontal(_ player: UIView) {
-        
-    }
-    
-    public func panCancelledHorizontal(_ player: UIView) {
-        
-    }
-    
-    public func click(_ player: UIView) {
+    public func singleClick() {
         if view.edgeAreaView.visible { // 展示
             if let item = self.barManager.left.buttonItem(.lockScreen) {
                 if item.isLockScreen {
@@ -179,11 +170,20 @@ extension SRPlayerController: SRPlayerGesture {
         }
     }
     
-    public func doubleClick(_ player: UIView) {
+    public func doubleClick() {
         
     }
     
-    public func longPress(player: UIView) {
-        
+    public func longPress(_ state: GestureState) {
+        switch state {
+        case .begin:
+            view.floatView.show(.longPress)
+        case .change(let value):
+            SRLogger.debug(value)
+            view.floatView.update(value)
+        case .end, .cancle:
+            SRLogger.debug("end")
+            view.floatView.hide()
+        }
     }
 }

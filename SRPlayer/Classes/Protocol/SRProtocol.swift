@@ -20,36 +20,18 @@ public protocol SRPierce {
 
 /// MARK: -- 播放手势协议
 public protocol SRPlayerGesture: NSObject {
-    /** 左侧垂直方向 开始拖动*/
-    func panBeginLeftVertical(_ player: UIView)
-    /** 左侧垂直方向 正在拖动*/
-    func panMoveLeftVertical(player: UIView, offsetValue: CGFloat)
-    /** 左侧垂直方向 结束拖动*/
-    func panEndedLeftVertical(_ player: UIView)
-    /** 左侧垂直方向 取消拖动*/
-    func panCancelledLeftVertical(_ player: UIView)
-    /** 右侧垂直方向 开始拖动*/
-    func panBeginRightVertical(_ player: UIView)
-    /** 右侧垂直方向 正在拖动*/
-    func panMoveRightVertical(player: UIView, offsetValue: CGFloat)
-    /** 右侧垂直方向 结束拖动*/
-    func panEndedRightVertical(_ player: UIView)
-    /** 右侧垂直方向 取消拖动*/
-    func panCancelledRightVertical(_ player: UIView)
-    /** 水平方向 开始拖动*/
-    func panBeginHorizontal(_ player: UIView)
-    /** 水平方向 正在拖动*/
-    func panMoveHorizontal(player: UIView, offsetValue: CGFloat)
-    /** 水平方向 结束拖动*/
-    func panEndedHorizontal(_ player: UIView)
-    /** 水平方向 取消拖动*/
-    func panCancelledHorizontal(_ player: UIView)
+    /** 左侧垂直滑动手势 */
+    func panLeftVertical(_ player: UIView, state: GestureState)
+    /** 右侧垂直滑动手势  */
+    func panRightVertical(_ player: UIView, state: GestureState)
+    /** 水平滑动手势 */
+    func panHorizontal(_ player: UIView, state: GestureState)
     /** 单击*/
-    func click(_ player: UIView)
+    func singleClick()
     /** 双击*/
-    func doubleClick(_ player: UIView)
+    func doubleClick()
     /** 长按 **/
-    func longPress(player: UIView)
+    func longPress(_ state: GestureState)
 }
 
 /// MARK: -- 播放手势协议
@@ -59,9 +41,7 @@ public protocol SRPlayer_P: UIView {
     /** 手势协议*/
     var delegate: SRPlayerGesture? { set get }
     /** 激活事件*/
-    func activeEvents(_ events: [GestureUnit])
-    /** 关闭事件*/
-    func deactiveEvents(_ events: [GestureUnit])
+    func enableEvents(_ events: [GestureUnit], enabled: Bool)
     /** 判断events是否可响应*/
     func eventsActivity(_ event: GestureUnit) -> Bool
 }
