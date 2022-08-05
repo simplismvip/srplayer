@@ -1,0 +1,11 @@
+{
+    "count":"1",
+    "results":[
+        {
+            "title":"RTSP推流",
+            "image":"https://tiebapic.baidu.com/forum/w%3D960%3Bq%3D80/sign=6ded77939118367aad8973db1e48fae9/55e736d12f2eb93846ecc048c2628535e4dd6f83.jpg?tbpicau=2022-07-19-05_806b0bc0b4fd1887062277acda166d82",
+            "type":4,
+            "url":"rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov",
+        }
+    ]
+}

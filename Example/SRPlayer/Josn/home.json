@@ -1,0 +1,31 @@
+{
+    "count":"4",
+    "results":[
+        {
+            "title":"本地视频文件",
+            "image":"local",
+            "type":2,
+            "url":"",
+        },{
+            "title":"网络视频文件",
+            "image":"remote",
+            "type":3,
+            "url":"",
+        },{
+            "title":"RTMP推流",
+            "image":"rtmp",
+            "type":5,
+            "url":"",
+        },{
+            "title":"RTSP推流",
+            "image":"rtsp",
+            "type":4,
+            "url":"",
+        },{
+            "title":"living直播",
+            "image":"living",
+            "type":6,
+            "url":"",
+        }
+    ]
+}
