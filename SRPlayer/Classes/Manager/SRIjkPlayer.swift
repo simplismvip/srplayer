@@ -11,11 +11,8 @@ import IJKMediaFrameworkWithSSL
 import ZJMKit
 
 class SRIjkPlayer: NSObject {
-//    IJKMediaPlayback
     /** 显示视频的视图 */
     let view: UIView
-    /** 是否播放 */
-    var isPlaying: Bool = false
     /** 播放流类型 */
     var streamType: StreamType
     /** 播放器播放状态 */
@@ -60,7 +57,7 @@ class SRIjkPlayer: NSObject {
     var airPlayMediaActive: Bool = false
     var volume: Float = 0
     /** 播放器 */
-    private var ijkPlayer: IJKMediaPlayback
+    private var ijkPlayer: IJKFFMoviePlayerController
     /** kvo监听 */
     private var ijkKvo: IJKKVOController?
     /** 开启时间循环 */
@@ -83,7 +80,7 @@ class SRIjkPlayer: NSObject {
         addPlayerObserver()
     }
     
-    func associatedRouter(_ router: JMRouter?) {
+    public func associatedRouter(_ router: JMRouter?) {
         guard let r = router else { return }
         jmSetAssociatedMsgRouter(router: r)
     }
@@ -96,9 +93,8 @@ class SRIjkPlayer: NSObject {
         shutdown()
         ijkPlayer.view.removeFromSuperview()
         removePlayerObserver()
-        SRLogger.debug("‼️‼️‼️‼️‼️‼️ - SRIjkPlayer 释放播放器")
     }
-    
+
     @objc private func gatCuttentTime() {
         if ijkPlayer.isPlaying() {
             if currentTime != ijkPlayer.currentPlaybackTime {
@@ -118,22 +114,81 @@ class SRIjkPlayer: NSObject {
                 isMute = !(volume > 0)
             }
             jmSendMsg(msgName: kMsgNamePlaybackTimeUpdate, info: nil)
-            
-//            bufferingProgress = ijkPlayer.bufferingProgress
-//            playState = PlaybackState.transFrom(ijkPlayer.playbackState)
-//            loadState = PlayLoadState.transFrom(ijkPlayer.loadState)
-//
-//            isSeekBuffering = Int(ijkPlayer.isSeekBuffering)
-//            isAudioSync = Int(ijkPlayer.isAudioSync)
-//            isVideoSync = Int(ijkPlayer.isVideoSync)
-//
-//            scalingMode = ScalingMode.transFrom(ijkPlayer.scalingMode)
-//            airPlayMediaActive = ijkPlayer.airPlayMediaActive
         }
     }
     
     deinit {
+        SRLogger.debug("‼️‼️‼️‼️‼️‼️ - SRIjkPlayer 释放播放器")
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
+}
+
+/// Public Func
+extension SRIjkPlayer {
+    public func seekto(_ offset: CGFloat) {
+        if ijkPlayer.currentPlaybackTime + offset < ijkPlayer.duration {
+            ijkPlayer.currentPlaybackTime += offset
+        }
+    }
+    
+    public func playRate(_ rate: PlaybackRate) {
+        ijkPlayer.playbackRate = rate.rawValue
+    }
+    
+    public func scraModel(_ scaMode: ScalingMode) {
+        ijkPlayer.scalingMode = scaMode.transTo()
+    }
+    
+    public func isPlaying() -> Bool {
+        return ijkPlayer.isPlaying()
+    }
+    
+    public func thumbnailImageAtCurrentTime() -> UIImage? {
+        return ijkPlayer.thumbnailImageAtCurrentTime()
+    }
+    
+    public func setAllowsMediaAirPlay(_ airplay: Bool) {
+        ijkPlayer.allowsMediaAirPlay = airplay
+    }
+    
+    public func setDanmakuMediaAirPlay(_ airplay: Bool) {
+        ijkPlayer.isDanmakuMediaAirPlay = airplay
+    }
+    
+    public func setPlayerRate(_ playbackRate: Float) {
+        ijkPlayer.playbackRate = playbackRate
+    }
+    
+    public func setPlayerVolume(_ playbackVolume: Float) {
+        ijkPlayer.playbackVolume = playbackVolume
+    }
+    
+    public func prepareToPlay() {
+        ijkPlayer.prepareToPlay()
+    }
+    
+    public func startPlay() {
+        ijkPlayer.play()
+    }
+    
+    public func pause() {
+        ijkPlayer.pause()
+    }
+    
+    public func stop() {
+        ijkPlayer.stop()
+    }
+    
+    public func setMute() {
+        ijkPlayer.playbackVolume = 0.0
+    }
+    
+    public func shutdown() {
+        ijkPlayer.shutdown()
+    }
+    
+    public func setPauseInBackground(_ pause: Bool) {
+        ijkPlayer.setPauseInBackground(pause)
     }
 }
 
@@ -196,7 +251,7 @@ extension SRIjkPlayer {
             SRLogger.debug("Finish: ???: \(reason)\n")
         }
         stopPlayer()
-        jmSendMsg(msgName: kMsgNameFinishedPlay, info: finish as MsgObjc)
+        jmSendMsg(msgName: kMsgNameStopPlay, info: finish as MsgObjc)
     }
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
@@ -214,7 +269,6 @@ extension SRIjkPlayer {
         case .stopped:
             SRLogger.debug("stop: stoped")
             playState = .stop
-            jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
         case .playing:
             SRLogger.debug("playing: playing")
             playState = .playing
@@ -222,7 +276,6 @@ extension SRIjkPlayer {
         case .paused:
             SRLogger.debug("pause: paused")
             playState = .pause
-            jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         case .interrupted:
             SRLogger.debug("interrupted: interrupted")
             playState = .interrupted
@@ -230,63 +283,10 @@ extension SRIjkPlayer {
         case .seekingForward:
             SRLogger.debug("seekingBackward: seeking")
             playState = .seekingForward
-            jmSendMsg(msgName: kMsgNameActionSeekTo, info: playState as MsgObjc)
         case .seekingBackward:
             SRLogger.debug("seekingBackward: seeking")
             playState = .seekingBackward
-            jmSendMsg(msgName: kMsgNameActionSeekTo, info: playState as MsgObjc)
         }
-    }
-}
-
-/// Public Func
-extension SRIjkPlayer {
-    public func thumbnailImageAtCurrentTime() -> UIImage? {
-        return ijkPlayer.thumbnailImageAtCurrentTime()
-    }
-    
-    public func setAllowsMediaAirPlay(_ airplay: Bool) {
-        ijkPlayer.allowsMediaAirPlay = airplay
-    }
-    
-    public func setDanmakuMediaAirPlay(_ airplay: Bool) {
-        ijkPlayer.isDanmakuMediaAirPlay = airplay
-    }
-    
-    public func setPlayerRate(_ playbackRate: Float) {
-        ijkPlayer.playbackRate = playbackRate
-    }
-    
-    public func setPlayerVolume(_ playbackVolume: Float) {
-        ijkPlayer.playbackVolume = playbackVolume
-    }
-    
-    public func prepareToPlay() {
-        ijkPlayer.prepareToPlay()
-    }
-    
-    public func startPlay() {
-        ijkPlayer.play()
-    }
-    
-    public func pause() {
-        ijkPlayer.pause()
-    }
-    
-    public func stop() {
-        ijkPlayer.stop()
-    }
-    
-    public func setMute() {
-        ijkPlayer.playbackVolume = 0.0
-    }
-    
-    public func shutdown() {
-        ijkPlayer.shutdown()
-    }
-    
-    public func setPauseInBackground(_ pause: Bool) {
-        ijkPlayer.setPauseInBackground(pause)
     }
 }
 

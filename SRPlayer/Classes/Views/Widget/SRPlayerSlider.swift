@@ -176,3 +176,9 @@ extension SRPlayerSlider: SRItemButton {
         
     }
 }
+
+extension SRPlayerSlider: ToastRight {
+    func update(_ progress: CGFloat) {
+        updateValue(progress)
+    }
+}

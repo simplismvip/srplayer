@@ -45,7 +45,7 @@ extension SRPlayerNormalController {
         self.barManager.bottom.addItem(fullScrenn)
         
         // left
-        let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left, image: "sr_lock")
+        let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left, image: "sr_unlock")
         self.barManager.left.addItem(lockScreen)
         
         // right

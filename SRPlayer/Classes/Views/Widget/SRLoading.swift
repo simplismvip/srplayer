@@ -9,7 +9,6 @@
 import UIKit
 
 public class SRLoading: UIView {
-    
     enum MoveDirection {
         case positive
         case negatiove
@@ -63,7 +62,7 @@ public class SRLoading: UIView {
     
     @objc public func start() {
         pause()
-        displaylink = CADisplayLink(target: self, selector: #selector(update))
+        displaylink = CADisplayLink(target: self, selector: #selector(updateAnimation))
         displaylink?.add(to: RunLoop.main, forMode: .commonModes)
     }
     
@@ -107,7 +106,7 @@ public class SRLoading: UIView {
         centerV.layer.cornerRadius = centerV.jmWidth * 0.5
     }
     
-    @objc func update() {
+    @objc func updateAnimation() {
         // SRLogger.error("update")
         if direction == .positive {
             var center = left.center
@@ -187,5 +186,17 @@ public class SRLoading: UIView {
     
     deinit {
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
+}
+
+extension SRLoading: Toast {
+    func update(_ progress: CGFloat) { }
+    
+    func begin(_ type: ToastType) {
+        start()
+    }
+    
+    func hide() {
+        stop()
     }
 }

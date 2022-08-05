@@ -85,17 +85,12 @@ extension SRPlayProcess: SRProgress {
                 playView.translatesAutoresizingMaskIntoConstraints = true
                 playView.frame = containerView.bounds;
             }
-        
-//            if self.model.isPlaying {
-//                self.play()
-//            }
-            
             return nil
         }
         
         /// 暂停播放
         jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
-            if let isPlaying = self?.player?.isPlaying, isPlaying {
+            if let isPlaying = self?.player?.isPlaying(), isPlaying {
                 self?.player?.pause()
                 self?.model.isPlaying = false
             } else {
@@ -106,14 +101,10 @@ extension SRPlayProcess: SRProgress {
         }
         
         /// 快进快退
-        jmReciverMsg(msgName: kMsgNameActionSeekTo) { _ in
-            
-            return nil
-        }
-        
-        /// 切换清晰度
-        jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
-//            self?.model.player.
+        jmReciverMsg(msgName: kMsgNameActionSeekTo) { [weak self] seekValue in
+            if let offset = seekValue as? CGFloat {
+                self?.player?.seekto(offset)
+            }
             return nil
         }
         
@@ -124,20 +115,26 @@ extension SRPlayProcess: SRProgress {
         }
         
         /// 更改播放速率
-        jmReciverMsg(msgName: kMsgNameChangePlaybackRate) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameChangePlaybackRate) { [weak self] pRate in
+            if let rate = pRate as? PlaybackRate {
+                self?.player?.playRate(rate)
+                self?.model.playbackRate = rate
+            }
             return nil
         }
         
         /// 更改放缩比例
-        jmReciverMsg(msgName: kMsgNameChangeScalingMode) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameChangeScalingMode) { [weak self] scamode in
+            if let smode = scamode as? ScalingMode {
+                self?.player?.scraModel(smode)
+                self?.model.scalingMode = smode
+            }
             return nil
         }
         
         /// 截图
-        jmReciverMsg(msgName: kMsgNameShotScreen) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameShotScreen) { [weak self] _ in
+            self?.model.thumbImage = self?.player?.thumbnailImageAtCurrentTime()
             return nil
         }
         
@@ -158,6 +155,12 @@ extension SRPlayProcess: SRProgress {
                 // SRLogger.debug("视频缓存时长：\(Int(ijkPlayer.videoCacheDuration).format)")
                 // SRLogger.debug("当前速率：\(ijkPlayer.playbackRate)")
             }
+            return nil
+        }
+        
+        /// 切换清晰度
+        jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
+//            self?.model.player.
             return nil
         }
         

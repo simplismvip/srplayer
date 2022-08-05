@@ -27,19 +27,17 @@ public enum StreamType {
     case live // 解锁
 }
 
-public enum FloatType {
-    case seekForward // 快进
-    case seekBack    // 快退
+public enum ToastType {
+    case seek        // 快进 快退
     case longPress   // 长按快进
     case volume      // 音量
     case brightness  // 亮度
     case loading     // 加载动画
+    case none        // 加载动画
     
     var name: String {
         switch self {
-        case .seekForward:
-            return "sr_volume"
-        case .seekBack:
+        case .seek:
             return "sr_volume"
         case .longPress:
             return "sr_volume"
@@ -47,18 +45,33 @@ public enum FloatType {
             return "sr_volume"
         case .brightness:
             return "sr_volume"
-        case .loading:
+        case .loading, .none:
             return ""
         }
     }
 }
 
-public enum PlaybackRate: CGFloat {
-    case rate0x75 = 0.75 // 0.75x
-    case rate1x0 = 1.0 // 1.0x
-    case rate1x25 = 1.25 // 1.25x
-    case rate1x5 = 1.5 // 1.5x
-    case rate2x0 = 2.0 // 2.0x
+public enum PlaybackRate: Float {
+    case rate0x75 = 0.75   // 0.75x
+    case rate1x0 = 1.0     // 1.0x
+    case rate1x25 = 1.25   // 1.25x
+    case rate1x5 = 1.5     // 1.5x
+    case rate2x0 = 2.0     // 2.0x
+    
+    var name: String {
+        switch self {
+        case .rate0x75:
+            return "0.75X"
+        case .rate1x0:
+            return "1.0X"
+        case .rate1x25:
+            return "0.25X"
+        case .rate1x5:
+            return "1.5X"
+        case .rate2x0:
+            return "2.0X"
+        }
+    }
 }
 
 public enum PlaybackState {

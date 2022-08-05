@@ -48,8 +48,7 @@ public protocol SRPlayer_P: UIView {
 
 /// MARK: -- 背景层协议
 public protocol SRBackground: UIView {
-//    var currentColor: UIColor { get }
-//    var alpha: CGFloat { get }
+
 }
 
 /// MARK: -- 弹幕层协议
@@ -59,19 +58,7 @@ public protocol SRBarrage: UIView {
 
 /// MARK: -- 浮动层协议
 public protocol SRFloat_P: UIView {
-    var loading: SRLoading { get }
-}
 
-extension SRFloat_P {
-    public func startLoading() {
-        loading.start()
-        loading.isHidden = false
-    }
-    
-    public func stopLoading() {
-        loading.stop()
-        loading.isHidden = true
-    }
 }
 
 /// MARK: -- 边缘层协议

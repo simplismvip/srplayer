@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRPlayerController: UIView {
     public let view: SRContainerView
@@ -111,79 +112,88 @@ extension SRPlayerController: CotrolProtocol {
 }
 
 extension SRPlayerController: SRPlayerGesture {
-    public func panLeftVertical(_ player: UIView, state: GestureState) {
+    private func brightness(_ offset: CGFloat) {
+        UIScreen.main.brightness = offset / 1000.0
+    }
+    
+    private func volume(_ offset: CGFloat) {
+        // let volumeTS -= offset / 10000.0
+    }
+    
+    private func seekChange(_ offset: CGFloat) {
+        guard let model = self.processM.model(SRPlayProcess.self) else { return }
+        model.panSeekOffsetTime += offset
+        
+        if (model.panSeekTargetTime + model.panSeekOffsetTime > model.duration) {
+            model.panSeekOffsetTime = model.duration - model.panSeekTargetTime;
+        }
+        
+        if (model.panSeekTargetTime + model.panSeekOffsetTime < 0) {
+            model.panSeekOffsetTime = 0 - model.panSeekTargetTime;
+        }
+    }
+    
+    // 发送最终seek to消息，执行
+    private func seekEnd() {
+        guard let model = self.processM.model(SRPlayProcess.self) else { return }
+        let offset = model.panSeekTargetTime + model.panSeekOffsetTime
+        jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
+        model.panSeekOffsetTime = 0.0
+        model.panSeekTargetTime = 0.0
+    }
+    
+    private func floatViewAction(state: GestureState, type: ToastType) {
         switch state {
         case .begin:
-            view.floatView.show(.brightness)
+            view.floatView.show(type)
         case .change(let value):
             SRLogger.debug(value)
             view.floatView.update(value)
+            if type == .brightness {
+                brightness(value)
+            } else if type == .volume {
+                volume(value)
+            } else if type == .seek {
+                seekChange(value)
+            }
         case .end, .cancle:
             SRLogger.debug("end")
             view.floatView.hide()
+            
+            if type == .seek {
+                seekEnd()
+            }
         }
+    }
+    
+    public func panLeftVertical(_ player: UIView, state: GestureState) {
+        floatViewAction(state: state, type: .brightness)
     }
     
     public func panRightVertical(_ player: UIView, state: GestureState) {
-        switch state {
-        case .begin:
-            view.floatView.show(.volume)
-        case .change(let value):
-            SRLogger.debug(value)
-            view.floatView.update(value)
-        case .end, .cancle:
-            SRLogger.debug("end")
-            view.floatView.hide()
-        }
+        floatViewAction(state: state, type: .volume)
     }
     
     public func panHorizontal(_ player: UIView, state: GestureState) {
-        switch state {
-        case .begin:
-            view.floatView.show(.seekBack)
-        case .change(let value):
-            SRLogger.debug(value)
-            view.floatView.update(value)
-        case .end, .cancle:
-            SRLogger.debug("end")
-            view.floatView.hide()
-        }
+        floatViewAction(state: state, type: .seek)
+    }
+    
+    public func longPress(_ state: GestureState) {
+        floatViewAction(state: state, type: .longPress)
     }
     
     public func singleClick() {
-        if view.edgeAreaView.visible { // 展示
-            if let item = self.barManager.left.buttonItem(.lockScreen) {
-                if item.isLockScreen {
-                    view.edgeAreaView.showUnit(units: [.left], visible: false)
-                } else {
-                    view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: false)
-                }
-            }
-        } else {
-            if let item = self.barManager.left.buttonItem(.lockScreen) {
-                if item.isLockScreen {
-                    view.edgeAreaView.showUnit(units: [.left], visible: true)
-                } else {
-                    view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: true)
-                }
+        if let item = self.barManager.left.buttonItem(.lockScreen) {
+            let visible = !view.edgeAreaView.visible
+            if item.isLockScreen {
+                view.edgeAreaView.showUnit(units: [.left], visible: visible)
+            } else {
+                view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: visible)
             }
         }
     }
     
     public func doubleClick() {
         
-    }
-    
-    public func longPress(_ state: GestureState) {
-        switch state {
-        case .begin:
-            view.floatView.show(.longPress)
-        case .change(let value):
-            SRLogger.debug(value)
-            view.floatView.update(value)
-        case .end, .cancle:
-            SRLogger.debug("end")
-            view.floatView.hide()
-        }
     }
 }

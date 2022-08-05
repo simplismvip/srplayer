@@ -20,8 +20,6 @@ public let kMsgNameStartPlay = "kMsgNameStartPlay"
 public let kMsgNameCurrentPlaying = "kMsgNameCurrentPlaying"
 /// 停止播放
 public let kMsgNameStopPlay = "kMsgNameStopPlay"
-/// 结束播放
-public let kMsgNameFinishedPlay = "kMsgNameFinishedPlay"
 /// 暂停播放
 public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
 /// 播放

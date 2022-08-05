@@ -90,13 +90,13 @@ public class SRPlayerView: SRPierceView {
             SRLogger.debug("changed:\(value)")
             if currentEvent == .horiPan {
                 SRLogger.debug("began:水平移动")
-                delegate?.panHorizontal(self, state: .change(value))
+                delegate?.panHorizontal(self, state: .change(value/200))
             } else if currentEvent == .vertLeftPan {
                 SRLogger.debug("左侧垂直滑动")
-                delegate?.panLeftVertical(self, state: .change(value))
+                delegate?.panLeftVertical(self, state: .change(value/1000))
             } else if currentEvent == .vertRightPan {
                 SRLogger.debug("右侧垂直滑动")
-                delegate?.panRightVertical(self, state: .change(value))
+                delegate?.panRightVertical(self, state: .change(value/1000))
             } else {
                 SRLogger.debug("无滑动")
             }
