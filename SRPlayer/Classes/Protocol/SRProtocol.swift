@@ -111,12 +111,22 @@ extension SREdgeArea {
 
 /// MARK: -- 更多层协议
 public protocol SRMoreArea: UIView {
-//    /** More容器视图*/
-//    var moreContainer: UIView { get }
-//    /** More 显示/隐藏 动画hock*/
-//    var visibleAnimate: SRVisible { get }
-//    /**显示/隐藏 More容器*/
-//    func visibleMore(visible: Bool, animation: Bool, completion: @escaping SRFinish)
+    var content: UIView { get }
+    var type: MoreEdgeType { set get }
+}
+
+extension SRMoreArea {
+    /// 显示/隐藏 More容器
+    public func visibleMore(_ visible: Bool, animation: Bool) {
+        let offset = visible ? 0 : self.content.jmWidth
+        UIView.animate(withDuration: 0.5) {
+            self.content.snp.makeConstraints { make in
+                make.right.equalTo(self).offset(offset)
+            }
+        } completion: { finish in
+            self.content.isHidden = !visible
+        }
+    }
 }
 
 /// MARK: -- 遮罩层协议

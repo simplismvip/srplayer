@@ -52,10 +52,10 @@ public class SRContainerView: UIView, SRContent {
 //            make.edges.equalTo(self)
 //        }
         
-//        addSubview(moreAreaView)
-//        moreAreaView.snp.makeConstraints { make in
-//            make.edges.equalTo(self)
-//        }
+        addSubview(moreAreaView)
+        moreAreaView.snp.makeConstraints { make in
+            make.edges.equalTo(self)
+        }
         
 //        addSubview(maskAreaView)
 //        maskAreaView.snp.makeConstraints { make in

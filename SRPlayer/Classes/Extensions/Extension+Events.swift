@@ -37,8 +37,9 @@ extension SRPlayerNormalController {
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         }, next: false)
         
-        jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] info in
+        jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] _ in
             SRLogger.debug("更多")
+            self?.view.moreAreaView.visibleMore(true, animation: true)
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in
