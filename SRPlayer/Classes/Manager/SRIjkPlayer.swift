@@ -124,7 +124,7 @@ class SRIjkPlayer: NSObject {
 }
 
 /// Public Func
-extension SRIjkPlayer {
+extension SRIjkPlayer: VideoPlayer {
     public func seekto(_ offset: CGFloat) {
         if ijkPlayer.currentPlaybackTime + offset < ijkPlayer.duration {
             ijkPlayer.currentPlaybackTime += offset
@@ -153,10 +153,6 @@ extension SRIjkPlayer {
     
     public func setDanmakuMediaAirPlay(_ airplay: Bool) {
         ijkPlayer.isDanmakuMediaAirPlay = airplay
-    }
-    
-    public func setPlayerRate(_ playbackRate: Float) {
-        ijkPlayer.playbackRate = playbackRate
     }
     
     public func setPlayerVolume(_ playbackVolume: Float) {

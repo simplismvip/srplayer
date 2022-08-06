@@ -17,7 +17,7 @@ class SRPlayModel: NSObject {
     @objc dynamic var currentTime: TimeInterval = 0
     @objc dynamic var cacheDuration: TimeInterval = 0
     @objc dynamic var thumbImage: UIImage?
-    @objc dynamic var playRateStr: String = "1X"
+    @objc dynamic var playRateStr: String = "倍速"
     
     var playState: PlaybackState = .stop
     var loadState: PlayLoadState = .unknow

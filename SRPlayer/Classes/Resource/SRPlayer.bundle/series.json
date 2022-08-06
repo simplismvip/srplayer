@@ -2,44 +2,54 @@
     "count":"5",
     "results":[
         {
-            "title":"0.75X",
+            "title":"第一集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.0X",
+            "title":"第二集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.25X",
+            "title":"第三集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.5X",
+            "title":"第四集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"2.0X",
+            "title":"第五集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"0.75X",
+            "title":"第六集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.0X",
+            "title":"第七集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.25X",
+            "title":"第八集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"1.5X",
+            "title":"第九集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         },{
-            "title":"2.0X",
+            "title":"第十集",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":1
         }
     ]

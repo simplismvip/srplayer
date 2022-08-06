@@ -7,17 +7,21 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
     var items = [MoreEdgeItem]()
     let tableView: UITableView
     let loading: SRLoading
+    
     override init(frame: CGRect) {
         self.loading = SRLoading()
         self.tableView = UITableView(frame: frame, style: .plain)
         super.init(frame: frame)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = UIColor.clear
         tableView.separatorInset = UIEdgeInsets.zero
         
         addSubview(tableView)
@@ -27,7 +31,7 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         addSubview(loading)
         loading.snp.makeConstraints { make in
-            make.width.equalTo(80)
+            make.width.equalTo(100)
             make.height.equalTo(30)
             make.centerY.equalTo(snp.centerY)
             make.centerX.equalTo(snp.centerX)
@@ -59,6 +63,18 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
 //                }
 //                self.loading.stop()
 //            }
+        case .more:
+            loading.start()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let items = DataParser<Results>.decode(type.name, "json")?.results {
+                    self.items = items
+                    self.tableView.reloadData()
+                }
+                self.loading.stop()
+            }
+            SRLogger.debug("none")
+        case .share:
+            SRLogger.debug("none")
         case .none:
             SRLogger.debug("none")
         }
@@ -78,8 +94,16 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         return cell ?? UITableViewCell()
     }
     
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if items.count * 44 < Int(jmHeight) {
+            return jmHeight / CGFloat(items.count)
+        }
+        return 44
+    }
+    
     private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let item = items[indexPath.row]
+        jmRouterEvent(eventName: item.event, info: item as MsgObjc)
     }
     
     required init?(coder: NSCoder) {
@@ -93,8 +117,8 @@ class MoreEdgeCell: UITableViewCell {
     var item: MoreEdgeItem?
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.white
-        
+        backgroundColor = UIColor.clear
+        selectionStyle = .none
         contentView.addSubview(cover)
         contentView.addSubview(title)
         

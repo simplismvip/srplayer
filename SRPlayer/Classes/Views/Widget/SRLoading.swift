@@ -53,6 +53,7 @@ public class SRLoading: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(content)
+        content.isHidden = true
         content.addSubview(left)
         content.addSubview(centerV)
         content.addSubview(right)
@@ -61,17 +62,20 @@ public class SRLoading: UIView {
     }
     
     @objc public func start() {
+        content.isHidden = false
         pause()
         displaylink = CADisplayLink(target: self, selector: #selector(updateAnimation))
         displaylink?.add(to: RunLoop.main, forMode: .commonModes)
     }
     
     public func pause() {
+//        content.isHidden = true
         displaylink?.invalidate()
         displaylink = nil
     }
     
     public func stop() {
+        content.isHidden = true
         pause()
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(start), object: nil)
         left.addSubview(centerV)

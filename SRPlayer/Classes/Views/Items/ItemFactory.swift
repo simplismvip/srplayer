@@ -19,7 +19,6 @@ struct ItemFactory {
             item.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
             item.titleColor = UIColor.white
             item.font = UIFont.jmRegular(10)
-//            item.isHalfHidden = true
         } else if itemStyle == .share {
             item.direction = .anticlockwis
             item.isHalfHidden = true
@@ -30,21 +29,26 @@ struct ItemFactory {
             
             
         } else if itemStyle == .curTime {
+            
             item.title = title
             item.titleColor = UIColor.white
             item.font = UIFont.jmRegular(12)
             item.size = CGSize(width: 0, height: 34)
             item.isUserInteractionEnabled = false
+            
         } else if itemStyle == .next {
+            
             item.isHalfHidden = true
 
         } else if itemStyle == .tolTime {
+            
             item.title = title
             item.titleColor = UIColor.white
             item.direction = .anticlockwis
             item.font = UIFont.jmRegular(12)
             item.size = CGSize(width: 0, height: 34)
             item.isUserInteractionEnabled = false
+            
         } else if itemStyle == .slider {
             
             
@@ -52,21 +56,43 @@ struct ItemFactory {
             
             
         } else if itemStyle == .sharpness {
+            
             item.direction = .anticlockwis
             item.isHalfHidden = true
+            
         } else if itemStyle == .playRate {
-            item.title = "1X"
+            
+            item.title = "倍速"
             item.titleColor = UIColor.white
             item.direction = .anticlockwis
-            item.font = UIFont.jmRegular(12)
-            item.isUserInteractionEnabled = false
+            item.font = UIFont.jmRegular(14)
             item.isHalfHidden = true
+            item.size = CGSize(width: 0, height: 34)
+            
         } else if itemStyle == .fullScrenn {
             
             item.direction = .anticlockwis
             
         } else if itemStyle == .volume {
             
+            
+        } else if itemStyle == .series {
+            
+            item.title = "选集"
+            item.titleColor = UIColor.white
+            item.direction = .anticlockwis
+            item.font = UIFont.jmRegular(14)
+            item.size = CGSize(width: 0, height: 34)
+            item.isHalfHidden = true
+            
+        } else if itemStyle == .resolve {
+            
+            item.title = "清晰度"
+            item.titleColor = UIColor.white
+            item.direction = .anticlockwis
+            item.font = UIFont.jmRegular(14)
+            item.size = CGSize(width: 0, height: 34)
+            item.isHalfHidden = true
             
         } else if itemStyle == .brightLight {
             

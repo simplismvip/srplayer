@@ -30,6 +30,8 @@ extension SRPlayerNormalController {
         let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom, title: "00:00")
         let slider = ItemFactory.sliderItem(value: 0.0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
+        let series = ItemFactory.buttonItem(.series, location: .bottom)
+        let resolve = ItemFactory.buttonItem(.resolve, location: .bottom)
         let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscreen")
         
 //        let sharpness = ItemFactory.buttonItem(.sharpness)
@@ -42,6 +44,8 @@ extension SRPlayerNormalController {
         self.barManager.bottom.addItem(slider)
         self.barManager.bottom.addItem(tolTime)
         self.barManager.bottom.addItem(playRate)
+        self.barManager.bottom.addItem(series)
+        self.barManager.bottom.addItem(resolve)
         self.barManager.bottom.addItem(fullScrenn)
         
         // left

@@ -30,10 +30,13 @@ public let kMsgNameActionPlay = "kMsgNameActionPlay"
 public let kMsgNameActionSeekTo = "kMsgNameActionSeekTo"
 /// 切换清晰度
 public let kMsgNameSwitchQuality = "kMsgNameSwitchQuality"
+/// 选择清晰度
+public let kMsgNameSwitchQualityChoice = "kMsgNameSwitchQualityChoice"
 /// 静音
 public let kMsgNameActionMute = "kMsgNameActionMute"
 /// 更改播放速率
 public let kMsgNameChangePlaybackRate = "kMsgNameChangePlaybackRate"
+
 /// 更改放缩比例
 public let kMsgNameChangeScalingMode = "kMsgNameChangeScalingMode"
 /// 截图
@@ -67,10 +70,25 @@ public let kEventNamePlayAction = "kEventNamePlayAction"
 public let kEventNameMoreAction = "kEventNameMoreAction"
 /// 切换速率
 public let kEventNamePlayRateAction = "kEventNamePlayRateAction"
+/// 更改播放速率
+public let kEventNamePlayRateChoiceAction = "kEventNamePlayRateChoiceAction"
+
+/// 剧集
+public let kEventNamePlaySeriesAction = "kEventNamePlaySeriesAction"
+public let kEventNamePlaySeriesChoiceAction = "kEventNamePlaySeriesChoiceAction"
+
+/// 切换清晰度
+public let kEventNamePlayResolveAction = "kEventNamePlayResolveAction"
+public let kEventNamePlayResolveChoiceAction = "kEventNamePlayResolveChoiceAction"
+
 /// 切换速率
 public let kEventNameSwitchQuality = "kEventNameSwitchQuality"
+/// 切换速率
+public let kEventNameSwitchQualityChoice = "kEventNameSwitchQualityChoice"
 /// 分享
 public let kEventNameShareAction = "kEventNameShareAction"
+/// 分享
+public let kEventNameShareChoiceAction = "kEventNameShareChoiceAction"
 /// next
 public let kEventNameNextAction = "kEventNameNextAction"
 /// 截屏

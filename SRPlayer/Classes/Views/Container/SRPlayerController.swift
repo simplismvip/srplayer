@@ -13,14 +13,12 @@ public class SRPlayerController: UIView {
     public let view: SRContainerView
     public let processM: SRProgressManager
     public let barManager: SRBarManager
-    public var moreAreaVisible: Bool
     var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()
         self.processM = SRProgressManager()
-        self.moreAreaVisible = false
         super.init(frame: frame)
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
@@ -167,12 +165,16 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func singleClick() {
-        if let item = self.barManager.left.buttonItem(.lockScreen) {
-            let visible = !view.edgeAreaView.visible
-            if item.isLockScreen {
-                view.edgeAreaView.showUnit(units: [.left], visible: visible)
-            } else {
-                view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: visible)
+        if view.moreAreaView.isShow {
+            self.hideMoreArea()
+        } else {
+            if let item = self.barManager.left.buttonItem(.lockScreen) {
+                let visible = !view.edgeAreaView.visible
+                if item.isLockScreen {
+                    view.edgeAreaView.showUnit(units: [.left], visible: visible)
+                } else {
+                    view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: visible)
+                }
             }
         }
     }

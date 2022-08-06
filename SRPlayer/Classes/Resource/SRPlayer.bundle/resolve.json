@@ -4,22 +4,27 @@
         {
             "title":"480P",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":2
         },{
             "title":"720P",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":2
         },{
             "title":"1080P",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":2
         },{
             "title":"2K",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":2
         },{
             "title":"4K超清",
             "image":"",
+            "event":"kMsgNameSwitchQualityChoice",
             "type":2
         }
     ]

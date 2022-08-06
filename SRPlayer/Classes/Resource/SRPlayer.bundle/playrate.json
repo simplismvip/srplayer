@@ -4,22 +4,27 @@
         {
             "title":"0.75X",
             "image":"",
+            "event":"kMsgNameChangePlaybackRateChoice",
             "type":0
         },{
             "title":"1.0X",
             "image":"",
+            "event":"kMsgNameChangePlaybackRateChoice",
             "type":0
         },{
             "title":"1.25X",
             "image":"",
+            "event":"kMsgNameChangePlaybackRateChoice",
             "type":0
         },{
             "title":"1.5X",
             "image":"",
+            "event":"kMsgNameChangePlaybackRateChoice",
             "type":0
         },{
             "title":"2.0X",
             "image":"",
+            "event":"kMsgNameChangePlaybackRateChoice",
             "type":0
         }
     ]

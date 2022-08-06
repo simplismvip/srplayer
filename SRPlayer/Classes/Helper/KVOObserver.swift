@@ -7,6 +7,7 @@
 
 import UIKit
 import ZJMKit
+import CoreAudio
 
 protocol KVOObservableProtocol {
     var target: NSObject { get }
@@ -100,3 +101,18 @@ extension NSObject {
         }
     }
 }
+
+//struct Binder<Value> {
+//    public typealias Element = Value
+//    private let _binding: (Value) -> Void
+//
+//    public init<Target: AnyObject>(_ target: Target,  binding: @escaping (Target, Value) -> Void) {
+//        weak var weakTarget = target
+//
+//        self._binding = { value in
+//            if let target = weakTarget {
+//                binding(target, element)
+//            }
+//        }
+//    }
+//}

@@ -38,17 +38,70 @@ extension SRPlayerNormalController {
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] _ in
-            SRLogger.debug("更多")
-            self?.showMoreArea(width: 120, animation: true)
-            // self?.hideMoreArea(animation: true)
+            if self?.barManager.top.screenType == .full {
+                self?.showMoreArea(.more)
+            } else {
+                SRLogger.debug("半屏幕状态下点击更多")
+            }
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in
-            SRLogger.debug("切换播放速率")
+            if self?.barManager.top.screenType == .full {
+                self?.showMoreArea(.playrate)
+            } else {
+                SRLogger.debug("半屏幕状态下点击切换播放速率")
+            }
         }, next: false)
         
+        jmRegisterEvent(eventName: kEventNamePlayRateChoiceAction, block: { [weak self] moreItem in
+            if let item = moreItem as? MoreItem {
+                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            }
+        }, next: false)
+        
+        // 剧集
+        jmRegisterEvent(eventName: kEventNamePlaySeriesAction, block: { [weak self] moreItem in
+            if let item = moreItem as? MoreItem {
+                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            }
+        }, next: false)
+        
+        // 剧集选择
+        jmRegisterEvent(eventName: kEventNamePlaySeriesChoiceAction, block: { [weak self] moreItem in
+            if let item = moreItem as? MoreItem {
+                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            }
+        }, next: false)
+        
+        // 清晰度
+        jmRegisterEvent(eventName: kEventNamePlayResolveAction, block: { [weak self] moreItem in
+            if let item = moreItem as? MoreItem {
+                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            }
+        }, next: false)
+        
+        // 清晰度选择
+        jmRegisterEvent(eventName: kEventNamePlayResolveChoiceAction, block: { [weak self] moreItem in
+            if let item = moreItem as? MoreItem {
+                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            }
+        }, next: false)
+  
+        // 分享
         jmRegisterEvent(eventName: kEventNameShareAction, block: { [weak self] info in
-            SRLogger.debug("分享")
+            if self?.barManager.top.screenType == .full {
+                self?.showMoreArea(.share)
+            } else {
+                SRLogger.debug("半屏幕状态下点击分享")
+            }
+        }, next: false)
+        
+        // 分享选择
+        jmRegisterEvent(eventName: kEventNameShareChoiceAction, block: { [weak self] info in
+            SRLogger.debug("半屏幕状态下点击分享")
+//            if let item = moreItem as? MoreItem {
+//                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+//            }
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameNextAction, block: { [weak self] info in
@@ -152,34 +205,4 @@ extension SRPlayerNormalController {
     }
 }
 
-// KVO 绑定
-extension SRPlayerNormalController {
-    func kvoBind() {
-        let model = self.processM.model(SRPlayProcess.self)
-        let sliderItem = self.barManager.bottom.sliderItem()
-        let curTimeItem = self.barManager.bottom.buttonItem(.curTime)
-        let tolTimeItem = self.barManager.bottom.buttonItem(.tolTime)
-        
-        model?.observe(TimeInterval.self, "currentTime") { currentTime in
-            if let progress = model?.progress,
-                let duration = model?.duration,
-                let currTime = currentTime {
-                sliderItem?.value = progress
-                curTimeItem?.title = Int(currTime).format
-                tolTimeItem?.title = Int(duration).format
-            }
-        }.add(&disposes)
-        
-        let playItem = self.barManager.bottom.buttonItem(.play)
-        model?.observe(Bool.self, "isPlaying") { isPlaying in
-            if let play = isPlaying {
-                playItem?.image = play ? "sr_pause" : "sr_play"
-            }
-        }.add(&disposes)
-        
-        let rateItem = self.barManager.bottom.buttonItem(.playRate)
-        model?.observe(String.self, "playRateStr") { pRate in
-            rateItem?.title = pRate
-        }.add(&disposes)
-    }
-}
+

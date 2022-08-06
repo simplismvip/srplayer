@@ -22,8 +22,8 @@ public class SRMoreAreaView: SRPierceView {
         addSubview(content)
         content.snp.makeConstraints { make in
             make.height.top.equalTo(self)
-            make.width.equalTo(130)
-            make.right.equalTo(snp.right).offset(130)
+            make.width.equalTo(170)
+            make.right.equalTo(snp.right).offset(170)
         }
     }
     

@@ -21,14 +21,15 @@ public protocol PlayerCotrol {
 
 extension PlayerCotrol {
     /// 显示更多区域
-    public func showMoreArea(width: CGFloat, animation: Bool) {
-        view.moreAreaView.update(true, animation: true)
+    public func showMoreArea(_ type: MoreEdgeType) {
+        view.moreAreaView.begin(type)
         view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: false)
         view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: false)
+        view.moreAreaView.update(true)
     }
     /// 隐藏更多区域
-    public func hideMoreArea(animation: Bool) {
-        view.moreAreaView.update(false, animation: true)
+    public func hideMoreArea() {
+        view.moreAreaView.update(false)
         view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: true)
         view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: true)
     }

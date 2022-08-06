@@ -91,8 +91,10 @@ public enum ItemStyle: String {
     case next = "kEventNameNextAction"// 下一集
     case tolTime = "kEventNameTolTimeAction"// 总时间
     case slider = "kEventNameSliderAction"// 播放进度
-    case sharpness = "kEventNameSharpnessAction"// 清晰度
+    case sharpness = "kEventNameSharpnessAction"// 亮度
     case playRate  = "kEventNamePlayRateAction"// 倍数
+    case series  = "kEventNamePlaySeriesAction"// 剧集
+    case resolve  = "kEventNamePlayResolveAction"// 清晰度
     case fullScrenn  = "kEventNameFullScrennAction"// 全屏
     case volume  = "kEventNameVolumeAction"// 音量
     case brightLight  = "kEventNameBrightLightAction"// 亮度

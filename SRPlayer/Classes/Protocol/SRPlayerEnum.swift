@@ -63,7 +63,7 @@ public enum PlaybackRate: Float {
         case .rate0x75:
             return "0.75X"
         case .rate1x0:
-            return "1.0X"
+            return "倍速"
         case .rate1x25:
             return "0.25X"
         case .rate1x5:
