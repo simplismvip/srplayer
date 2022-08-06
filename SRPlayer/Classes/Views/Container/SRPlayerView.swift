@@ -207,8 +207,4 @@ extension SRPlayerView: SRPlayer_P {
             }
         }
     }
-    
-    public func eventsActivity(_ event: GestureUnit) -> Bool {
-        return activityEvents.contains(event)
-    }
 }

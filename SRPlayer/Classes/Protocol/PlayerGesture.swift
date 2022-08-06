@@ -26,12 +26,17 @@ public protocol SRPlayerGesture: NSObject {
 
 /// MARK: -- 播放手势协议
 public protocol SRPlayer_P: UIView {
-    /** 可响应的events*/
+    /// 可响应的events
     var activityEvents: [GestureUnit] { get }
-    /** 手势协议*/
-    var delegate: SRPlayerGesture? { set get }
-    /** 激活事件*/
+    /// 手势协议
+    var delegate: SRPlayerGesture? { get }
+    /// 激活事件
     func enableEvents(_ events: [GestureUnit], enabled: Bool)
-    /** 判断events是否可响应*/
-    func eventsActivity(_ event: GestureUnit) -> Bool
+}
+
+extension SRPlayer_P {
+    /// 判断events是否可响应
+    public func eventsActivity(_ event: GestureUnit) -> Bool {
+        return activityEvents.contains(event)
+    }
 }

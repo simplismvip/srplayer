@@ -36,10 +36,10 @@ public enum EdgeAreaUnit {
 
 // 屏幕手势事件
 public enum GestureUnit {
+    case pan           // 垂直 & 水平 拖动 [vertLeftPan, vertRightPan, horiPan]
     case vertLeftPan   // 左侧垂直拖动
     case vertRightPan  // 右侧垂直拖动
-    case horiPan      // 水平拖动
-    case pan        // 垂直 & 水平 拖动 [vertLeftPan, vertRightPan, horiPan]
+    case horiPan       // 水平拖动
     case singleClick       // 单击
     case doubleClick       // 双击
     case longPress         // 长按
