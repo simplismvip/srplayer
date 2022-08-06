@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-public class SREdgeAreaView: SRPierceView, SREdgeArea {
+public class SREdgeAreaView: SRPierceView {
     public let top: SRPierceView
     public let left: SRPierceView
     public let right: SRPierceView
@@ -79,14 +79,16 @@ public class SREdgeAreaView: SRPierceView, SREdgeArea {
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
     }
-    
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension SREdgeAreaView: SREdgeArea {
     public func showUnit(units: [EdgeAreaUnit], visible: Bool) {
         self.units = units
         self.visible = visible
         visibleUnit(units: units, visible: visible, completion: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

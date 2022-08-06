@@ -95,11 +95,15 @@ public class SRPlayerController: UIView {
 
 extension SRPlayerController: CotrolProtocol {
     public func showMoreArea(width: CGFloat, animation: Bool) {
-        
+        view.moreAreaView.update(true, animation: true)
+        view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: false)
+        view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: false)
     }
     
     public func hideMoreArea(animation: Bool) {
-        
+        view.moreAreaView.update(false, animation: true)
+        view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: true)
+        view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: true)
     }
     
     public func showEdgeAreaUnit(units: [EdgeAreaUnit], animation: Bool) {

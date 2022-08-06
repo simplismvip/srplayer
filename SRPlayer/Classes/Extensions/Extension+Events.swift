@@ -39,7 +39,8 @@ extension SRPlayerNormalController {
         
         jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] _ in
             SRLogger.debug("更多")
-            self?.view.moreAreaView.visibleMore(true, animation: true)
+            self?.showMoreArea(width: 120, animation: true)
+            // self?.hideMoreArea(animation: true)
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in

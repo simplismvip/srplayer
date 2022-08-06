@@ -7,21 +7,6 @@
 
 import UIKit
 
-protocol ToastRight: UIView {
-    func update(_ progress: CGFloat)
-}
-
-protocol Toast: UIView {
-    func begin(_ type: ToastType)
-    func update(_ progress: CGFloat)
-}
-
-extension Toast {
-    func hide() {
-        isHidden = true
-    }
-}
-
 class ToastView<T: ToastRight>: UIView, Toast {
     private let image: UIButton
     private let right: T

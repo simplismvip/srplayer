@@ -14,6 +14,10 @@ struct Tools {
     }
 }
 
+struct DataTool<T: Codable> {
+    
+}
+
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")
 //SRLogger.debug(bottom)
 public struct InitClass<T: NSObject> {

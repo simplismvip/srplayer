@@ -1,0 +1,27 @@
+{
+    "count":"5",
+    "results":[
+        {
+            "title":"480P",
+            "image":"",
+            "type":2
+        },{
+            "title":"720P",
+            "image":"",
+            "type":2
+        },{
+            "title":"1080P",
+            "image":"",
+            "type":2
+        },{
+            "title":"2K",
+            "image":"",
+            "type":2
+        },{
+            "title":"4K超清",
+            "image":"",
+            "type":2
+        }
+    ]
+}
+

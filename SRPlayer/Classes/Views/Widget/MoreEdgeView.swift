@@ -2,47 +2,73 @@
 //  MoreEdgeView.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/5.
+//  Created by JunMing on 2022/8/5.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
 
-public enum MoreEdgeType {
-    case playrate
-    case series
-    case resolve
-    case none
-}
-
-struct MoreItem {
-    var title: String
-    var image: String
-    var type: MoreEdgeType
-}
-
-class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
-    var items = [MoreItem]()
+public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
+    var items = [MoreEdgeItem]()
     let tableView: UITableView
+    let loading: SRLoading
     override init(frame: CGRect) {
+        self.loading = SRLoading()
         self.tableView = UITableView(frame: frame, style: .plain)
         super.init(frame: frame)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorInset = UIEdgeInsets.zero
-        tableView.estimatedRowHeight = 50
-        tableView.sectionHeaderHeight = 6
-        tableView.sectionFooterHeight = 0
+        
         addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
+        
+        addSubview(loading)
+        loading.snp.makeConstraints { make in
+            make.width.equalTo(80)
+            make.height.equalTo(30)
+            make.centerY.equalTo(snp.centerY)
+            make.centerX.equalTo(snp.centerX)
+        }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func reload(_ type: MoreEdgeType) {
+        switch type {
+        case .playrate:
+            if let items = DataParser<Results>.decode(type.name, "json")?.results {
+                self.items = items
+                tableView.reloadData()
+            }
+        case .series, .resolve:
+            loading.start()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let items = DataParser<Results>.decode(type.name, "json")?.results {
+                    self.items = items
+                    self.tableView.reloadData()
+                }
+                self.loading.stop()
+            }
+//            DataParser<Results>.request(path: type.name) { result in
+//                if let items = result?.results {
+//                    self.items = items
+//                    self.tableView.reloadData()
+//                } else {
+//                    SRLogger.debug("请求失败请重试")
+//                }
+//                self.loading.stop()
+//            }
+        case .none:
+            SRLogger.debug("none")
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "MoreEdgeCell")
         if cell == nil {
             tableView.register(MoreEdgeCell.self, forCellReuseIdentifier: "MoreEdgeCell")
@@ -52,11 +78,7 @@ class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         return cell ?? UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
@@ -68,7 +90,7 @@ class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
 class MoreEdgeCell: UITableViewCell {
     let cover = UIImageView()
     let title = UILabel()
-    var item: MoreItem?
+    var item: MoreEdgeItem?
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.white
@@ -83,7 +105,7 @@ class MoreEdgeCell: UITableViewCell {
         layoutViews()
     }
     
-    func refresh(_ item: MoreItem) {
+    func refresh(_ item: MoreEdgeItem) {
         self.item = item
         title.text = item.title
         cover.image = item.image.image
