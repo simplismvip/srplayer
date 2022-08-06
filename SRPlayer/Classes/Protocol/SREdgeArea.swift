@@ -26,7 +26,7 @@ public protocol SREdgeArea: UIView {
 }
 
 extension SREdgeArea {
-    /** 显示/隐藏 子区域视图 */
+    /// 显示/隐藏 子区域视图
     public func visibleUnit(units: [EdgeAreaUnit], visible: Bool, completion: SRFinish?) {
         UIView.animate(withDuration: 0.3) {
             units.forEach { unit in
@@ -37,7 +37,7 @@ extension SREdgeArea {
         }
     }
     
-    /** 获取子区域是否显示*/
+    /// 获取子区域是否显示
     public func unitVisible(_ unit: EdgeAreaUnit) -> Bool {
         return units.contains { unit == $0 }
     }

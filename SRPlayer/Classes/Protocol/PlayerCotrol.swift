@@ -9,7 +9,7 @@
 import UIKit
 
 /// MARK: -- 控制协议
-public protocol CotrolProtocol {
+public protocol PlayerCotrol {
     associatedtype ContentView: SRContent
     /** 添加PlayerFrame层内容视图*/
     var view: ContentView { get }
@@ -19,7 +19,7 @@ public protocol CotrolProtocol {
     var barManager: SRBarManager { get }
 }
 
-extension CotrolProtocol {
+extension PlayerCotrol {
     /// 显示更多区域
     public func showMoreArea(width: CGFloat, animation: Bool) {
         view.moreAreaView.update(true, animation: true)
@@ -44,7 +44,7 @@ extension CotrolProtocol {
     }
 }
 
-extension CotrolProtocol {
+extension PlayerCotrol {
     public func add(subview: UIView, content: UIView, layout: SRLayout) {
         subview.superview?.removeFromSuperview()
         remove(content)
