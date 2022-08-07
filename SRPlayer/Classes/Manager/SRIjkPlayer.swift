@@ -64,8 +64,8 @@ class SRIjkPlayer: NSObject {
     private var timer: Timer?
     
     init(_ build: PlayerBulider) {
-        self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.url, with: Options.options())
-        self.streamType = build.streamType
+        self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.url, with: Options.options())
+        self.streamType = build.video.streamType
         self.playbackRate = build.playbackRate
         self.view = ijkPlayer.view
         super.init()

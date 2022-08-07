@@ -17,15 +17,17 @@ public enum ScreenType {
 
 // 屏幕状态
 public enum ScreenState {
-    case lock // 锁定
+    case lock   // 锁定
     case unlock // 解锁
 }
 
 // 流类型
-public enum StreamType {
-    case vod // 锁定
-    case live // 解锁
+public enum StreamType: Int {
+    case vod = 0   // 锁定
+    case live = 1  // 解锁
 }
+
+extension StreamType: Codable { }
 
 public enum ToastType {
     case seek        // 快进 快退

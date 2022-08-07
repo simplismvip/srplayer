@@ -68,13 +68,22 @@ class DetailController: ViewController {
             if let m = model as? Model {
                 if m.type == .local {
                     if let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") {
-                        let build = PlayerBulider(url: url)
-                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                        let info: [String: Any?] = ["url": url, "title": m.title, "cover": m.image, "size": "720x1080", "streamType": 0]
+                        if let data = DataParser<PlayerBulider.Video>.jsonData(info),
+                            let video = DataParser<PlayerBulider.Video>.parser(data) {
+                            let build = PlayerBulider(video: video)
+                            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                        }
                     }
                 } else {
                     if let url = URL(string: m.url) {
-                        let build = PlayerBulider(url: url)
-                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                        let info: [String: Any?] = ["url": url, "title": m.title, "cover": m.image, "size": "720x1080", "streamType": 0]
+                        if let data = DataParser<PlayerBulider.Video>.jsonData(info),
+                           let video = DataParser<PlayerBulider.Video>.parser(data) {
+                            let build = PlayerBulider(video: video)
+                            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+                        }
+                        
                     }
                 }
                 SRLogger.debug(m.title)
@@ -106,6 +115,38 @@ class DetailController: ViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200.0
+    }
+    
+    func test() {
+//        if m.type == .local {
+//            guard let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") else {
+//                return
+//            }
+//
+//            guard let data = DataParser<Model>.encode(m)?.data else {
+//                return
+//            }
+//
+//            guard let video = DataParser<PlayerBulider.Video>.parser(data) else {
+//                return
+//            }
+//
+//            let build = PlayerBulider(video: video)
+//            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+//
+//        } else {
+//            guard let data = DataParser<Model>.encode(m)?.data else {
+//                return
+//            }
+//
+//            guard let video = DataParser<PlayerBulider.Video>.parser(data) else {
+//                return
+//            }
+//
+//            let build = PlayerBulider(video: video)
+//            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+//        }
+//        SRLogger.debug(m.title)
     }
     
     deinit {

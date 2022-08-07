@@ -21,6 +21,56 @@ public struct DataParser<T: Codable> {
         return nil
     }
     
+    public static func parser(_ data: Data) -> T? {
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    public static func jsonData(_ param: Any) -> Data? {
+        if !JSONSerialization.isValidJSONObject(param) {
+            return nil
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: param, options: []) else {
+            return nil
+        }
+        return data
+    }
+    
+    public static func encode(_ model: T) -> [String: Any]? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        guard let data = try? encoder.encode(model) else {
+            return nil
+        }
+        
+        guard let dict = try? JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as? [String: Any] else {
+            return nil
+        }
+        
+        return dict
+    }
+    
+    public static func encodeToString(_ model: T) -> String? {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        guard let data = try? encoder.encode(model) else {
+            return nil
+        }
+        
+        guard let jsonStr = String(data: data, encoding: .utf8) else {
+            return nil
+        }
+        return jsonStr
+    }
+}
+
+extension DataParser {
     public static func request(path: String, callback: @escaping (T?) -> Void) {
         guard let url = URL(string: path) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, _) in
@@ -34,13 +84,16 @@ public struct DataParser<T: Codable> {
         }
         .resume()
     }
-    
-    public static func parser(_ data: Data) -> T? {
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            print(error.localizedDescription)
+}
+
+extension Dictionary {
+    public var data: Data? {
+        if !JSONSerialization.isValidJSONObject(self) {
+            return nil
         }
-        return nil
+        guard let data = try? JSONSerialization.data(withJSONObject: self, options: []) else {
+            return nil
+        }
+        return data
     }
 }

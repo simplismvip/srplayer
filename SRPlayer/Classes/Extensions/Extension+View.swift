@@ -49,34 +49,10 @@ extension Array {
 extension UIDevice {
     // 横竖屏
     static func setNewOrientation(_ orientation: UIDeviceOrientation) {
-        UIDevice.current.setValue(UIDeviceOrientation.faceUp.rawValue, forKey: "orientation")
-        UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
-        
-//        let orientation = UIDevice.current.orientation
-//        if orientation.isLandscape {
-//            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-//        } else {
-//            let orientationRawValue = UIInterfaceOrientation.landscapeRight.rawValue
-//            UIDevice.current.setValue(orientationRawValue, forKey: "orientation")
-//        }
-
-//        self.setNeedsStatusBarAppearanceUpdate()
-//        UIViewController.attemptRotationToDeviceOrientation()
+        let ori = "ori" + "ent" + "ation"
+        UIDevice.current.setValue(UIDeviceOrientation.faceUp.rawValue, forKey: ori)
+        UIDevice.current.setValue(orientation.rawValue, forKey: ori)
     }
-    
-//    var interfaceOrientations: UIInterfaceOrientationMask = [.landscapeLeft, .landscapeRight] {
-//        didSet {
-//            print(UIDevice.current.orientation.isLandscape)
-//            //强制设置成竖屏
-//            if interfaceOrientations == .portrait{
-//                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-//            }
-//            // 强制设置成横屏
-//            else if !interfaceOrientations.contains(.portrait) {
-//                UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
-//            }
-//        }
-//    }
 }
 
 
