@@ -89,25 +89,27 @@ public class SRPlayerControlBar: UIView {
     }
 }
 
+extension Array where Element: SRItem {
+    public func style(_ style: ItemStyle) -> Element? {
+        return self.filter { $0.itemStyle == style }.first
+    }
+}
+
 extension SRPlayerControlBar: SRControlBar { 
     public func addItem(_ item: SRPlayerItem) {
         self.items.append(item)
     }
     
-    public func itemOfStyle(_ style: ItemStyle) -> SRPlayerItem? {
-        return self.items.filter { $0.itemStyle == style }.first
-    }
-    
     public func sliderItem() -> SRPlayerSliderItem? {
-        return itemOfStyle(.slider) as? SRPlayerSliderItem
+        return items.style(.slider) as? SRPlayerSliderItem
     }
     
     public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
-        return itemOfStyle(style) as? SRPlayerButtonItem
+        return items.style(style) as? SRPlayerButtonItem
     }
     
     public func titleItem(_ style: ItemStyle) -> SRPlayerTextItem? {
-        return itemOfStyle(style) as? SRPlayerTextItem
+        return items.style(style) as? SRPlayerTextItem
     }
     
     public func layoutItems() {
