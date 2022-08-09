@@ -61,13 +61,6 @@ public class SRPlayerControlBar: UIView {
         }
     }
     
-    private func findView(_ item: SRPlayerItem?) -> UIView? {
-       if let item = item {
-           return boxs[item.eventName]?.weakObjc
-       }
-       return nil
-    }
-    
     func setupPadding() { }
 
     func setupShadow() {}
@@ -110,6 +103,13 @@ extension SRPlayerControlBar: SRControlBar {
     
     public func titleItem(_ style: ItemStyle) -> SRPlayerTextItem? {
         return items.style(style) as? SRPlayerTextItem
+    }
+    
+    public func findView(_ item: SRPlayerItem?) -> UIView? {
+       if let item = item {
+           return boxs[item.eventName]?.weakObjc
+       }
+       return nil
     }
     
     public func layoutItems() {

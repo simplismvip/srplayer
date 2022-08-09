@@ -14,7 +14,7 @@ class SRBatteryView: UIView {
     private let battery: Bettary
     private var timer: Timer?
     private var isWlan: Bool {
-        if let address = getAddress(isWifi: false), address.count > 0 {
+        if let address = SRNetSpeed.getAddress(false), address.count > 0 {
             return true
         }
         return false
@@ -81,34 +81,6 @@ class SRBatteryView: UIView {
         return false
     }
     
-    private func getAddress(isWifi: Bool) -> String? {
-        var address : String?
-        // Get list of all interfaces on the local machine:
-        var ifaddr : UnsafeMutablePointer<ifaddrs>?
-        guard getifaddrs(&ifaddr) == 0 else { return nil }
-        guard let firstAddr = ifaddr else { return nil }
-        // For each interface ...
-        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
-            let interface = ifptr.pointee
-            // Check for IPv4 or IPv6 interface:
-            let addrFamily = interface.ifa_addr.pointee.sa_family
-            if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
-                // Check interface name:
-                let name = String(cString: interface.ifa_name)
-                if  name == (isWifi ? "en0" : "pdp_ip0") {
-                    // Convert interface address to a human readable string:
-                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String(cString: hostname)
-                }
-            }
-        }
-        freeifaddrs(ifaddr)
-        return address
-    }
-    
     deinit {
         timer?.invalidate()
         timer = nil
@@ -130,7 +102,7 @@ class Bettary: UIView {
         layer.addSublayer(layerRight)
         layer.addSublayer(battery)
         addSubview(text)
-        text.jmConfigLabel(alig: .center, font: UIFont.jmBold(7), color: UIColor.white)
+        text.jmConfigLabel(alig: .center, font: UIFont.jmBold(8), color: UIColor.white)
         updateValue()
         
         NotificationCenter.default.jm.addObserver(target: self, name: Noti.battery.name.rawValue) { [weak self](_) in
@@ -163,7 +135,7 @@ class Bettary: UIView {
         UIDevice.current.isBatteryMonitoringEnabled = true
         var level = UIDevice.current.batteryLevel
         if level < 0 { level = 1.0 }
-        text.text = String(format: "%.0f%%", level * 100)
+        text.text = String(format: "%.0f", level * 100)
     }
     
     deinit {

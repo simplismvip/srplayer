@@ -54,9 +54,9 @@ extension SRPlayerNormalController {
         
         // right
         let screenShot = ItemFactory.buttonItem(.screenShot, location: .right, image: "sr_capture")
-        let recording = ItemFactory.buttonItem(.recording, location: .right, image: "sr_recording")
+//        let recording = ItemFactory.buttonItem(.recording, location: .right, image: "sr_recording")
         self.barManager.right.addItem(screenShot)
-        self.barManager.right.addItem(recording)
+//        self.barManager.right.addItem(recording)
     }
     
     func addEdgeSubViews() {

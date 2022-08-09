@@ -108,8 +108,9 @@ extension SRPlayerNormalController {
             SRLogger.debug("播放下一个")
         }, next: false)
         
+        // 截屏
         jmRegisterEvent(eventName: kEventNameScreenShotAction, block: { [weak self] info in
-            SRLogger.debug("截屏")
+            self?.jmSendMsg(msgName: kMsgNameShotScreen, info: nil)
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameRecordingAction, block: { [weak self] info in
@@ -198,8 +199,16 @@ extension SRPlayerNormalController {
         }
         
         /// 截图
-        jmReciverMsg(msgName: kMsgNameShotScreen) { _ in
-            
+        jmReciverMsg(msgName: kMsgNameScreenShotDone) { [weak self] _ in
+            if let thumbImage = self?.processM.model(SRPlayProcess.self)?.thumbImage,
+               let screenShot = self?.barManager.right.buttonItem(.screenShot),
+               let v = self?.barManager.right.findView(screenShot),
+               let point = self?.barManager.right.convert(v.frame.origin, to: self?.view.floatView) {
+                let screen = ToastType.screenShot(point, thumbImage)
+                self?.view.floatView.show(screen)
+            } else {
+                SRToast.toast("截图失败！")
+            }
             return nil
         }
     }

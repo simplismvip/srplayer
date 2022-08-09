@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SRQualitySwitchModel {
+class SRQualityModel {
     
 }
 
-extension SRQualitySwitchModel: SRModel { }
+extension SRQualityModel: SRModel { }

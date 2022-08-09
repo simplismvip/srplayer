@@ -10,6 +10,7 @@ import UIKit
 
 class SRPlayerText: UILabel {
     private var disposes = Set<RSObserver>()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         numberOfLines = 0

@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SRQualitySwitchProcess:  NSObject, SRProgress {
-    var model: SRQualitySwitchModel
+class SRQualityProcess: NSObject, SRProgress {
+    var model: SRQualityModel
     override init() {
-        self.model = SRQualitySwitchModel()
+        self.model = SRQualityModel()
     }
     
     func configProcess() {

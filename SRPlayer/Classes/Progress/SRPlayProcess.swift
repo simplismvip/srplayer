@@ -135,6 +135,7 @@ extension SRPlayProcess: SRProgress {
         /// 截图
         jmReciverMsg(msgName: kMsgNameShotScreen) { [weak self] _ in
             self?.model.thumbImage = self?.player?.thumbnailImageAtCurrentTime()
+            self?.jmSendMsg(msgName: kMsgNameScreenShotDone, info: nil)
             return nil
         }
         

@@ -64,9 +64,9 @@ class SRIjkPlayer: NSObject {
     private var timer: Timer?
     
     init(_ build: PlayerBulider) {
-        self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.url, with: Options.options())
-        self.streamType = build.video.streamType
-        self.playbackRate = build.playbackRate
+        self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.videoUrl, with: Options.options())
+        self.streamType = build.stream
+        self.playbackRate = build.playRate
         self.view = ijkPlayer.view
         super.init()
         
@@ -74,8 +74,8 @@ class SRIjkPlayer: NSObject {
         // self.ijkKvo = IJKKVOController(target: self)
         ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         ijkPlayer.scalingMode = build.scaMode.transTo()
-        ijkPlayer.allowsMediaAirPlay = build.allowsAirPlay
-        ijkPlayer.shouldAutoplay = build.shouldAutoplay
+        ijkPlayer.allowsMediaAirPlay = build.mirror
+        ijkPlayer.shouldAutoplay = build.autoPlay
         ijkPlayer.prepareToPlay()
         addPlayerObserver()
     }

@@ -131,19 +131,27 @@ extension SRPlayerController: SRPlayerGesture {
         case .change(let value):
             SRLogger.debug(value)
             view.floatView.update(value)
-            if type == .brightness {
-                brightness(value)
-            } else if type == .volume {
-                volume(value)
-            } else if type == .seek {
+            
+            switch type {
+            case .seek:
                 seekChange(value)
+            case .volume:
+                volume(value)
+            case .brightness:
+                brightness(value)
+            default:
+                SRLogger.debug("")
             }
+            
         case .end, .cancle:
             SRLogger.debug("end")
             view.floatView.hide()
             
-            if type == .seek {
+            switch type {
+            case .seek:
                 seekEnd()
+            default:
+                SRLogger.debug("")
             }
         }
     }

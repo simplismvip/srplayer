@@ -56,7 +56,8 @@ public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
 public let kMsgNameStartLoading = "kMsgNameStartLoading"
 /// 结束loading动画
 public let kMsgNameEndLoading = "kMsgNameEndLoading"
-
+/// 截屏完成
+public let kMsgNameScreenShotDone = "kMsgNameScreenShotDone"
 
 
 // ------------- Event Name -------------
@@ -93,6 +94,8 @@ public let kEventNameShareChoiceAction = "kEventNameShareChoiceAction"
 public let kEventNameNextAction = "kEventNameNextAction"
 /// 截屏
 public let kEventNameScreenShotAction = "kEventNameScreenShotAction"
+/// 截屏分享
+public let kEventNameScreenShare = "kEventNameScreenShare"
 /// 录像
 public let kEventNameRecordingAction = "kEventNameRecordingAction"
 /// 锁屏

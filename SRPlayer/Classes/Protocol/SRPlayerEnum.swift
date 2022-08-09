@@ -35,6 +35,7 @@ public enum ToastType {
     case volume      // 音量
     case brightness  // 亮度
     case loading     // 加载动画
+    case screenShot(CGPoint, UIImage)  // 截屏
     case none        // 加载动画
     
     var name: String {
@@ -47,7 +48,7 @@ public enum ToastType {
             return "sr_volume"
         case .brightness:
             return "sr_volume"
-        case .loading, .none:
+        case .loading, .screenShot, .none:
             return ""
         }
     }

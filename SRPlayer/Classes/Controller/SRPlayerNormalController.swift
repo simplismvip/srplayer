@@ -37,7 +37,7 @@ extension SRPlayerNormalController {
         
         let playP = SRPlayProcess()
         let urlP = SRPlayUrlProgress()
-        let switchP = SRQualitySwitchProcess()
+        let switchP = SRQualityProcess()
         self.processM.addProcess(playP)
         self.processM.addProcess(urlP)
         self.processM.addProcess(switchP)

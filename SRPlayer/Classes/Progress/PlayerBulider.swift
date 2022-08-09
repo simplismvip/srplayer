@@ -10,36 +10,42 @@ import UIKit
 
 public struct PlayerBulider {
     public var video: Video
+    public var mute: Bool
+    public var mirror: Bool
+    public var autoPlay: Bool
+    public var stream: StreamType
     public var scaMode: ScalingMode
-    public var allowsAirPlay = true
-    public var shouldAutoplay = true
-    public var playbackRate: PlaybackRate
+    public var playRate: PlaybackRate
     
     public init(video: Video,
                 scaMode: ScalingMode = .aspectFit,
-                rate: PlaybackRate = .rate1x0,
                 streamType: StreamType = .vod,
-                allowsAirPlay: Bool = false,
-                shouldAutoplay: Bool = true) {
+                rate: PlaybackRate = .rate1x0,
+                mute: Bool = false,
+                mirror: Bool = false,
+                autoPlay: Bool = true) {
         self.video = video
         self.scaMode = scaMode
-        self.allowsAirPlay = allowsAirPlay
-        self.shouldAutoplay = shouldAutoplay
-        self.playbackRate = rate
+        self.stream = streamType
+        self.playRate = rate
+        self.mirror = mirror
+        self.autoPlay = autoPlay
+        self.mute = mute
     }
     
-    public struct Video: Codable {
-        public var url: URL
-        public var title: String
-        public var cover: String
-        public var size: String?
-        public var streamType: StreamType
-//        init(url: URL, title: String, cover: String, size: CGSize?, streamType: StreamType = .vod) {
-//            self.url = url
-//            self.title = title
-//            self.cover = cover
-//            self.size = size
-//            self.streamType = streamType
-//        }
+    public struct Video {
+        // 默认使用的播放器视频地址
+        public let videoUrl: URL
+        public var title: String?
+        public var cover: String?
+        public var resolution: String?
+        public var multiURLs: [Video]? // 多码率视频地址
+        
+        public init(videoUrl: URL, title: String?, cover: String?, resolution: String?) {
+            self.videoUrl = videoUrl
+            self.title = title
+            self.cover = cover
+            self.resolution = resolution
+        }
     }
 }
