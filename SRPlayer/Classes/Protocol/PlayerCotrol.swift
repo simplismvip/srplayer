@@ -25,11 +25,11 @@ extension PlayerCotrol {
         view.moreAreaView.begin(type)
         view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: false)
         view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: false)
-        view.moreAreaView.update(true)
+        view.moreAreaView.show()
     }
     /// 隐藏更多区域
     public func hideMoreArea() {
-        view.moreAreaView.update(false)
+        view.moreAreaView.hide()
         view.edgeAreaView.showUnit(units: [.left, .right, .top, .bottom], visible: true)
         view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: true)
     }

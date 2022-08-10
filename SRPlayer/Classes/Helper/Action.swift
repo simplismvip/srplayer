@@ -11,10 +11,24 @@ import UIKit
 struct Action {
     var name: String
     var target: NSObject
-    var select: Selector
+    var selector: Selector
+    
+    init(target: NSObject, selector: Selector) {
+        self.target = target
+        self.selector = selector
+        self.name = ""
+    }
     
     func perform() {
-        target.perform(select)
+        target.perform(selector)
+    }
+    
+    func perform(_ with: Any) {
+        target.perform(selector, with: with)
+    }
+    
+    func perform(_ with: Any, delay: TimeInterval) {
+        target.perform(selector, with: with, afterDelay: delay)
     }
 }
 
@@ -28,4 +42,19 @@ class Task {
     func remove(_ name: String) {
         tasks.removeValue(forKey: name)
     }
+}
+
+class Test: NSObject {
+    func testAction() {
+        let action = Action(target: self, selector: #selector(testmsg))
+        action.perform()
+    }
+    
+    @objc func testmsg() {
+        print("testmsg")
+    }
+}
+
+protocol ActionP {
+    
 }

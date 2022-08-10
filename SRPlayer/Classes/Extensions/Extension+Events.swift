@@ -37,60 +37,71 @@ extension SRPlayerNormalController {
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         }, next: false)
         
+        // 更多
         jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] _ in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.more)
+                self?.showMoreArea(.more(nil))
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.more as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击更多")
             }
         }, next: false)
         
+        // 更多选择
+        jmRegisterEvent(eventName: kEventNameMoreChoiceAction, block: { [weak self] _ in
+            SRLogger.debug("更多选择")
+        }, next: false)
+        
+        // 播放速率
         jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.playrate)
+                self?.showMoreArea(.playrate(nil))
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.playrate as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击切换播放速率")
             }
         }, next: false)
         
+        // 播放速率选择
         jmRegisterEvent(eventName: kEventNamePlayRateChoiceAction, block: { [weak self] moreItem in
-            if let item = moreItem as? MoreItem {
-                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
-            }
+            SRLogger.debug("播放速率选择")
         }, next: false)
         
         // 剧集
-        jmRegisterEvent(eventName: kEventNamePlaySeriesAction, block: { [weak self] moreItem in
-            if let item = moreItem as? MoreItem {
-                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+        jmRegisterEvent(eventName: kEventNamePlaySeriesAction, block: { [weak self] _ in
+            if self?.barManager.top.screenType == .full {
+                self?.showMoreArea(.series(nil))
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.series as MsgObjc)
+            } else {
+                SRLogger.debug("半屏幕状态下点击剧集")
             }
         }, next: false)
         
         // 剧集选择
         jmRegisterEvent(eventName: kEventNamePlaySeriesChoiceAction, block: { [weak self] moreItem in
-            if let item = moreItem as? MoreItem {
-                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
-            }
+            SRLogger.debug("剧集选择")
         }, next: false)
         
         // 清晰度
         jmRegisterEvent(eventName: kEventNamePlayResolveAction, block: { [weak self] moreItem in
-            if let item = moreItem as? MoreItem {
-                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
+            if self?.barManager.top.screenType == .full {
+                self?.showMoreArea(.resolve(nil))
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.resolve as MsgObjc)
+            } else {
+                SRLogger.debug("半屏幕状态下点击清晰度")
             }
         }, next: false)
         
         // 清晰度选择
         jmRegisterEvent(eventName: kEventNamePlayResolveChoiceAction, block: { [weak self] moreItem in
-            if let item = moreItem as? MoreItem {
-                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
-            }
+            SRLogger.debug("清晰度选择")
         }, next: false)
   
         // 分享
         jmRegisterEvent(eventName: kEventNameShareAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.share)
+                self?.showMoreArea(.share(nil))
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.share as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击分享")
             }
@@ -98,10 +109,7 @@ extension SRPlayerNormalController {
         
         // 分享选择
         jmRegisterEvent(eventName: kEventNameShareChoiceAction, block: { [weak self] info in
-            SRLogger.debug("半屏幕状态下点击分享")
-//            if let item = moreItem as? MoreItem {
-//                self?.jmSendMsg(msgName: kMsgNameChangePlaybackRate, info: 2.0 as MsgObjc)
-//            }
+            SRLogger.debug("分享选择")
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameNextAction, block: { [weak self] info in
@@ -113,10 +121,12 @@ extension SRPlayerNormalController {
             self?.jmSendMsg(msgName: kMsgNameShotScreen, info: nil)
         }, next: false)
         
+        // 截取短视频
         jmRegisterEvent(eventName: kEventNameRecordingAction, block: { [weak self] info in
             SRLogger.debug("录像")
         }, next: false)
         
+        // 锁定、解锁
         jmRegisterEvent(eventName: kEventNameLockScreenAction, block: { [weak self] _ in
             if let lock = self?.barManager.left.buttonItem(.lockScreen) {
                 lock.isLockScreen.toggle()
@@ -178,6 +188,15 @@ extension SRPlayerNormalController {
                 self?.view.floatView.show(screen)
             } else {
                 SRToast.toast("截图失败！")
+            }
+            return nil
+        }
+        
+        /// MoreArea 刷新数据
+        jmReciverMsg(msgName: kMsgNameMoreAreaReloadData) { [weak self] _ in
+            if let model = self?.flowManager.model(SRMoreAreaFlow.self) {
+                self?.view.moreAreaView.type = .more(model.result)
+                self?.view.moreAreaView.relodata()
             }
             return nil
         }

@@ -8,36 +8,57 @@
 
 import UIKit
 
+public protocol SRMoreContent: UIView {
+    var loading: SRLoading { get }
+    func reload(_ type: MoreEdgeType)
+}
+
+extension SRMoreContent {
+    func hideLoading() {
+        self.loading.stop()
+    }
+}
+
 /// MARK: -- 更多层协议
 public protocol SRMoreArea: UIView {
-    var content: MoreEdgeView { get }
-    var type: MoreEdgeType { get }
-    var isShow: Bool { set get }
+    var content: SRMoreContent? { get }
+    var type: MoreEdgeType { set get }
+    // 开始刷新数据
+    func begin(_ type: MoreEdgeType)
 }
 
 extension SRMoreArea {
-    /// 显示/隐藏 More容器
-    public func update(_ show: Bool) {
-        self.isShow = show
-        let offset = show ? 0 : self.type.whidth
-        UIView.animate(withDuration: 0.5) {
-            self.content.snp.updateConstraints { make in
-                make.right.equalTo(self.snp.right).offset(offset)
+    /// 显示More容器
+    public func show() {
+        // 等待0.3秒布局完成后做动画
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            UIView.animate(withDuration: 0.5) {
+                self.content?.snp.updateConstraints { make in
+                    make.right.equalTo(self.snp.right)
+                }
+                self.content?.setNeedsLayout()
+                self.content?.layoutIfNeeded()
             }
-            self.content.setNeedsLayout()
-            self.content.layoutIfNeeded()
-        } completion: { finish in
-            self.content.isHidden = !show
         }
     }
     
-    public func begin(_ type: MoreEdgeType) {
-        if type == .series {
-            self.content.snp.updateConstraints { make in
-                make.width.equalTo(type.whidth)
-                make.right.equalTo(self.snp.right).offset(type.whidth)
+    // 隐藏More容器
+    public func hide() {
+        UIView.animate(withDuration: 0.5) {
+            self.content?.snp.updateConstraints { make in
+                make.right.equalTo(self.snp.right).offset(self.jmWidth)
             }
+            self.content?.setNeedsLayout()
+            self.content?.layoutIfNeeded()
+        } completion: { finish in
+            self.type = .none
+            self.content?.hideLoading()
+            self.removellSubviews { _ in true }
         }
-        content.reload(type)
+    }
+    
+    // 刷新数据
+    public func relodata() {
+        self.content?.reload(self.type)
     }
 }

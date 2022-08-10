@@ -51,7 +51,10 @@ public let kMsgNameStartLoading = "kMsgNameStartLoading"
 public let kMsgNameEndLoading = "kMsgNameEndLoading"
 /// 截屏完成
 public let kMsgNameScreenShotDone = "kMsgNameScreenShotDone"
-
+/// 请求MoreArea 展示数据
+public let kMsgNameMoreAreaRequestData = "kMsgNameMoreAreaRequestData"
+/// 刷新MoreArea 数据
+public let kMsgNameMoreAreaReloadData = "kMsgNameMoreAreaReloadData"
 
 // ------------- Event Name -------------
 /// 切换全屏半屏
@@ -62,6 +65,8 @@ public let kEventNameBackAction = "kEventNameBackAction"
 public let kEventNamePlayAction = "kEventNamePlayAction"
 /// 更多
 public let kEventNameMoreAction = "kEventNameMoreAction"
+/// 更多选择
+public let kEventNameMoreChoiceAction = "kEventNameMoreChoiceAction"
 /// 切换速率
 public let kEventNamePlayRateAction = "kEventNamePlayRateAction"
 /// 更改播放速率
