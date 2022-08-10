@@ -40,7 +40,7 @@ extension SRPlayerNormalController {
         // 更多
         jmRegisterEvent(eventName: kEventNameMoreAction, block: { [weak self] _ in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.more(nil))
+                self?.showMoreArea(.more)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.more as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击更多")
@@ -55,7 +55,7 @@ extension SRPlayerNormalController {
         // 播放速率
         jmRegisterEvent(eventName: kEventNamePlayRateAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.playrate(nil))
+                self?.showMoreArea(.playrate)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.playrate as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击切换播放速率")
@@ -70,7 +70,7 @@ extension SRPlayerNormalController {
         // 剧集
         jmRegisterEvent(eventName: kEventNamePlaySeriesAction, block: { [weak self] _ in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.series(nil))
+                self?.showMoreArea(.series)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.series as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击剧集")
@@ -85,7 +85,7 @@ extension SRPlayerNormalController {
         // 清晰度
         jmRegisterEvent(eventName: kEventNamePlayResolveAction, block: { [weak self] moreItem in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.resolve(nil))
+                self?.showMoreArea(.resolve)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.resolve as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击清晰度")
@@ -100,7 +100,7 @@ extension SRPlayerNormalController {
         // 分享
         jmRegisterEvent(eventName: kEventNameShareAction, block: { [weak self] info in
             if self?.barManager.top.screenType == .full {
-                self?.showMoreArea(.share(nil))
+                self?.showMoreArea(.share)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.share as MsgObjc)
             } else {
                 SRLogger.debug("半屏幕状态下点击分享")
@@ -195,8 +195,7 @@ extension SRPlayerNormalController {
         /// MoreArea 刷新数据
         jmReciverMsg(msgName: kMsgNameMoreAreaReloadData) { [weak self] _ in
             if let model = self?.flowManager.model(SRMoreAreaFlow.self) {
-                self?.view.moreAreaView.type = .more(model.result)
-                self?.view.moreAreaView.relodata()
+                self?.view.moreAreaView.relodata(model.items)
             }
             return nil
         }

@@ -16,11 +16,11 @@ protocol MoreEdgeItem: Codable {
 }
 
 public enum MoreEdgeType {
-    case playrate(Results?)
-    case series(Results?)
-    case resolve(Results?)
-    case more(Results?)
-    case share(Results?)
+    case playrate
+    case series
+    case resolve
+    case more
+    case share
     case none
     
     var name: String {

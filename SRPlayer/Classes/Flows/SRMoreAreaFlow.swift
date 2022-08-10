@@ -17,16 +17,16 @@ class SRMoreAreaFlow: NSObject {
     
     func request(_ type: MoreEdgeType) {
 //        DataParser<Results>.request(path: type.name) { result in
-//            if let items = result?.results {
-//                self.model.items = items
-//            } else {
-//                SRLogger.debug("请求失败请重试")
+//            if let res = result {
+//                self.model.items = [res]
+//                self.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
 //            }
 //        }
-//        
-//        if let items = DataParser<Results>.decode(type.name, "json")?.results {
-//            self.model.items = items
-//        }
+
+        if let result = DataParser<Results>.decode(type.name, "json") {
+            self.model.items = [result]
+            self.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
+        }
     }
     
     deinit {
@@ -35,13 +35,10 @@ class SRMoreAreaFlow: NSObject {
 }
 
 extension SRMoreAreaFlow: SRFlow {
-    
     func configFlow() {
-        /// 请求数据
         jmReciverMsg(msgName: kMsgNameMoreAreaRequestData) { [weak self] edgeType in
             if let type = edgeType as? MoreEdgeType {
-               
-                self?.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
+                self?.request(type)
             }
             return nil
         }

@@ -10,7 +10,7 @@ import UIKit
 
 public protocol SRMoreContent: UIView {
     var loading: SRLoading { get }
-    func reload(_ type: MoreEdgeType)
+    func reload(_ item: [Results])
 }
 
 extension SRMoreContent {
@@ -58,7 +58,7 @@ extension SRMoreArea {
     }
     
     // 刷新数据
-    public func relodata() {
-        self.content?.reload(self.type)
+    public func relodata(_ item: [Results]) {
+        self.content?.reload(item)
     }
 }

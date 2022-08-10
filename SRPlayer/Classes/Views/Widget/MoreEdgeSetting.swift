@@ -30,15 +30,9 @@ class MoreEdgeSetting: UIView {
 }
 
 extension MoreEdgeSetting: SRMoreContent {
-    public func reload(_ type: MoreEdgeType) {
-        switch type {
-        case .more(let result):
-            SRLogger.debug(result?.count)
-//            self.items = items
-//            tableView.reloadData()
-//            hideLoading()
-        default:
-            SRLogger.debug("none")
-        }
+    public func reload(_ item: [Results]) {
+//        self.items = items
+//        tableView.reloadData()
+//        hideLoading()
     }
 }

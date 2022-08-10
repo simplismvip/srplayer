@@ -116,14 +116,9 @@ class MoreEdgeSeries: UIView, UITableViewDelegate, UITableViewDataSource {
 }
 
 extension MoreEdgeSeries: SRMoreContent {
-    public func reload(_ type: MoreEdgeType) {
-        switch type {
-        case .series(_): break
-//            self.items = result?.results
-//            tableView.reloadData()
-//            hideLoading()
-        default:
-            SRLogger.debug("none")
-        }
+    public func reload(_ item: [Results]) {
+//        self.items = result?.results
+//        tableView.reloadData()
+//        hideLoading()
     }
 }

@@ -30,14 +30,9 @@ class MoreEdgeShare: UIView {
 }
 
 extension MoreEdgeShare: SRMoreContent {
-    public func reload(_ type: MoreEdgeType) {
-        switch type {
-        case .share(_): break
-//            self.items = items
-//            tableView.reloadData()
-//            hideLoading()
-        default:
-            SRLogger.debug("none")
-        }
+    public func reload(_ item: [Results]) {
+//        self.items = items
+//        tableView.reloadData()
+//        hideLoading()
     }
 }

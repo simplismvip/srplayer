@@ -38,8 +38,10 @@ extension SRPlayerNormalController {
         let playP = SRPlayFlow()
         let urlP = SRPlayUrlFlow()
         let switchP = SRQualityFlow()
+        let moreFlow = SRMoreAreaFlow()
         self.flowManager.addFlow(playP)
         self.flowManager.addFlow(urlP)
         self.flowManager.addFlow(switchP)
+        self.flowManager.addFlow(moreFlow)
     }
 }

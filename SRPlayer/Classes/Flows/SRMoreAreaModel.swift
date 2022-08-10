@@ -9,8 +9,7 @@
 import UIKit
 
 class SRMoreAreaModel: NSObject {
-    var result: Results?
-    var items: [Results]?
+    var items: [Results] = []
     var type: MoreEdgeType = .none
 }
 
