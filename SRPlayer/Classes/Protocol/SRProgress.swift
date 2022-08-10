@@ -13,7 +13,7 @@ public protocol SRModel { }
 public protocol SRFlow: NSObject {
     associatedtype MODEL: SRModel
     var model: MODEL { set get }
-    func configProcess()
+    func configFlow()
 }
 
 extension SRFlow {

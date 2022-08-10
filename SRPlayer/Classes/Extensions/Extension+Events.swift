@@ -162,24 +162,6 @@ extension SRPlayerNormalController {
             return nil
         }
         
-        /// 快进快退失败
-        jmReciverMsg(msgName: kMsgNamePlayerSeekFailed) { _ in
-            
-            return nil
-        }
-        
-        /// 快进快退
-        jmReciverMsg(msgName: kMsgNamePlayerSeeking) { _ in
-            
-            return nil
-        }
-        
-        /// 快进快退完成
-        jmReciverMsg(msgName: kMsgNamePlayerSeekEnded) { _ in
-            
-            return nil
-        }
-        
         /// 静音
         jmReciverMsg(msgName: kMsgNameActionMute) { _ in
             

@@ -9,19 +9,25 @@
 import UIKit
 
 class SRPlayModel: NSObject {
-    @objc dynamic var isMute: Bool = false
     @objc dynamic var isPlaying: Bool = false
     @objc dynamic var isPrepareToPlay: Bool = false
     @objc dynamic var airPlayMediaActive: Bool = false
     @objc dynamic var duration: TimeInterval = 0
     @objc dynamic var currentTime: TimeInterval = 0
+    @objc dynamic var playableDuration: TimeInterval = 0
     @objc dynamic var cacheDuration: TimeInterval = 0
     @objc dynamic var thumbImage: UIImage?
     @objc dynamic var playRateStr: String = "倍速"
+    @objc dynamic var playbackVolume: Float = 0
     
     var playState: PlaybackState = .stop
     var loadState: PlayLoadState = .unknow
     var scalingMode : ScalingMode = .none
+    
+    var isMute: Bool {
+        return playbackVolume > 0
+    }
+    
     var playbackRate: PlaybackRate = .rate1x0 {
         willSet {
             playRateStr = newValue.name

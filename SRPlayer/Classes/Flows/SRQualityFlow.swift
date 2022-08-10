@@ -14,7 +14,7 @@ class SRQualityFlow: NSObject, SRFlow {
         self.model = SRQualityModel()
     }
     
-    func configProcess() {
+    func configFlow() {
         
     }
     

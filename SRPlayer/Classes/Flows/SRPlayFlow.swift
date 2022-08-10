@@ -8,7 +8,6 @@
 
 import UIKit
 import ZJMKit
-import IJKMediaFrameworkWithSSL
 
 class SRPlayFlow: NSObject {
     private var disposes = Set<RSObserver>()
@@ -43,10 +42,11 @@ class SRPlayFlow: NSObject {
 }
 
 extension SRPlayFlow: SRFlow {
-    func configProcess() {
+    func configFlow() {
         /// 准备初始化
         jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
             if let build = builder as? PlayerBulider {
+                SRLogger.debug("初始化播放器.....")
                 self?.setupPlayer(build)
                 self?.jmSendMsg(msgName: kMsgNameStartLoading, info: nil)
             }
@@ -56,31 +56,39 @@ extension SRPlayFlow: SRFlow {
         /// 准备播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
             self?.model.isPrepareToPlay = true
+            SRLogger.debug("准备播放.....")
             return nil
         }
         
         /// 开始播放
         jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
-            self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
-            self?.model.isPlaying = true
-            
-            if let ijkPlayer = self?.player {
-                self?.model.isMute = ijkPlayer.isMute
-                self?.model.duration = ijkPlayer.duration
-                
-                self?.model.playState = ijkPlayer.playState
-                self?.model.loadState = ijkPlayer.loadState
-                self?.model.scalingMode = ijkPlayer.scalingMode
-                
-                self?.model.naturalSize = ijkPlayer.naturalSize
-                self?.model.playbackRate = ijkPlayer.playbackRate
+            guard let ijkPlayer = self?.player else {
+                return nil
             }
+            
+            self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
+            
+            self?.model.isPlaying = ijkPlayer.isPlaying()
+            self?.model.playableDuration = ijkPlayer.getPlayableDuration()
+            self?.model.duration = ijkPlayer.getDuration()
+            self?.model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+            self?.model.playbackVolume = ijkPlayer.getVolume()
+            self?.model.cacheDuration = ijkPlayer.getVideoCacheDuration()
+            self?.model.playState = ijkPlayer.getPlayState()
+            self?.model.loadState = ijkPlayer.getLoadState()
+            self?.model.scalingMode = ijkPlayer.getScalingMode()
+            self?.model.naturalSize = ijkPlayer.getNaturalSize()
+            self?.model.playbackVolume = ijkPlayer.getVolume()
+            self?.model.playbackRate = ijkPlayer.getPlaybackRate()
+            
+            SRLogger.debug("开始播放.....")
             return nil
         }
         
         /// 播放
         jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
             if let playView = self.player?.view, let containerView = self.containerView {
+                SRLogger.debug("重新添加播放器到容器并设置播放器frame.....")
                 containerView.addSubview(playView)
                 playView.translatesAutoresizingMaskIntoConstraints = true
                 playView.frame = containerView.bounds;
@@ -117,7 +125,7 @@ extension SRPlayFlow: SRFlow {
         /// 更改播放速率
         jmReciverMsg(msgName: kMsgNameChangePlaybackRate) { [weak self] pRate in
             if let rate = pRate as? PlaybackRate {
-                self?.player?.playRate(rate)
+                self?.player?.setPlayRate(rate)
                 self?.model.playbackRate = rate
             }
             return nil
@@ -126,7 +134,7 @@ extension SRPlayFlow: SRFlow {
         /// 更改放缩比例
         jmReciverMsg(msgName: kMsgNameChangeScalingMode) { [weak self] scamode in
             if let smode = scamode as? ScalingMode {
-                self?.player?.scraModel(smode)
+                self?.player?.setScraModel(smode)
                 self?.model.scalingMode = smode
             }
             return nil
@@ -134,46 +142,30 @@ extension SRPlayFlow: SRFlow {
         
         /// 截图
         jmReciverMsg(msgName: kMsgNameShotScreen) { [weak self] _ in
-            self?.model.thumbImage = self?.player?.thumbnailImageAtCurrentTime()
+            self?.model.thumbImage = self?.player?.getThumbnailImageAtCurrentTime()
             self?.jmSendMsg(msgName: kMsgNameScreenShotDone, info: nil)
-            return nil
-        }
-        
-        /// 添加播放器view到视图
-        jmReciverMsg(msgName: kMsgNameAddPlayerView) { _ in
-            
             return nil
         }
         
         /// 播放器播放进度更新
         jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { [weak self] _ in
-            if let ijkPlayer = self?.player {
-                self?.model.currentTime = ijkPlayer.currentTime
-                self?.model.cacheDuration = ijkPlayer.videoCacheDuration
-                SRLogger.debug("当前时长：\(Int(ijkPlayer.currentTime).format)")
-                SRLogger.debug("总时长：\(Int(ijkPlayer.duration).format)")
-                SRLogger.debug("播放进度：\(self?.model.progress ?? 0.0)")
-                // SRLogger.debug("视频缓存时长：\(Int(ijkPlayer.videoCacheDuration).format)")
-                // SRLogger.debug("当前速率：\(ijkPlayer.playbackRate)")
+            guard let ijkPlayer = self?.player, let model = self?.model else {
+                return nil
             }
+
+            if model.currentTime != ijkPlayer.getCurrentPlaybackTime() {
+                model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+                SRLogger.debug("当前时长：\(Int(model.currentTime).format)")
+                SRLogger.debug("总时长：\(Int(model.duration).format)")
+                SRLogger.debug("播放进度：\(model.progress)")
+            }
+            
             return nil
         }
         
         /// 切换清晰度
         jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
 //            self?.model.player.
-            return nil
-        }
-        
-        /// 快进、快退
-        jmReciverMsg(msgName: kMsgNamePlayerSeeking) { _ in
-            
-            return nil
-        }
-        
-        /// 快进、快退结束
-        jmReciverMsg(msgName: kMsgNamePlayerSeekEnded) { _ in
-            
             return nil
         }
     }

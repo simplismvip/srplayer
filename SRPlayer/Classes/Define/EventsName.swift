@@ -45,13 +45,6 @@ public let kMsgNameShotScreen = "kMsgNameShotScreen"
 public let kMsgNameAddPlayerView = "kMsgNameAddPlayerView"
 /// 播放器播放进度更新
 public let kMsgNamePlaybackTimeUpdate = "kMsgNamePlaybackTimeUpdate"
-/// 快进、快退失败
-public let kMsgNamePlayerSeekFailed = "kMsgNamePlayerSeekFailed"
-/// 快进、快退
-public let kMsgNamePlayerSeeking = "kMsgNamePlayerSeeking"
-/// 快进、快退结束
-public let kMsgNamePlayerSeekEnded = "kMsgNamePlayerSeekEnded"
-
 ///  展示loading动画
 public let kMsgNameStartLoading = "kMsgNameStartLoading"
 /// 结束loading动画

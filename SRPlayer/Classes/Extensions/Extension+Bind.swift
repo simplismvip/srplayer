@@ -3,6 +3,7 @@
 //  SRPlayer
 //
 //  Created by JunMing on 2022/8/6.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit

@@ -14,7 +14,7 @@ class SRPlayUrlFlow: NSObject, SRFlow {
         self.model = SRPlayUrlModel()
     }
     
-    func configProcess() {
+    func configFlow() {
         
     }
     

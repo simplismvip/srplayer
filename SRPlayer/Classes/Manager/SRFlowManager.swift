@@ -19,7 +19,7 @@ public class SRFlowManager: NSObject {
     public func addFlow<P: SRFlow>(_ flow: P) {
         if let router = self.msgRouter {
             flow.jmSetAssociatedMsgRouter(router: router)
-            flow.configProcess()
+            flow.configFlow()
         }
         let key = P.className()
         items[key] = flow

@@ -7,26 +7,22 @@
 
 import UIKit
 
-public protocol VideoPlayer {
+protocol VideoPlayer {
     // 播放器view
     var view: UIView { get }
     // seek
     func seekto(_ offset: CGFloat)
     // 播放速率
-    func playRate(_ rate: PlaybackRate)
+    func setPlayRate(_ rate: PlaybackRate)
     // 放缩模式
-    func scraModel(_ scaMode: ScalingMode)
-    // 是否正在播放
-    func isPlaying() -> Bool
-    // 当前视频截图
-    func thumbnailImageAtCurrentTime() -> UIImage?
+    func setScraModel(_ scaMode: ScalingMode)
     // 是否允许airplay
     func setAllowsMediaAirPlay(_ airplay: Bool)
-    
+    // 是否正在播放
     func setDanmakuMediaAirPlay(_ airplay: Bool)
     // 播放器音量
     func setPlayerVolume(_ playbackVolume: Float)
-    // 准备博哦饭
+    // 准备播放
     func prepareToPlay()
     // 开始播放
     func startPlay()
@@ -38,4 +34,31 @@ public protocol VideoPlayer {
     func setMute()
     // 关闭
     func shutdown()
+    
+    // 获取音量
+    func getVolume() -> Float
+    // 获取播放时长
+    func getDuration() -> TimeInterval
+    // 获取当前播放时长
+    func getCurrentPlaybackTime() -> TimeInterval
+    // 获取视频缓存时长
+    func getVideoCacheDuration() -> TimeInterval
+    // 获取播放时长
+    func getPlayableDuration() -> TimeInterval
+    // 获取播放状态
+    func getPlayState() -> PlaybackState
+    // 获取加载状态
+    func getLoadState() -> PlayLoadState
+    // 获取缩放状态
+    func getScalingMode() -> ScalingMode
+    // 获取视频大小
+    func getNaturalSize() -> CGSize
+    // 获取播放速率
+    func getPlaybackRate() -> PlaybackRate
+    // 是否正在播放
+    func isPlaying() -> Bool
+    // 是否准备播放
+    func isPrepareToPlay() -> Bool
+    // 当前视频截图
+    func getThumbnailImageAtCurrentTime() -> UIImage?
 }
