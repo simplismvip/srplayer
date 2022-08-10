@@ -26,7 +26,9 @@ public class SRFloatView: SRPierceView, SRFloat_P {
         toastView?.hide()
         removellSubviews { _ in true }
     }
-    
+}
+
+extension SRFloatView {
     private func setupViews(_ type: ToastType) {
         switch type {
         case .loading:

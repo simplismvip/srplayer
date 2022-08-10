@@ -1,5 +1,5 @@
 //
-//  SRQualitySwitchProcess.swift
+//  SRPlayUrlFlow.swift
 //  Pods-SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/18.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class SRQualityProcess: NSObject, SRProgress {
-    var model: SRQualityModel
+class SRPlayUrlFlow: NSObject, SRFlow {
+    var model: SRPlayUrlModel
     override init() {
-        self.model = SRQualityModel()
+        self.model = SRPlayUrlModel()
     }
     
     func configProcess() {

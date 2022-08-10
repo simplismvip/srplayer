@@ -186,21 +186,9 @@ extension SRPlayerNormalController {
             return nil
         }
         
-        /// 更改播放速率
-        jmReciverMsg(msgName: kMsgNameChangePlaybackRate) { _ in
-            
-            return nil
-        }
-        
-        /// 更改放缩比例
-        jmReciverMsg(msgName: kMsgNameChangeScalingMode) { _ in
-            
-            return nil
-        }
-        
-        /// 截图
+        /// 截图完成，展示到视图上
         jmReciverMsg(msgName: kMsgNameScreenShotDone) { [weak self] _ in
-            if let thumbImage = self?.processM.model(SRPlayProcess.self)?.thumbImage,
+            if let thumbImage = self?.flowManager.model(SRPlayFlow.self)?.thumbImage,
                let screenShot = self?.barManager.right.buttonItem(.screenShot),
                let v = self?.barManager.right.findView(screenShot),
                let point = self?.barManager.right.convert(v.frame.origin, to: self?.view.floatView) {

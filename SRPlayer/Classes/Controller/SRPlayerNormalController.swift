@@ -33,13 +33,13 @@ extension SRPlayerNormalController {
     private func config() {
         let router = JMRouter()
         self.jmSetAssociatedMsgRouter(router: router)
-        self.processM.jmSetAssociatedMsgRouter(router: router)
+        self.flowManager.jmSetAssociatedMsgRouter(router: router)
         
-        let playP = SRPlayProcess()
-        let urlP = SRPlayUrlProgress()
-        let switchP = SRQualityProcess()
-        self.processM.addProcess(playP)
-        self.processM.addProcess(urlP)
-        self.processM.addProcess(switchP)
+        let playP = SRPlayFlow()
+        let urlP = SRPlayUrlFlow()
+        let switchP = SRQualityFlow()
+        self.flowManager.addFlow(playP)
+        self.flowManager.addFlow(urlP)
+        self.flowManager.addFlow(switchP)
     }
 }

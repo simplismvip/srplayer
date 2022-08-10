@@ -11,14 +11,14 @@ import ZJMKit
 
 public class SRPlayerController: UIView {
     public let view: SRContainerView
-    public let processM: SRProgressManager
+    public let flowManager: SRFlowManager
     public let barManager: SRBarManager
     var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()
-        self.processM = SRProgressManager()
+        self.flowManager = SRFlowManager()
         super.init(frame: frame)
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
@@ -103,7 +103,7 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     private func seekChange(_ offset: CGFloat) {
-        guard let model = self.processM.model(SRPlayProcess.self) else { return }
+        guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
         model.panSeekOffsetTime += offset
         
         if (model.panSeekTargetTime + model.panSeekOffsetTime > model.duration) {
@@ -117,7 +117,7 @@ extension SRPlayerController: SRPlayerGesture {
     
     // 发送最终seek to消息，执行
     private func seekEnd() {
-        guard let model = self.processM.model(SRPlayProcess.self) else { return }
+        guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
         let offset = model.panSeekTargetTime + model.panSeekOffsetTime
         jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
         model.panSeekOffsetTime = 0.0
@@ -188,6 +188,6 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func doubleClick() {
-        
+        jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
     }
 }

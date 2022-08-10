@@ -8,24 +8,24 @@
 
 import UIKit
 
-protocol SRModel { }
+public protocol SRModel { }
 
-protocol SRProgress: NSObject {
+public protocol SRFlow: NSObject {
     associatedtype MODEL: SRModel
     var model: MODEL { set get }
     func configProcess()
 }
 
-extension SRProgress {
-    func recoverModel(_ model: MODEL) {
+extension SRFlow {
+    public  func recoverModel(_ model: MODEL) {
         self.model = model
     }
     
-    func canResetModel() -> Bool {
+    public func canResetModel() -> Bool {
         return true
     }
     
-    static func className() -> String {
+    public static func className() -> String {
         return NSStringFromClass(Self.self)
     }
 }

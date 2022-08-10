@@ -14,7 +14,7 @@ public protocol PlayerCotrol {
     /** 添加PlayerFrame层内容视图*/
     var view: ContentView { get }
     /** 添加PlayerFrame层内容视图*/
-    var processM: SRProgressManager { get }
+    var flowManager: SRFlowManager { get }
     /** 添加PlayerFrame层内容视图*/
     var barManager: SRBarManager { get }
 }

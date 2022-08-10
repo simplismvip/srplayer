@@ -10,7 +10,7 @@ import UIKit
 // KVO 绑定
 extension SRPlayerNormalController {
     func kvoBind() {
-        guard let model = self.processM.model(SRPlayProcess.self) else {
+        guard let model = self.flowManager.model(SRPlayFlow.self) else {
             return
         }
         

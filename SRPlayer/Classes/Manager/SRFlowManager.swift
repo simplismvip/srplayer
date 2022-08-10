@@ -1,5 +1,5 @@
 //
-//  SRProgressManager.swift
+//  SRFlowManager.swift
 //  Pods-SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/18.
@@ -7,31 +7,30 @@
 //
 
 import UIKit
-import Combine
 import ZJMKit
 
-public class SRProgressManager: NSObject {
+public class SRFlowManager: NSObject {
     private var items: [String: Any]
     override init() {
         items = [:]
         super.init()
     }
     
-    func addProcess<P: SRProgress>(_ progress: P) {
+    public func addFlow<P: SRFlow>(_ flow: P) {
         if let router = self.msgRouter {
-            progress.jmSetAssociatedMsgRouter(router: router)
-            progress.configProcess()
+            flow.jmSetAssociatedMsgRouter(router: router)
+            flow.configProcess()
         }
         let key = P.className()
-        items[key] = progress
+        items[key] = flow
     }
     
-    func model<P: SRProgress>(_ progress: P.Type) -> P.MODEL? {
-        let key = progress.className()
+    public func model<P: SRFlow>(_ flow: P.Type) -> P.MODEL? {
+        let key = flow.className()
         return (items[key] as? P)?.model as? P.MODEL
     }
     
-    func removeProcess<P: SRProgress>(_ progress: P) {
+    public func removeProcess<P: SRFlow>(_ progress: P) {
         let key = P.className()
         items.removeValue(forKey: key)
     }

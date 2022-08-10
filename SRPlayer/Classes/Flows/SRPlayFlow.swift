@@ -1,5 +1,5 @@
 //
-//  SRPlayProcess.swift
+//  SRPlayFlow.swift
 //  Pods-SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/18.
@@ -10,7 +10,7 @@ import UIKit
 import ZJMKit
 import IJKMediaFrameworkWithSSL
 
-class SRPlayProcess: NSObject {
+class SRPlayFlow: NSObject {
     private var disposes = Set<RSObserver>()
     internal var model: SRPlayModel
     private var player: SRIjkPlayer?
@@ -42,7 +42,7 @@ class SRPlayProcess: NSObject {
     }
 }
 
-extension SRPlayProcess: SRProgress {
+extension SRPlayFlow: SRFlow {
     func configProcess() {
         /// 准备初始化
         jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
