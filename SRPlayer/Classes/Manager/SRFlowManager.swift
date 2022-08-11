@@ -27,10 +27,10 @@ public class SRFlowManager: NSObject {
     
     public func model<P: SRFlow>(_ flow: P.Type) -> P.MODEL? {
         let key = flow.className()
-        return (items[key] as? P)?.model as? P.MODEL
+        return (items[key] as? P)?.model
     }
     
-    public func removeProcess<P: SRFlow>(_ progress: P) {
+    public func removeFlow<P: SRFlow>(_ progress: P) {
         let key = P.className()
         items.removeValue(forKey: key)
     }

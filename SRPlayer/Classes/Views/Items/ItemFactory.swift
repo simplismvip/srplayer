@@ -15,7 +15,7 @@ struct ItemFactory {
         if itemStyle == .back {
              
         } else if itemStyle == .title {
-            item.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
+            item.title = title
             item.titleColor = UIColor.white
             item.font = UIFont.jmRegular(10)
             
