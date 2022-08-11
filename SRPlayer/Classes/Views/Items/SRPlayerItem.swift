@@ -68,7 +68,7 @@ public class SRPlayerButtonItem: SRPlayerItem {
         self.title = title
         self.image = image
         self.titleColor = UIColor.white
-        self.tintColor = UIColor.blue
+        self.tintColor = UIColor.white
         self.className = "SRPlayerButton"
     }
 }
