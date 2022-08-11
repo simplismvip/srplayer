@@ -13,20 +13,28 @@ struct ItemFactory {
     static func buttonItem(_ itemStyle: ItemStyle, location: Location, title: String? = nil, image: String? = nil) -> SRPlayerButtonItem {
         let item = SRPlayerButtonItem(itemStyle, direction: .clockwise, location: location, title: title, image: image)
         if itemStyle == .back {
-            
-            
+             
         } else if itemStyle == .title {
             item.title = "太平洋货轮上的老鼠，你说它能游上岸吗?"
             item.titleColor = UIColor.white
             item.font = UIFont.jmRegular(10)
+            
+        } else if itemStyle == .mirro {
+            item.direction = .anticlockwis
+            
+        } else if itemStyle == .scale {
+            item.direction = .anticlockwis
+            item.isHalfHidden = true
+            
         } else if itemStyle == .share {
             item.direction = .anticlockwis
             item.isHalfHidden = true
+            
         } else if itemStyle == .more {
             item.direction = .anticlockwis
+            item.isHalfHidden = true
             
         } else if itemStyle == .play {
-            
             
         } else if itemStyle == .curTime {
             

@@ -47,12 +47,12 @@ extension SRFloatView {
             toastView.configText()
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
-                make.width.equalTo(80)
-                make.height.equalTo(40)
+                make.width.equalTo(100)
+                make.height.equalTo(30)
                 make.top.equalTo(snp.top).offset(50)
                 make.centerX.equalTo(snp.centerX)
             }
-        case .volume, .brightness, .seek:
+        case .volume, .brightness:
             let toastView = ToastView(frame: .zero, right: SRPlayerSlider())
             self.toastView = toastView
             toastView.configSlider()
@@ -60,6 +60,16 @@ extension SRFloatView {
             toastView.snp.makeConstraints { make in
                 make.width.equalTo(120)
                 make.height.equalTo(30)
+                make.centerY.equalTo(snp.centerY)
+                make.centerX.equalTo(snp.centerX)
+            }
+        case .seek:
+            let toastView = QuickSeek(frame: .zero)
+            self.toastView = toastView
+            addSubview(toastView)
+            toastView.snp.makeConstraints { make in
+                make.width.equalTo(120)
+                make.height.equalTo(80)
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }

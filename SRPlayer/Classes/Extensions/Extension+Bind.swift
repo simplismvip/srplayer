@@ -38,5 +38,10 @@ extension SRPlayerNormalController {
         model.observe(String.self, "playRateStr") { pRate in
             rateItem?.title = pRate
         }.add(&disposes)
+        
+        let scaleItem = self.barManager.top.buttonItem(.scale)
+        model.observe(String.self, "scaleImage") { imagename in
+            scaleItem?.image = imagename
+        }.add(&disposes)
     }
 }

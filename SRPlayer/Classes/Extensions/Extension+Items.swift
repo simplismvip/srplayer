@@ -17,9 +17,13 @@ extension SRPlayerNormalController {
         let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", itemStyle: .title)
         let share = ItemFactory.buttonItem(.share, location: .top, image: "sr_share")
         let more = ItemFactory.buttonItem(.more, location: .top, image: "sr_more")
+        let mirro = ItemFactory.buttonItem(.mirro, location: .top, image: "sr_mirror")
+        let scale = ItemFactory.buttonItem(.scale, location: .top, image: "sr_scare_big")
         
         self.barManager.top.addItem(back)
         self.barManager.top.addItem(title)
+        self.barManager.top.addItem(mirro)
+        self.barManager.top.addItem(scale)
         self.barManager.top.addItem(share)
         self.barManager.top.addItem(more)
         

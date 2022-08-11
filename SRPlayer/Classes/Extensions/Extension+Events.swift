@@ -15,7 +15,7 @@ extension SRPlayerNormalController {
             let fullScrenn = self?.barManager.bottom.buttonItem(.fullScrenn)
             if self?.barManager.top.screenType == .half {
                 UIDevice.setNewOrientation(.landscapeLeft)
-                fullScrenn?.image = "sr_capture"
+                fullScrenn?.image = "sr_halfscreen"
             } else if self?.barManager.top.screenType == .full {
                 UIDevice.setNewOrientation(.portrait)
                 fullScrenn?.image = "sr_fullscreen"
@@ -25,7 +25,7 @@ extension SRPlayerNormalController {
         jmRegisterEvent(eventName: kEventNameBackAction, block: { [weak self] _ in
             let fullScrenn = self?.barManager.bottom.buttonItem(.fullScrenn)
             if self?.barManager.top.screenType == .half {
-                fullScrenn?.image = "sr_capture"
+                fullScrenn?.image = "sr_halfscreen"
                 self?.jmRouterEvent(eventName: kEventNamePopController, info: nil)
             } else if self?.barManager.top.screenType == .full {
                 UIDevice.setNewOrientation(.portrait)

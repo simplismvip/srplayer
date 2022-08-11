@@ -84,6 +84,8 @@ public enum ItemStyle: String {
     case title = "kEventNameTitleAction" // 标题
     case share = "kEventNameShareAction"// 分享
     case more = "kEventNameMoreAction"// 更多
+    case mirro = "kEventNameMirroAction"// 镜像
+    case scale = "kEventNameScaleModeAction"// 模式
     
     // bottom
     case play = "kEventNamePlayAction"// 播放、暂停

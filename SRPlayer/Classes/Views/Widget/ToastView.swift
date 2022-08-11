@@ -10,13 +10,14 @@ import UIKit
 class ToastView<T: ToastRight>: UIView, Toast {
     private let image: UIButton
     private let right: T
+    
     init(frame: CGRect, right: T) {
         self.image = UIButton()
         self.right = right
         super.init(frame: frame)
         
-        backgroundColor = UIColor.black.jmComponent(0.3)
-        layer.cornerRadius = 10
+        backgroundColor = UIColor.black.jmComponent(0.5)
+        layer.cornerRadius = 15
         layer.masksToBounds = true
         
         image.isUserInteractionEnabled = false
@@ -25,14 +26,14 @@ class ToastView<T: ToastRight>: UIView, Toast {
         addSubview(image)
         addSubview(right)
         image.snp.makeConstraints { make in
-            make.width.height.equalTo(34)
+            make.width.height.equalTo(30)
             make.centerY.equalTo(snp.centerY)
-            make.left.equalTo(self).offset(10)
+            make.left.equalTo(self).offset(8)
         }
         
         right.snp.makeConstraints { make in
-            make.left.equalTo(image.snp.right).offset(5)
-            make.right.equalTo(snp.right).offset(-10)
+            make.left.equalTo(image.snp.right)
+            make.right.equalTo(snp.right).offset(-8)
             make.centerY.equalTo(snp.centerY)
             make.height.equalTo(20)
         }
@@ -62,6 +63,8 @@ extension ToastView where T: SRPlayerSlider {
 extension ToastView where T: UILabel {
     func configText() {
         self.right.text = "2X播放"
+        self.right.jmConfigLabel(alig: .center ,font: UIFont.jmRegular(13), color: UIColor.white)
+        self.image.setImage("sr_forward".image, for: .normal)
     }
 }
 

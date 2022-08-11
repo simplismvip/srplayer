@@ -19,10 +19,15 @@ class SRPlayModel: NSObject {
     @objc dynamic var thumbImage: UIImage?
     @objc dynamic var playRateStr: String = "倍速"
     @objc dynamic var playbackVolume: Float = 0
+    @objc dynamic var scaleImage: String = "sr_scare_big"
     
     var playState: PlaybackState = .stop
     var loadState: PlayLoadState = .unknow
-    var scalingMode : ScalingMode = .none
+    var scalingMode : ScalingMode = .none {
+        willSet {
+            scaleImage = newValue.name
+        }
+    }
     
     var isMute: Bool {
         return playbackVolume > 0

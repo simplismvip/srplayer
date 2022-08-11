@@ -42,10 +42,12 @@ class SRPlayerSlider: UIControl {
         minTrackColorLayer = CALayer()
         maxTrackColorLayer = CALayer()
         thumbImageView = UIImageView()
-        thumbSize = CGSize(width: 10, height: 10)
+        thumbSize = CGSize(width: 8, height: 8)
         minTrackTintColor = UIColor.red
         maxTrackTintColor = UIColor.green
         super.init(frame: frame)
+        thumbImageView.layer.cornerRadius = 4
+        thumbImageView.backgroundColor = UIColor.cyan
         
         layer.addSublayer(minTrackColorLayer)
         layer.addSublayer(maxTrackColorLayer)

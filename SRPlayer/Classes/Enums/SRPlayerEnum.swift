@@ -41,13 +41,13 @@ public enum ToastType {
     var name: String {
         switch self {
         case .seek:
-            return "sr_volume"
+            return "sr_forward"
         case .longPress:
-            return "sr_volume"
+            return "sr_forward"
         case .volume:
-            return "sr_volume"
+            return "sr_volum"
         case .brightness:
-            return "sr_volume"
+            return "sr_ brightness"
         case .loading, .screenShot, .none:
             return ""
         }
@@ -182,6 +182,19 @@ public enum ScalingMode {
             return .aspectFill
         case .fill:
             return .fill
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case .aspectFit:
+            return "sr_scare_big"
+        case .aspectFill:
+            return "sr_scare_small"
+        case .fill:
+            return "sr_scare_small"
+        case .none:
+            return "sr_scare_big"
         }
     }
 }
