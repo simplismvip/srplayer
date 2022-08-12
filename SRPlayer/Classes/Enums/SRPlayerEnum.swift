@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import IJKMediaFrameworkWithSSL
+import IJKMediaFramework
 
 // 屏幕类型
 public enum ScreenType {

@@ -34,7 +34,7 @@ TODO: Add long description of the pod here.
   # OC & Swift混编添加桥接文件
   s.public_header_files = 'Pod/Classes/Define/*.h'
   # 引入IJKPlayer Framework
-  s.vendored_frameworks = 'IJKMediaFrameworkWithSSL.framework'
+  s.vendored_frameworks = 'IJKMediaFramework.framework'
   s.frameworks  = "AudioToolbox", "AVFoundation", "CoreGraphics", "CoreMedia", "CoreVideo", "MobileCoreServices", "OpenGLES", "QuartzCore", "VideoToolbox", "Foundation", "UIKit", "MediaPlayer"
   s.libraries   = "bz2", "z", "stdc++"
   
