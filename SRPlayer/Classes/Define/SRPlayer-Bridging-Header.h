@@ -7,7 +7,7 @@
 
 #ifndef SRPlayer_Bridging_Header_h
 #define SRPlayer_Bridging_Header_h
-#import "NetWork.h"
+//#import "NetWork.h"
 //#import <IJKMediaFrameworkWithSSL/IJKFFOptions.h>
 //#import <IJKMediaFrameworkWithSSL/IJKMediaPlayback.h>
 //#import <IJKMediaFrameworkWithSSL/IJKFFMoviePlayerController.h>
