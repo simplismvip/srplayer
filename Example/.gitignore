@@ -7,9 +7,10 @@ build/
 DerivedData/
 Pods/
 SRPlayer/Source/
-StrawberryReader.xcodeproj/xcshareddata/
+*.framework
+SRPlayer.xcodeproj/xcshareddata/
 Podfile.lock
-StrawberryReader.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+SRPlayer.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 ## Various settings
 *.pbxuser
