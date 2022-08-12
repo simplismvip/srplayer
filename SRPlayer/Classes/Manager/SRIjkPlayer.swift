@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import IJKMediaFrameworkWithSSL
 import ZJMKit
+import IJKMediaFrameworkWithSSL
 
 class SRIjkPlayer: NSObject {
     /** 显示视频的视图 */
