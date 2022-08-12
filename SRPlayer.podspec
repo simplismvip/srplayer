@@ -31,16 +31,19 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'SRPlayer/Classes/**/*'
-
+  # OC & Swift混编添加桥接文件
+  s.public_header_files = 'Pod/Classes/Define/*.h'
+  # 引入IJKPlayer Framework
   s.vendored_frameworks = 'IJKMediaFrameworkWithSSL.framework'
   s.frameworks  = "AudioToolbox", "AVFoundation", "CoreGraphics", "CoreMedia", "CoreVideo", "MobileCoreServices", "OpenGLES", "QuartzCore", "VideoToolbox", "Foundation", "UIKit", "MediaPlayer"
   s.libraries   = "bz2", "z", "stdc++"
+  
+  s.xcconfig = { "IJKMediaFrameworkWithSSL.framework" => "$(SRCROOT)/../sdk/framework" }
   
   # s.resource_bundles = {
   #   'SRPlayer' => ['SRPlayer/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.dependency 'SnapKit'
   s.dependency 'ZJMKit'
 end
