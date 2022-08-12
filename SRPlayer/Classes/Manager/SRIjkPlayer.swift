@@ -21,6 +21,7 @@ class SRIjkPlayer: NSObject {
     private var ijkKvo: IJKKVOController?
     /** 开启时间循环 */
     private var timer: Timer?
+    var disposes = Set<RSObserver>()
     
     init(_ build: PlayerBulider) {
         self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.videoUrl, with: Options.options())
@@ -28,8 +29,6 @@ class SRIjkPlayer: NSObject {
         self.view = ijkPlayer.view
         self.streamType = build.stream
         super.init()
-        
-        self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(gatCuttentTime), userInfo: nil, repeats: true)
         // self.ijkKvo = IJKKVOController(target: self)
         ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         ijkPlayer.scalingMode = build.scaMode.transTo()
@@ -37,6 +36,12 @@ class SRIjkPlayer: NSObject {
         ijkPlayer.shouldAutoplay = build.autoPlay
         ijkPlayer.prepareToPlay()
         addPlayerObserver()
+        
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { [weak self] _ in
+            if let isPlaying = self?.ijkPlayer.isPlaying(), isPlaying {
+                self?.jmSendMsg(msgName: kMsgNamePlaybackTimeUpdate, info: nil)
+            }
+        })
     }
     
     public func associatedRouter(_ router: JMRouter?) {
@@ -51,12 +56,6 @@ class SRIjkPlayer: NSObject {
         shutdown()
         ijkPlayer.view.removeFromSuperview()
         removePlayerObserver()
-    }
-
-    @objc private func gatCuttentTime() {
-        if ijkPlayer.isPlaying() {
-            jmSendMsg(msgName: kMsgNamePlaybackTimeUpdate, info: nil)
-        }
     }
     
     deinit {
@@ -231,7 +230,6 @@ extension SRIjkPlayer {
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
         SRLogger.debug("mediaIsPreparedToPlayDidChange\n")
-        self.gatCuttentTime()
         if !ijkPlayer.shouldAutoplay {
             self.startPlay()
         }
