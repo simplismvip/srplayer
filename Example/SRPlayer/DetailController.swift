@@ -110,6 +110,10 @@ class DetailController: ViewController {
         return 200.0
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
     func test() {
 //        if m.type == .local {
 //            guard let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") else {
@@ -149,6 +153,6 @@ class DetailController: ViewController {
 
 extension DetailController {
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
 }
