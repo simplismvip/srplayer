@@ -11,7 +11,10 @@ import UIKit
 public class SRPlayerRightBar: SRPlayerControlBar {
     
     override func setupPadding() {
-        
+        view.snp.remakeConstraints { make in
+            make.top.bottom.equalTo(self)
+            make.right.equalTo(self).offset(-10)
+        }
     }
 
     override func setupShadow() {
