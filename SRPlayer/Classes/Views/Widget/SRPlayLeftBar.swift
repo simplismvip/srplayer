@@ -10,8 +10,7 @@ import UIKit
 
 public class SRPlayLeftBar: SRPlayerControlBar {
     override func setupPadding() {
-        view.snp.remakeConstraints { make in
-            make.top.bottom.equalTo(self)
+        view.snp.updateConstraints { make in
             make.left.equalTo(self).offset(10)
         }
     }

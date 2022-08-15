@@ -30,8 +30,8 @@ public class SRPlayerControlBar: UIView {
         SRLogger.debug("\(type)--\(screenType)")
         if screenType == type { return }
         self.screenType = type
-        self.setupPadding()
         self.layoutItems()
+        self.setupPadding()
     }
     
     private func loadPlayer(_ item: SRPlayerItem) -> UIView? {
