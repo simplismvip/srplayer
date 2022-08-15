@@ -42,6 +42,8 @@ class SRPlayModel: NSObject {
     var naturalSize: CGSize = CGSize.zero
     var panSeekTargetTime: CGFloat = 0
     var panSeekOffsetTime: CGFloat = 0
+    // 系统音量
+    var systemVolume: CGFloat = 0
 }
 
 extension SRPlayModel {

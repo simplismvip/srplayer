@@ -58,5 +58,5 @@ extension SRScreenShot: Toast {
         }
     }
     
-    func update(_ progress: CGFloat) { }
+    func update(_ progress: CGFloat, text: String?) { }
 }

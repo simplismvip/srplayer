@@ -14,7 +14,7 @@ protocol ToastRight: UIView {
 
 protocol Toast: UIView {
     func begin(_ type: ToastType)
-    func update(_ progress: CGFloat)
+    func update(_ progress: CGFloat, text: String?)
 }
 
 extension Toast {

@@ -18,8 +18,8 @@ public class SRFloatView: SRPierceView, SRFloat_P {
         toastView?.begin(type)
     }
     
-    public func update(_ progress: CGFloat) {
-        toastView?.update(progress)
+    public func update(_ progress: CGFloat, text: String? = nil) {
+        toastView?.update(progress, text: text)
     }
     
     public func hide() {

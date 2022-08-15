@@ -123,7 +123,7 @@ extension SRIjkPlayer {
 /// IJKPlayer - Set
 extension SRIjkPlayer: VideoPlayer {
     public func seekto(_ offset: CGFloat) {
-        if ijkPlayer.currentPlaybackTime + offset < ijkPlayer.duration {
+        if offset < ijkPlayer.duration {
             ijkPlayer.currentPlaybackTime += offset
         }
     }

@@ -43,7 +43,7 @@ class ToastView<T: ToastRight>: UIView, Toast {
         image.setImage(type.name.image, for: .normal)
     }
     
-    func update(_ progress: CGFloat) {
+    func update(_ progress: CGFloat, text: String?) {
         right.update(progress)
     }
     

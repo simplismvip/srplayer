@@ -8,13 +8,13 @@
 
 import UIKit
 import ZJMKit
+import MediaPlayer
 
 public class SRPlayerController: UIView {
     public let view: SRContainerView
     public let flowManager: SRFlowManager
     public let barManager: SRBarManager
     var disposes = Set<RSObserver>()
-    
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()
@@ -95,17 +95,30 @@ extension SRPlayerController: PlayerCotrol { }
 
 extension SRPlayerController: SRPlayerGesture {
     private func brightness(_ offset: CGFloat) {
-        UIScreen.main.brightness = offset / 1000.0
+        UIScreen.main.brightness -= offset
+        view.floatView.update(UIScreen.main.brightness)
     }
     
     private func volume(_ offset: CGFloat) {
-        // let volumeTS -= offset / 10000.0
+        guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
+        if fabs(model.systemVolume) >= 0.1 {
+            model.systemVolume -= offset
+            
+//            let mpVolume = MPVolumeView()
+//            mpVolume.vo
+//
+//            let playerController = MPMusicPlayerController.applicationMusicPlayer
+//            let volume = AVAudioSession.sharedInstance().outputVolume + Float(model.systemVolume)
+//            let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
+//            playerController.volume =  volumeTranslateValue
+            
+//            view.floatView.update(model.systemVolume)
+        }
     }
     
     private func seekChange(_ offset: CGFloat) {
         guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
         model.panSeekOffsetTime += offset
-        
         if (model.panSeekTargetTime + model.panSeekOffsetTime > model.duration) {
             model.panSeekOffsetTime = model.duration - model.panSeekTargetTime;
         }
@@ -113,6 +126,10 @@ extension SRPlayerController: SRPlayerGesture {
         if (model.panSeekTargetTime + model.panSeekOffsetTime < 0) {
             model.panSeekOffsetTime = 0 - model.panSeekTargetTime;
         }
+        
+        let current = model.panSeekTargetTime + model.panSeekOffsetTime
+        let totalTime = model.duration
+        view.floatView.update(current/totalTime, text: String(format: "%@/%@", Int(current).format, Int(totalTime).format))
     }
     
     // 发送最终seek to消息，执行
@@ -122,16 +139,21 @@ extension SRPlayerController: SRPlayerGesture {
         jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
         model.panSeekOffsetTime = 0.0
         model.panSeekTargetTime = 0.0
+        SRLogger.debug("seekEnd")
     }
     
     private func floatViewAction(state: GestureState, type: ToastType) {
         switch state {
         case .begin:
+            switch type {
+            case .seek:
+                guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
+                model.panSeekTargetTime = model.currentTime
+            default:
+                SRLogger.debug("")
+            }
             view.floatView.show(type)
         case .change(let value):
-            SRLogger.debug(value)
-            view.floatView.update(value)
-            
             switch type {
             case .seek:
                 seekChange(value)

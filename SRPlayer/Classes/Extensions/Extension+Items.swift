@@ -14,7 +14,7 @@ extension SRPlayerNormalController {
     func initEdgeItems() {
         // top
         let back = ItemFactory.buttonItem(.back, location: .top, image: "sr_back")
-        let title = ItemFactory.titleItem(title: "太平洋货轮上的老鼠，你说它能游上岸吗?", itemStyle: .title)
+        let title = ItemFactory.titleItem(title: "", itemStyle: .title)
         let share = ItemFactory.buttonItem(.share, location: .top, image: "sr_share")
         let more = ItemFactory.buttonItem(.more, location: .top, image: "sr_more")
         let mirro = ItemFactory.buttonItem(.mirro, location: .top, image: "sr_mirror")

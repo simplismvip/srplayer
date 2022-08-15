@@ -194,7 +194,7 @@ public class SRLoading: UIView {
 }
 
 extension SRLoading: Toast {
-    func update(_ progress: CGFloat) { }
+    func update(_ progress: CGFloat, text: String?) { }
     
     func begin(_ type: ToastType) {
         start()

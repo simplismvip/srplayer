@@ -73,11 +73,11 @@ public class SRPlayerView: SRPierceView {
                 delegate?.panHorizontal(self, state: .begin)
             } else if x < y {
                 if (location.x > bounds.size.width / 2) && activityEvents.contains(.pan) {
-                    SRLogger.debug("右侧垂直滑动")
+                    SRLogger.debug("began:右侧垂直滑动")
                     currentEvent = .vertRightPan
                     delegate?.panRightVertical(self, state: .begin)
                 } else if (location.x <= bounds.size.width / 2) && activityEvents.contains(.pan) {
-                    SRLogger.debug("左侧垂直滑动")
+                    SRLogger.debug("began:左侧垂直滑动")
                     currentEvent = .vertLeftPan
                     delegate?.panLeftVertical(self, state: .begin)
                 } else {
@@ -87,15 +87,14 @@ public class SRPlayerView: SRPierceView {
         case .changed:
             // 垂直滑动 水平滑动
             let value = (panDirection == .vertical) ? velocty.y : velocty.x
-            SRLogger.debug("changed:\(value)")
             if currentEvent == .horiPan {
-                SRLogger.debug("began:水平移动")
+                SRLogger.debug("changed:水平移动--快进快退")
                 delegate?.panHorizontal(self, state: .change(value/200))
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("左侧垂直滑动")
+                SRLogger.debug("changed:左侧垂直滑动--亮度")
                 delegate?.panLeftVertical(self, state: .change(value/1000))
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("右侧垂直滑动")
+                SRLogger.debug("changed:右侧垂直滑动---声音")
                 delegate?.panRightVertical(self, state: .change(value/1000))
             } else {
                 SRLogger.debug("无滑动")
@@ -103,13 +102,13 @@ public class SRPlayerView: SRPierceView {
         case .ended:
             SRLogger.debug("ended")
             if currentEvent == .horiPan {
-                SRLogger.debug("began:水平移动")
+                SRLogger.debug("ended:水平移动")
                 delegate?.panHorizontal(self, state: .end)
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("左侧垂直滑动")
+                SRLogger.debug("ended:左侧垂直滑动")
                 delegate?.panLeftVertical(self, state: .end)
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("右侧垂直滑动")
+                SRLogger.debug("ended:右侧垂直滑动")
                 delegate?.panRightVertical(self, state: .end)
             } else {
                 SRLogger.debug("无滑动")
@@ -117,13 +116,13 @@ public class SRPlayerView: SRPierceView {
         case .cancelled, .failed:
             SRLogger.debug("failed")
             if currentEvent == .horiPan {
-                SRLogger.debug("began:水平移动")
+                SRLogger.debug("failed:水平移动")
                 delegate?.panHorizontal(self, state: .cancle)
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("左侧垂直滑动")
+                SRLogger.debug("failed:左侧垂直滑动")
                 delegate?.panLeftVertical(self, state: .cancle)
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("右侧垂直滑动")
+                SRLogger.debug("failed:右侧垂直滑动")
                 delegate?.panRightVertical(self, state: .cancle)
             } else {
                 SRLogger.debug("无滑动")

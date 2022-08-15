@@ -53,11 +53,12 @@ class QuickSeek: UIView, Toast {
     
     func begin(_ type: ToastType) {
         image.image = type.name.image
-        title.text = "12:20/1:20:10"
+        title.text = "00:00/00:00"
     }
     
-    func update(_ progress: CGFloat) {
+    func update(_ progress: CGFloat, text: String?) {
         right.updateValue(CGFloat(fabsf(Float(progress))))
+        title.text = text
     }
     
     required init?(coder: NSCoder) {
