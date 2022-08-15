@@ -18,7 +18,7 @@ class TableViewCell: UITableViewCell {
         backgroundColor = UIColor.white
         addSubview(title)
         title.jmConfigLabel(font: UIFont.jmRegular(18), color: UIColor.black)
-        
+        selectionStyle = .none
         title.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(20)
             make.top.height.equalTo(self)
@@ -42,7 +42,7 @@ class DetailViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.white
-        
+        selectionStyle = .none
         contentView.addSubview(cover)
         contentView.addSubview(title)
         contentView.addSubview(playBtn)
@@ -54,7 +54,7 @@ class DetailViewCell: UITableViewCell {
         title.jmConfigLabel(font: UIFont.jmRegular(20), color: UIColor.white)
         layoutViews()
         playBtn.jmAddAction { [weak self] _ in
-            self?.jmRouterEvent(eventName: "kEventNameStartPlayDemoVideo", info: self?.model as? MsgObjc)
+            self?.jmRouterEvent(eventName: "kEventNameStartPlayDemoVideo", info: self?.model as MsgObjc)
         }
     }
     

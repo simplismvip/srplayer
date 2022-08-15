@@ -10,7 +10,17 @@ import UIKit
 
 public class SRPlayerBottomBar: SRPlayerControlBar {
     override func setupPadding() {
-        
+        if screenType == .full {
+            view.snp.remakeConstraints { make in
+                make.bottom.equalTo(self).offset(-8)
+                make.left.width.bottom.equalTo(self)
+            }
+        } else {
+            view.snp.remakeConstraints { make in
+                make.bottom.equalTo(self).offset(-3)
+                make.left.width.bottom.equalTo(self)
+            }
+        }
     }
 
     override func setupShadow() {

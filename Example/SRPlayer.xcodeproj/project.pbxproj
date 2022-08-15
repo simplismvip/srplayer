@@ -17,6 +17,7 @@
 		6855BCBA2883ED8F00DBFFE7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCB92883ED8F00DBFFE7 /* Model.swift */; };
 		6855BCBE2883EF2F00DBFFE7 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBD2883EF2F00DBFFE7 /* TableViewCell.swift */; };
 		6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855BCBF2883F9F800DBFFE7 /* Helper.swift */; };
+		689FA6B728A72DF700E943CB /* 003.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 689FA6B628A72DF700E943CB /* 003.MOV */; };
 		68BFC5EF2896287000966C4D /* 001.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 68BFC5ED2896287000966C4D /* 001.MOV */; };
 		68BFC5F02896287000966C4D /* 002.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 68BFC5EE2896287000966C4D /* 002.MOV */; };
 		E90F823E289B9BFA001C9F04 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90F823D289B9BFA001C9F04 /* TestController.swift */; };
@@ -55,6 +56,7 @@
 		6855BCB92883ED8F00DBFFE7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		6855BCBD2883EF2F00DBFFE7 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		6855BCBF2883F9F800DBFFE7 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		689FA6B628A72DF700E943CB /* 003.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 003.MOV; sourceTree = "<group>"; };
 		68BFC5ED2896287000966C4D /* 001.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 001.MOV; sourceTree = "<group>"; };
 		68BFC5EE2896287000966C4D /* 002.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = 002.MOV; sourceTree = "<group>"; };
 		8C04F2B8971D51E94520EEAB /* Pods-SRPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		E9A54FAC2887F94D006E71E8 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				689FA6B628A72DF700E943CB /* 003.MOV */,
 				68BFC5ED2896287000966C4D /* 001.MOV */,
 				68BFC5EE2896287000966C4D /* 002.MOV */,
 			);
@@ -302,6 +305,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				E90F824D289BA04A001C9F04 /* rtmp.json in Resources */,
 				E90F824F289BA04A001C9F04 /* local.json in Resources */,
+				689FA6B728A72DF700E943CB /* 003.MOV in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				E90F824B289BA04A001C9F04 /* living.json in Resources */,
@@ -534,7 +538,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -552,7 +556,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
