@@ -10,7 +10,6 @@ SRPlayer/Source/
 *.framework
 SRPlayer.xcodeproj/xcshareddata/
 Podfile.lock
-SRPlayer.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 ## Various settings
 *.pbxuser
