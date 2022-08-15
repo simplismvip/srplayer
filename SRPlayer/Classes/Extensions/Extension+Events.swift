@@ -126,6 +126,17 @@ extension SRPlayerNormalController {
             SRLogger.debug("录像")
         }, next: false)
         
+        // 视频缩放模式
+        jmRegisterEvent(eventName: kEventNameScaleModeAction, block: { [weak self] info in
+            if let model = self?.flowManager.model(SRPlayFlow.self) {
+                if model.scalingMode == .aspectFit {
+                    self?.jmSendMsg(msgName: kMsgNameChangeScalingMode, info: ScalingMode.aspectFill as MsgObjc)
+                } else {
+                    self?.jmSendMsg(msgName: kMsgNameChangeScalingMode, info: ScalingMode.aspectFit as MsgObjc)
+                }
+            }
+        }, next: false)
+        
         // 锁定、解锁
         jmRegisterEvent(eventName: kEventNameLockScreenAction, block: { [weak self] _ in
             if let lock = self?.barManager.left.buttonItem(.lockScreen) {
@@ -151,30 +162,26 @@ extension SRPlayerNormalController {
         /// 准备开始播放
         jmReciverMsg(msgName: kMsgNameStartLoading) { _ in
             SRLogger.debug("准备播放.....")
+            self.view.floatView.show(.loading)
             return nil
         }
         
         /// 开始播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
             SRLogger.debug("开始播放.....")
+            self.view.floatView.hide()
             return nil
         }
         
         /// 停止播放
-        jmReciverMsg(msgName: kMsgNameStopPlay) { [weak self] _ in
+        jmReciverMsg(msgName: kMsgNameStopPlaying) { [weak self] _ in
             self?.view.bkgView.endPlay()
             return nil
         }
         
-        /// 播放器进度更新
-        jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { _ in
-            
-            return nil
-        }
-        
-        /// 静音
-        jmReciverMsg(msgName: kMsgNameActionMute) { _ in
-            
+        /// 播放错误
+        jmReciverMsg(msgName: kMsgNamePlayerUnknowError) { _ in
+            SRToast.toast("发生未知错误")
             return nil
         }
         

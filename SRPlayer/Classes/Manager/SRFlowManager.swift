@@ -17,12 +17,16 @@ public class SRFlowManager: NSObject {
     }
     
     public func addFlow<P: SRFlow>(_ flow: P) {
-        if let router = self.msgRouter {
-            flow.jmSetAssociatedMsgRouter(router: router)
-            flow.configFlow()
-        }
         let key = P.className()
-        items[key] = flow
+        if items[key] == nil {
+            if let router = self.msgRouter {
+                flow.jmSetAssociatedMsgRouter(router: router)
+                flow.configFlow()
+            }
+            items[key] = flow
+        } else {
+            SRLogger.error("\(key)已经添加过了，不允许❎❎❎重复添加")
+        }
     }
     
     public func model<P: SRFlow>(_ flow: P.Type) -> P.MODEL? {
@@ -30,9 +34,21 @@ public class SRFlowManager: NSObject {
         return (items[key] as? P)?.model
     }
     
-    public func removeFlow<P: SRFlow>(_ progress: P) {
+    public func removeFlow<P: SRFlow>(_ flow: P) {
         let key = P.className()
         items.removeValue(forKey: key)
+    }
+    
+    public func removeAllFlow() {
+        items.removeAll()
+    }
+    
+    public func replaceFlow<P: SRFlow>(flow: P.Type, with: P) {
+        let key = flow.className()
+        if items[key] != nil {
+            items.removeValue(forKey: key)
+        }
+        addFlow(with)
     }
     
     deinit {

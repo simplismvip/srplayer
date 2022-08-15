@@ -88,7 +88,7 @@ class DetailController: ViewController {
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameStopPlayDemoVideo, block: { [weak self] info in
-            self?.player.jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
+            self?.player.jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNamePopController, block: { [weak self] info in

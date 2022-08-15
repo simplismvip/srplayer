@@ -210,6 +210,7 @@ extension SRIjkPlayer {
         } else {
             SRLogger.debug("loadStateDidChange: ???: \n")
         }
+        jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
     
     @objc func moviePlayBackDidFinish(_ notification: Notification) {
@@ -225,7 +226,8 @@ extension SRIjkPlayer {
             SRLogger.debug("Finish: ???: \(reason)\n")
         }
         stopPlayer()
-        jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
+        jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
+        jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
@@ -238,21 +240,20 @@ extension SRIjkPlayer {
     
     @objc func moviePlayBackStateDidChange(_ notification: Notification) {
         switch ijkPlayer.playbackState {
-        case .stopped:
-            SRLogger.debug("stop: stoped")
         case .playing:
             SRLogger.debug("playing: playing")
             jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
         case .paused:
             SRLogger.debug("pause: paused")
+        case .stopped:
+            jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
         case .interrupted:
+            jmSendMsg(msgName: kMsgNamePlayerUnknowError, info: nil)
             SRLogger.debug("interrupted: interrupted")
-            jmSendMsg(msgName: kMsgNameStopPlay, info: nil)
-        case .seekingForward:
-            SRLogger.debug("seekingBackward: seeking")
-        case .seekingBackward:
+        case .seekingForward, .seekingBackward:
             SRLogger.debug("seekingBackward: seeking")
         }
+        jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
 }
 

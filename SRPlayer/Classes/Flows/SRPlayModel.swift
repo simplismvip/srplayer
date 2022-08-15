@@ -23,7 +23,7 @@ class SRPlayModel: NSObject {
     
     var playState: PlaybackState = .stop
     var loadState: PlayLoadState = .unknow
-    var scalingMode : ScalingMode = .none {
+    var scalingMode : ScalingMode = .aspectFit {
         willSet {
             scaleImage = newValue.name
         }
@@ -54,6 +54,15 @@ extension SRPlayModel {
         } else {
             return 0.0
         }
+    }
+    
+    // seek进度
+    var seekTimeString: String {
+        return String(format: "%@/%@", Int(panSeekTargetTime + panSeekOffsetTime).format, Int(duration).format)
+    }
+    
+    var seekProgress: Double {
+        return (panSeekTargetTime + panSeekOffsetTime) / duration
     }
 }
 

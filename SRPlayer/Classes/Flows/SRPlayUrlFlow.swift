@@ -18,6 +18,14 @@ class SRPlayUrlFlow: NSObject, SRFlow {
         
     }
     
+    public func willRemoveFlow() {
+        
+    }
+    
+    public func didRemoveFlow(){
+        
+    }
+    
     deinit {
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }

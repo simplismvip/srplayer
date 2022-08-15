@@ -11,16 +11,12 @@ import ZJMKit
 public class SRPlayerNormalController: SRPlayerController {
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        config()
+        configFlow()
         initEdgeItems()
         addEdgeSubViews()
         registerMsg()
         registerItemsEvent()
         kvoBind()
-    }
-    
-    public func reset() {
-//        processM.reset()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +26,7 @@ public class SRPlayerNormalController: SRPlayerController {
 
 /** Private Func */
 extension SRPlayerNormalController {
-    private func config() {
+    public func configFlow() {
         let router = JMRouter()
         self.jmSetAssociatedMsgRouter(router: router)
         self.flowManager.jmSetAssociatedMsgRouter(router: router)
@@ -43,5 +39,9 @@ extension SRPlayerNormalController {
         self.flowManager.addFlow(urlP)
         self.flowManager.addFlow(switchP)
         self.flowManager.addFlow(moreFlow)
+    }
+    
+    public func reset() {
+//        processM.reset()
     }
 }

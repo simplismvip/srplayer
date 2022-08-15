@@ -48,12 +48,17 @@ public class SRPlayerController: UIView {
             }
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.name.rawValue) { (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.name.rawValue) { [weak self] (notify) in
             SRLogger.debug("enterBackground")
+            guard let model = self?.flowManager.model(SRPlayFlow.self) else { return }
+            if model.isPlaying {
+                self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
+            }
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.name.rawValue) { (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.name.rawValue) { [weak self] (notify) in
             SRLogger.debug("becomeActive")
+            self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         }
     }
     
@@ -126,10 +131,8 @@ extension SRPlayerController: SRPlayerGesture {
         if (model.panSeekTargetTime + model.panSeekOffsetTime < 0) {
             model.panSeekOffsetTime = 0 - model.panSeekTargetTime;
         }
-        
-        let current = model.panSeekTargetTime + model.panSeekOffsetTime
-        let totalTime = model.duration
-        view.floatView.update(current/totalTime, text: String(format: "%@/%@", Int(current).format, Int(totalTime).format))
+    
+        view.floatView.update(model.seekProgress, text: model.seekTimeString)
     }
     
     // 发送最终seek to消息，执行

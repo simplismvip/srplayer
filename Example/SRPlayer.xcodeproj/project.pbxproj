@@ -28,6 +28,8 @@
 		E90F824D289BA04A001C9F04 /* rtmp.json in Resources */ = {isa = PBXBuildFile; fileRef = E90F8247289BA04A001C9F04 /* rtmp.json */; };
 		E90F824E289BA04A001C9F04 /* home.json in Resources */ = {isa = PBXBuildFile; fileRef = E90F8248289BA04A001C9F04 /* home.json */; };
 		E90F824F289BA04A001C9F04 /* local.json in Resources */ = {isa = PBXBuildFile; fileRef = E90F8249289BA04A001C9F04 /* local.json */; };
+		E912C97528AA196500A8147D /* ADFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912C97428AA196500A8147D /* ADFlow.swift */; };
+		E912C97728AA196C00A8147D /* ADModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912C97628AA196C00A8147D /* ADModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		E90F8247289BA04A001C9F04 /* rtmp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rtmp.json; sourceTree = "<group>"; };
 		E90F8248289BA04A001C9F04 /* home.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = home.json; sourceTree = "<group>"; };
 		E90F8249289BA04A001C9F04 /* local.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = local.json; sourceTree = "<group>"; };
+		E912C97428AA196500A8147D /* ADFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADFlow.swift; sourceTree = "<group>"; };
+		E912C97628AA196C00A8147D /* ADModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADModel.swift; sourceTree = "<group>"; };
 		FAC219AF178BC5727BE36BD5 /* Pods-SRPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +129,7 @@
 		607FACD21AFB9204008FA782 /* Example for SRPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				E912C97328AA194600A8147D /* Flows */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				E90F823F289B9D28001C9F04 /* DetailController.swift */,
@@ -197,6 +202,15 @@
 				E90F8249289BA04A001C9F04 /* local.json */,
 			);
 			path = Josn;
+			sourceTree = "<group>";
+		};
+		E912C97328AA194600A8147D /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				E912C97428AA196500A8147D /* ADFlow.swift */,
+				E912C97628AA196C00A8147D /* ADModel.swift */,
+			);
+			path = Flows;
 			sourceTree = "<group>";
 		};
 		E9A54FAC2887F94D006E71E8 /* Source */ = {
@@ -381,6 +395,8 @@
 				E90F8240289B9D28001C9F04 /* DetailController.swift in Sources */,
 				6855BCBE2883EF2F00DBFFE7 /* TableViewCell.swift in Sources */,
 				E90F823E289B9BFA001C9F04 /* TestController.swift in Sources */,
+				E912C97528AA196500A8147D /* ADFlow.swift in Sources */,
+				E912C97728AA196C00A8147D /* ADModel.swift in Sources */,
 				6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

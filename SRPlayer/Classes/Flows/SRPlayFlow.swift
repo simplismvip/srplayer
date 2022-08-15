@@ -34,6 +34,24 @@ class SRPlayFlow: NSObject {
         player = nil
     }
     
+    private func refrashStatus() {
+        guard let ijkPlayer = self.player else {
+            return
+        }
+        model.isPlaying = ijkPlayer.isPlaying()
+        model.playableDuration = ijkPlayer.getPlayableDuration()
+        model.duration = ijkPlayer.getDuration()
+        model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+        model.playbackVolume = ijkPlayer.getVolume()
+        model.cacheDuration = ijkPlayer.getVideoCacheDuration()
+        model.playState = ijkPlayer.getPlayState()
+        model.loadState = ijkPlayer.getLoadState()
+        model.scalingMode = ijkPlayer.getScalingMode()
+        model.naturalSize = ijkPlayer.getNaturalSize()
+        model.playbackVolume = ijkPlayer.getVolume()
+        model.playbackRate = ijkPlayer.getPlaybackRate()
+    }
+    
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
@@ -42,7 +60,48 @@ class SRPlayFlow: NSObject {
 }
 
 extension SRPlayFlow: SRFlow {
+    // 这个方法中注册被动接受ijkplayer播放器回调
+    func registerObserver() {
+        /// 准备播放
+        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
+            self?.model.isPrepareToPlay = true
+            SRLogger.debug("准备播放.....")
+            return nil
+        }
+        
+        /// 开始播放
+        jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
+            self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
+            self?.refrashStatus()
+            SRLogger.debug("开始播放.....")
+            return nil
+        }
+        
+        /// 播放器播放进度更新
+        jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { [weak self] _ in
+            guard let ijkPlayer = self?.player, let model = self?.model else {
+                return nil
+            }
+
+            if model.currentTime != ijkPlayer.getCurrentPlaybackTime() {
+                model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+                SRLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
+            }
+            
+            return nil
+        }
+        
+        /// 刷新播放器状态
+        jmReciverMsg(msgName: kMsgNameRefreashPlayerStatus) { [weak self] builder in
+            self?.refrashStatus()
+            return nil
+        }
+    }
+    
+    // 主动调用注册消息
     func configFlow() {
+        registerObserver()
+        
         /// 准备初始化
         jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
             if let build = builder as? PlayerBulider {
@@ -53,58 +112,25 @@ extension SRPlayFlow: SRFlow {
             return nil
         }
         
-        /// 准备播放
-        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
-            self?.model.isPrepareToPlay = true
-            SRLogger.debug("准备播放.....")
-            return nil
-        }
-        
-        /// 开始播放
-        jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
-            guard let ijkPlayer = self?.player else {
-                return nil
-            }
-            
-            self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
-            
-            self?.model.isPlaying = ijkPlayer.isPlaying()
-            self?.model.playableDuration = ijkPlayer.getPlayableDuration()
-            self?.model.duration = ijkPlayer.getDuration()
-            self?.model.currentTime = ijkPlayer.getCurrentPlaybackTime()
-            self?.model.playbackVolume = ijkPlayer.getVolume()
-            self?.model.cacheDuration = ijkPlayer.getVideoCacheDuration()
-            self?.model.playState = ijkPlayer.getPlayState()
-            self?.model.loadState = ijkPlayer.getLoadState()
-            self?.model.scalingMode = ijkPlayer.getScalingMode()
-            self?.model.naturalSize = ijkPlayer.getNaturalSize()
-            self?.model.playbackVolume = ijkPlayer.getVolume()
-            self?.model.playbackRate = ijkPlayer.getPlaybackRate()
-            
-            SRLogger.debug("开始播放.....")
-            return nil
-        }
-        
-        /// 播放
-        jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
-            if let playView = self.player?.view, let containerView = self.containerView {
-                SRLogger.debug("重新添加播放器到容器并设置播放器frame.....")
-                containerView.addSubview(playView)
-                playView.translatesAutoresizingMaskIntoConstraints = true
-                playView.frame = containerView.bounds;
+        /// 暂停或者播放
+        jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
+            if let isPlaying = self?.player?.isPlaying(), isPlaying {
+                self?.player?.pause()
+            } else {
+                self?.player?.startPlay()
             }
             return nil
         }
         
         /// 暂停播放
-        jmReciverMsg(msgName: kMsgNamePauseOrRePlay) { [weak self] _ in
-            if let isPlaying = self?.player?.isPlaying(), isPlaying {
-                self?.player?.pause()
-                self?.model.isPlaying = false
-            } else {
-                self?.model.isPlaying = true
-                self?.player?.startPlay()
-            }
+        jmReciverMsg(msgName: kMsgNamePausePlaying) { [weak self] _ in
+            self?.player?.pause()
+            return nil
+        }
+        
+        /// 停止播放
+        jmReciverMsg(msgName: kMsgNameStopPlaying) { [weak self] _ in
+            self?.stopPlayer()
             return nil
         }
         
@@ -147,26 +173,29 @@ extension SRPlayFlow: SRFlow {
             return nil
         }
         
-        /// 播放器播放进度更新
-        jmReciverMsg(msgName: kMsgNamePlaybackTimeUpdate) { [weak self] _ in
-            guard let ijkPlayer = self?.player, let model = self?.model else {
-                return nil
-            }
-
-            if model.currentTime != ijkPlayer.getCurrentPlaybackTime() {
-                model.currentTime = ijkPlayer.getCurrentPlaybackTime()
-                SRLogger.debug("当前时长：\(Int(model.currentTime).format)")
-                SRLogger.debug("总时长：\(Int(model.duration).format)")
-                SRLogger.debug("播放进度：\(model.progress)")
-            }
-            
-            return nil
-        }
-        
         /// 切换清晰度
         jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
 //            self?.model.player.
             return nil
         }
+        
+        /// 播放
+        jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
+            if let playView = self.player?.view, let containerView = self.containerView {
+                SRLogger.debug("重新添加播放器到容器并设置播放器frame.....")
+                containerView.addSubview(playView)
+                playView.translatesAutoresizingMaskIntoConstraints = true
+                playView.frame = containerView.bounds;
+            }
+            return nil
+        }
+    }
+    
+    public func willRemoveFlow() {
+        
+    }
+    
+    public func didRemoveFlow(){
+        
     }
 }

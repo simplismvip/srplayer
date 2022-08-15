@@ -19,11 +19,15 @@ public let kMsgNameStartPlay = "kMsgNameStartPlay"
 /// 正在播放
 public let kMsgNameCurrentPlaying = "kMsgNameCurrentPlaying"
 /// 停止播放
-public let kMsgNameStopPlay = "kMsgNameStopPlay"
+public let kMsgNameStopPlaying = "kMsgNameStopPlaying"
+/// 播放发生错误❌
+public let kMsgNamePlayerUnknowError = "kMsgNamePlayerUnknowError"
 /// 暂停播放
+public let kMsgNamePausePlaying = "kMsgNamePausePlaying"
+/// 暂停/播放
 public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
-/// 播放
-public let kMsgNameRePlay = "kMsgNameRePlay"
+///  刷新播放器状态
+public let kMsgNameRefreashPlayerStatus = "kMsgNameRefreashPlayerStatus"
 /// 播放
 public let kMsgNameActionPlay = "kMsgNameActionPlay"
 /// 快进快退
@@ -86,7 +90,7 @@ public let kEventNameSwitchQuality = "kEventNameSwitchQuality"
 public let kEventNameSwitchQualityChoice = "kEventNameSwitchQualityChoice"
 /// 分享
 public let kEventNameShareAction = "kEventNameShareAction"
-/// 分享
+/// 分享选择
 public let kEventNameShareChoiceAction = "kEventNameShareChoiceAction"
 /// next
 public let kEventNameNextAction = "kEventNameNextAction"
@@ -102,6 +106,8 @@ public let kEventNameLockScreenAction = "kEventNameLockScreenAction"
 public let kEventNameVolumeAction = "kEventNameVolumeAction"
 /// 亮度
 public let kEventNameBrightLightAction = "kEventNameBrightLightAction"
+/// 模式
+public let kEventNameScaleModeAction = "kEventNameScaleModeAction"
 
 
 /// 切换语音和文本输入

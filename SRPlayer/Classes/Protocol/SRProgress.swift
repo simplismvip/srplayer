@@ -14,10 +14,12 @@ public protocol SRFlow: NSObject {
     associatedtype MODEL: SRModel
     var model: MODEL { set get }
     func configFlow()
+    func willRemoveFlow()
+    func didRemoveFlow()
 }
 
 extension SRFlow {
-    public  func recoverModel(_ model: MODEL) {
+    public func recoverModel(_ model: MODEL) {
         self.model = model
     }
     
