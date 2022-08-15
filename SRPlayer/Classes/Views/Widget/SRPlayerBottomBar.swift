@@ -12,7 +12,7 @@ public class SRPlayerBottomBar: SRPlayerControlBar {
     override func setupPadding() {
         if screenType == .full {
             view.snp.remakeConstraints { make in
-                make.bottom.equalTo(self).offset(-8)
+                make.bottom.equalTo(self).offset(-5)
                 make.left.width.bottom.equalTo(self)
             }
         } else {
@@ -21,12 +21,5 @@ public class SRPlayerBottomBar: SRPlayerControlBar {
                 make.left.width.bottom.equalTo(self)
             }
         }
-    }
-
-    override func setupShadow() {
-        let gradient = CAGradientLayer()
-        gradient.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
-        gradient.colors = [UIColor.black.jmComponent(0.75), UIColor.jmHexColor("0x272727").jmComponent(0.0)].map({ $0.cgColor })
     }
 }

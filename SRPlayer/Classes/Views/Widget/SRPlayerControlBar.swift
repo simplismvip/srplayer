@@ -14,7 +14,6 @@ public class SRPlayerControlBar: UIView {
     public var items: [SRPlayerItem]
     public var barType: EdgeAreaUnit
     public var screenType: ScreenType
-    public var shadow: Bool
     
     private var boxs = [String: JMWeakBox<UIView>]()
     override init(frame: CGRect) {
@@ -22,7 +21,6 @@ public class SRPlayerControlBar: UIView {
         self.screenType = .half
         self.barType = .top
         self.view = UIView()
-        self.shadow = false
         super.init(frame: frame)
         addSubview(view)
         view.snp.makeConstraints { $0.edges.equalTo(self) }
@@ -34,12 +32,6 @@ public class SRPlayerControlBar: UIView {
         self.screenType = type
         self.setupPadding()
         self.layoutItems()
-    }
-    
-    public func setShadow(_ bool: Bool) {
-        SRLogger.debug("\(bool)--")
-        if shadow == bool { return }
-        self.setupShadow()
     }
     
     private func loadPlayer(_ item: SRPlayerItem) -> UIView? {
@@ -62,9 +54,7 @@ public class SRPlayerControlBar: UIView {
     }
     
     func setupPadding() { }
-
-    func setupShadow() {}
-
+    
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         if let hv = hitView, !super.subviews.contains(hv) && hitView != self {
@@ -252,3 +242,4 @@ extension SRPlayerControlBar {
         }
     }
 }
+
