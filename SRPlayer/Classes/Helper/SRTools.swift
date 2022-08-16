@@ -8,16 +8,6 @@
 
 import UIKit
 
-struct Tools {
-    func a() {
-        let b = InitClass<UIView>.instance("SRPlayerBottomBar")
-    }
-}
-
-struct DataTool<T: Codable> {
-    
-}
-
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")
 //SRLogger.debug(bottom)
 public struct InitClass<T: NSObject> {
@@ -97,6 +87,34 @@ extension Int {
             return String(format: "00:%02d", self)
         } else {
             return "00:00"
+        }
+    }
+}
+
+extension Double {
+    var kb: Double {
+        return self / 1024
+    }
+    
+    var mb: Double {
+        return kb / 1024
+    }
+    
+    var gb: Double {
+        return mb / 1024
+    }
+    
+    func format(_ n: Int) -> String {
+        return String(format: "%.\(n)f", self)
+    }
+    
+    public var unitString: String {
+        if self.gb > 1 {
+            return self.gb.format(1) + " GB"
+        } else if self.mb > 1 {
+            return self.mb.format(1) + " MB"
+        } else {
+            return self.kb.format(1) + " KB"
         }
     }
 }

@@ -140,6 +140,7 @@ extension SRIjkPlayer: VideoPlayer {
         ijkPlayer.allowsMediaAirPlay = airplay
     }
     
+    // 弹幕
     public func setDanmakuMediaAirPlay(_ airplay: Bool) {
         ijkPlayer.isDanmakuMediaAirPlay = airplay
     }

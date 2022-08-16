@@ -13,12 +13,6 @@ class SRBatteryView: UIView {
     private let timeL: UILabel
     private let battery: Bettary
     private var timer: Timer?
-    private var isWlan: Bool {
-        if let address = SRNetSpeed.getAddress(false), address.count > 0 {
-            return true
-        }
-        return false
-    }
     
     override init(frame: CGRect) {
         self.wifi = UILabel(frame: .zero)
@@ -69,7 +63,7 @@ class SRBatteryView: UIView {
         }
         dateFormat.calendar = Calendar(identifier: .gregorian)
         timeL.text = dateFormat.string(from: Date())
-        wifi.text = isWlan ? "蜂窝网络" : "Wi-Fi"
+        wifi.text = NetStatus.netStatus().name
     }
     
     // 判断是否是24小时制

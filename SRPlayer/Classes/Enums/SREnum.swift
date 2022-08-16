@@ -100,6 +100,7 @@ public enum ItemStyle: String {
     case fullScrenn  = "kEventNameFullScrennAction"// 全屏
     case volume  = "kEventNameVolumeAction"// 音量
     case brightLight  = "kEventNameBrightLightAction"// 亮度
+    case living = "kEventNameBrightLivingAction"// 直播
     
     // right
     case screenShot = "kEventNameScreenShotAction"// 截屏

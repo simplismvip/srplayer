@@ -112,6 +112,11 @@ struct ItemFactory {
 //            item.isHalfHidden = true
         } else if itemStyle == .lockScreen {
             
+        } else if itemStyle == .living {
+            let images = (1...4)
+                .map { "sr_back_live_\($0)".image }
+                .compactMap { $0 }
+            item.animatedImage = UIImage.animatedImage(with: images, duration: 1)
         }
         return item
     }

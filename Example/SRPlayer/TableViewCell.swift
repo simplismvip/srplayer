@@ -61,7 +61,7 @@ class DetailViewCell: UITableViewCell {
     func refresh(_ model: Model) {
         self.model = model
         title.text = model.title
-        cover.setImage(url: model.image, complate: nil)
+        cover.setImage(url: model.image, placeholder: "background".image, complate: nil)
     }
     
     private func layoutViews() {

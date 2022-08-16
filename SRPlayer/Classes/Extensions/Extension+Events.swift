@@ -160,16 +160,16 @@ extension SRPlayerNormalController {
         }
         
         /// 准备开始播放
-        jmReciverMsg(msgName: kMsgNameStartLoading) { _ in
+        jmReciverMsg(msgName: kMsgNameStartLoading) { [weak self] _ in
             SRLogger.debug("准备播放.....")
-            self.view.floatView.show(.loading)
+            self?.view.floatView.show(.loading)
             return nil
         }
         
         /// 开始播放
-        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { _ in
+        jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
             SRLogger.debug("开始播放.....")
-            self.view.floatView.hide()
+            self?.view.floatView.hide()
             return nil
         }
         
