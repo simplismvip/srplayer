@@ -48,7 +48,7 @@ class TestController: UIViewController {
         self.view.addSubview(warpper.loading)
         warpper.loading.snp.makeConstraints { make in
             make.width.equalTo(100)
-            make.height.equalTo(30)
+            make.height.equalTo(50)
             make.top.equalTo(warpper.battery.snp.bottom).offset(80)
             make.centerX.equalTo(view.snp.centerX)
         }

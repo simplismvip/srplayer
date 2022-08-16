@@ -14,45 +14,24 @@ public class SRLoading: UIView {
         case negatiove
     }
     
-    let content: UIView = {
-        let view = UIView(frame: CGRect.Rect(0, 0, 25.2, 24))
-        view.layer.masksToBounds = true;
-        return view
-    }()
-    
-    lazy var left: UIView = {
-        let view = UIView(frame: CGRect.Rect(0, 0, 12, 12))
-        view.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
-        view.layer.cornerRadius = 6
-        view.layer.masksToBounds = true;
-        view.backgroundColor = UIColor.green
-        return view
-    }()
-    
-    lazy var centerV: UIView = {
-        let view = UIView(frame: CGRect.Rect(0, 0, 12, 12))
-        view.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
-        view.layer.cornerRadius = 6
-        view.layer.masksToBounds = true;
-        view.backgroundColor = UIColor.black
-        return view
-    }()
-    
-    lazy var right: UIView = {
-        let view = UIView(frame: CGRect.Rect(0, 0, 12, 12))
-        view.center = CGPoint(x: self.content.jmWidth - 12 * 0.5, y: self.content.jmHeight * 0.5)
-        view.layer.cornerRadius = 6
-        view.layer.masksToBounds = true;
-        view.backgroundColor = UIColor.red
-        return view
-    }()
+    let content = UIView(frame: .zero)
+    let left = UIView(frame: .zero)
+    let centerV = UIView(frame: .zero)
+    let right = UIView(frame: .zero)
+    let title = UILabel(frame: .zero)
     
     var displaylink: CADisplayLink?
     var direction: MoveDirection = .positive
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        content.layer.masksToBounds = true
+        left.loadingConfig(UIColor.green)
+        centerV.loadingConfig(UIColor.black)
+        right.loadingConfig(UIColor.red)
+        title.jmConfigLabel(alig: .center, font: UIFont.jmRegular(14), color: UIColor.white)
         addSubview(content)
+        addSubview(title)
         content.isHidden = true
         content.addSubview(left)
         content.addSubview(centerV)
@@ -181,7 +160,19 @@ public class SRLoading: UIView {
     }
     
     public override func layoutSubviews() {
-        content.center = CGPoint(x: self.jmWidth * 0.5, y: self.jmHeight * 0.5)
+        super.layoutSubviews()
+        content.frame = CGRect.Rect(0, 0, 25.2, 24)
+        content.center = CGPoint(x: self.jmWidth * 0.5, y: 14)
+        title.frame = CGRect.Rect(0, content.frame.maxY, jmWidth, jmHeight - 24)
+        
+        left.frame = CGRect.Rect(0, 0, 12, 12)
+        left.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
+        
+        centerV.frame = CGRect.Rect(0, 0, 12, 12)
+        centerV.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
+        
+        right.frame = CGRect.Rect(0, 0, 12, 12)
+        right.center = CGPoint(x: self.content.jmWidth - 12 * 0.5, y: self.content.jmHeight * 0.5)
     }
     
     required init?(coder: NSCoder) {
@@ -194,7 +185,9 @@ public class SRLoading: UIView {
 }
 
 extension SRLoading: Toast {
-    func update(_ progress: CGFloat, text: String?) { }
+    func update(_ progress: CGFloat, text: String?) {
+        title.text = text
+    }
     
     func begin(_ type: ToastType) {
         start()
@@ -202,5 +195,13 @@ extension SRLoading: Toast {
     
     func hide() {
         stop()
+    }
+}
+
+extension UIView {
+    func loadingConfig(_ color: UIColor) {
+        layer.cornerRadius = 6
+        layer.masksToBounds = true;
+        backgroundColor = color
     }
 }

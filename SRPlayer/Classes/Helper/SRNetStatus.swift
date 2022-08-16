@@ -61,10 +61,10 @@ struct NetStatus {
     }
 
     static func netStatus() -> NetType {
-        if let address = NetStatus.getAddress(false), address.count > 0 {
-            return NetType.wifi
+        if let address = NetStatus.getAddress(true) {
+            return (address.count > 0) ? .wifi : .wwan
         }
-        return NetType.wwan
+        return .unknow
     }
     
     static func getInterfaceBytes() -> ByteData {
@@ -97,20 +97,15 @@ struct NetStatus {
     // 获取Wi-Fi/WWAN ip地址
     static func getAddress(_ isWifi: Bool) -> String? {
         var address : String?
-        // Get list of all interfaces on the local machine:
         var ifaddr : UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else { return nil }
         guard let firstAddr = ifaddr else { return nil }
-        // For each interface ...
         for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
             let interface = ifptr.pointee
-            // Check for IPv4 or IPv6 interface:
             let addrFamily = interface.ifa_addr.pointee.sa_family
             if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
-                // Check interface name:
                 let name = String(cString: interface.ifa_name)
                 if name == (isWifi ? "en0" : "pdp_ip0") {
-                    // Convert interface address to a human readable string:
                     var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                     getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
                                 &hostname, socklen_t(hostname.count),

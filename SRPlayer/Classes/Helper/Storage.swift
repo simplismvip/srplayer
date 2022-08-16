@@ -10,7 +10,6 @@ import Foundation
 
 @propertyWrapper
 struct Storage<T: Codable> {
-    //codable协议: 可编码可解码
     var key: String
     var defaultT: T
     private let defaults = UserDefaults.standard
@@ -31,7 +30,64 @@ struct Storage<T: Codable> {
     init(key: String, `default`: T) {
         self.key = key
         self.defaultT = `default`
-        //`default`上引号的意思是取消系统关键字的意义，变成普通值
     }
 }
 
+public class JMBookStore {
+    private var queue = DispatchQueue(label: "com.search.cacheQueue")
+    public static let share: JMBookStore = {
+        return JMBookStore()
+    }()
+    
+    /// 归档模型
+    public static func encodeObject<T: Encodable>(_ object: T, cachePath: String) {
+        JMBookStore.share.queue.async {
+            do {
+                let data = try PropertyListEncoder().encode(object)
+                NSKeyedArchiver.archiveRootObject(data, toFile: cachePath)
+            }catch let error {
+                SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+            }
+        }
+    }
+    
+    /// 解档模型
+    public static func decodeObject<T: Codable>(cachePath: String, complate: @escaping (T?)->()) {
+        JMBookStore.share.queue.async {
+            guard let data = NSKeyedUnarchiver.unarchiveObject(withFile: cachePath) as? Data else {
+                DispatchQueue.main.async { complate(nil) }
+                return
+            }
+            
+            do {
+                let object = try PropertyListDecoder().decode(T.self, from: data)
+                DispatchQueue.main.async { complate(object) }
+            }catch let error {
+                SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+            }
+        }
+    }
+    
+    /// 解档模型
+    public static func decodeMain<T: Codable>(cachePath: String, complate: @escaping (T?)->()) {
+        guard let data = NSKeyedUnarchiver.unarchiveObject(withFile: cachePath) as? Data else {
+            DispatchQueue.main.async { complate(nil) }
+            return
+        }
+        
+        do {
+            let object = try PropertyListDecoder().decode(T.self, from: data)
+            DispatchQueue.main.async { complate(object) }
+        }catch let error {
+            SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+        }
+    }
+    
+    /// 删除归档文件
+    public static func deleteDecode(_ cachePath: String) {
+        let manager = FileManager.default
+        if manager.fileExists(atPath: cachePath) && manager.isDeletableFile(atPath: cachePath) {
+            try? manager.removeItem(atPath: cachePath)
+        }
+    }
+}
