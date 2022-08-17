@@ -17,22 +17,32 @@ class SRPlayModel: NSObject {
     @objc dynamic var playableDuration: TimeInterval = 0
     @objc dynamic var cacheDuration: TimeInterval = 0
     @objc dynamic var thumbImage: UIImage?
-    @objc dynamic var playRateStr: String = "倍速"
     @objc dynamic var playbackVolume: Float = 0
-    @objc dynamic var scaleImage: String = "sr_scare_big"
     
-    var playState: PlaybackState = .stop
-    var loadState: PlayLoadState = .unknow
+    // 播放器状态
+    @objc dynamic var playingStatue: String = ""
+    var playState: PlaybackState = .stop {
+        willSet {
+            playingStatue = newValue.name
+        }
+    }
+    
+    // 加载状态，绑定loading动画
+    @objc dynamic var loadingStatue: String = ""
+    var loadState: PlayLoadState = .unknow {
+        willSet {
+            loadingStatue = newValue.name
+        }
+    }
+    
+    @objc dynamic var scaleImage: String = "sr_scare_big"
     var scalingMode : ScalingMode = .aspectFit {
         willSet {
             scaleImage = newValue.name
         }
     }
     
-    var isMute: Bool {
-        return playbackVolume > 0
-    }
-    
+    @objc dynamic var playRateStr: String = "倍速"
     var playbackRate: PlaybackRate = .rate1x0 {
         willSet {
             playRateStr = newValue.name
@@ -54,6 +64,10 @@ extension SRPlayModel {
         } else {
             return 0.0
         }
+    }
+    
+    var isMute: Bool {
+        return playbackVolume > 0
     }
     
     // seek进度

@@ -23,7 +23,7 @@ public struct PlayerBulider {
                 rate: PlaybackRate = .rate1x0,
                 mute: Bool = false,
                 mirror: Bool = false,
-                autoPlay: Bool = true) {
+                autoPlay: Bool = false) {
         self.video = video
         self.scaMode = scaMode
         self.stream = streamType

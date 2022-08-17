@@ -13,9 +13,12 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     private var type: ToastType = .none
     
     public func show(_ type: ToastType) {
+        if self.type == type || type == .none { return }
         self.type = type
+        hide()
         setupViews(type)
         toastView?.begin(type)
+        SRLogger.debug("卡顿展示--\(type)")
     }
     
     public func update(_ progress: CGFloat, text: String? = nil) {
@@ -23,7 +26,10 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     }
     
     public func hide() {
+        SRLogger.debug("卡顿展示--隐藏 \(type)")
         toastView?.hide()
+        toastView = nil
+        self.type = .none
         removellSubviews { _ in true }
     }
 }
@@ -36,8 +42,19 @@ extension SRFloatView {
             self.toastView = loading
             addSubview(loading)
             loading.snp.makeConstraints { make in
-                make.width.equalTo(80)
-                make.height.equalTo(30)
+                make.width.equalTo(100)
+                make.height.equalTo(26)
+                make.centerY.equalTo(snp.centerY)
+                make.centerX.equalTo(snp.centerX)
+            }
+        case .netSpeed:
+            let loading = SRLoading()
+            self.toastView = loading
+            loading.backgroundColor = UIColor.red
+            addSubview(loading)
+            loading.snp.makeConstraints { make in
+                make.width.equalTo(100)
+                make.height.equalTo(50)
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }

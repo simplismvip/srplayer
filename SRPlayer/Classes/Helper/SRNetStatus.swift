@@ -172,23 +172,23 @@ extension StreamCount {
     // 当前速度（wifi+wwan）
     func totalCurrSpeed() -> String {
         let newByte = NetStatus.getInterfaceBytes()
-        return String(format: "%@", newByte.total)
+        return Double(newByte.total).unitString
     }
 }
 
 extension StreamCount {
     // 总wifi消耗流量
     func wifiTotalByte() -> String {
-        return String(format: "%@", byteData.wifi.total)
+        return Double(byteData.wifi.total).unitString
     }
     
     // 总wwan消耗流量
     func wwanTotalByte() -> String {
-        return String(format: "%@", byteData.wwan.total)
+        return Double(byteData.wwan.total).unitString
     }
     
     // 总消耗流量（wifi+wwan）
     func totalAllByte() -> String {
-        return String(format: "%@", byteData.total)
+        return Double(byteData.total).unitString
     }
 }

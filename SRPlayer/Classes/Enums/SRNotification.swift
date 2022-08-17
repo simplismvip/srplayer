@@ -9,8 +9,8 @@
 import UIKit
 
 enum Noti {
-    case change
-    case finish
+    case loadChange
+    case playbackFinish
     case isPrepared
     case stateChange
     case willChangeStatusBar
@@ -21,9 +21,9 @@ enum Noti {
     
     var name: NSNotification.Name {
         switch self {
-        case .change:
+        case .loadChange:
             return NSNotification.Name.IJKMPMoviePlayerLoadStateDidChange
-        case .finish:
+        case .playbackFinish:
             return NSNotification.Name.IJKMPMoviePlayerPlaybackDidFinish
         case .isPrepared:
             return NSNotification.Name.IJKMPMediaPlaybackIsPreparedToPlayDidChange

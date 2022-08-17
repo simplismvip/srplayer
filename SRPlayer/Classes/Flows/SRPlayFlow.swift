@@ -88,6 +88,11 @@ extension SRPlayFlow: SRFlow {
                 SRLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
             }
             
+            // 如果卡顿弹出提示框
+            if model.loadState == .stateStalled {
+                self?.jmSendMsg(msgName: kMsgNameNetBreakingUpStatus, info: nil)
+            }
+            
             return nil
         }
         

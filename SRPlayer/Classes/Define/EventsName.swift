@@ -59,6 +59,8 @@ public let kMsgNameScreenShotDone = "kMsgNameScreenShotDone"
 public let kMsgNameMoreAreaRequestData = "kMsgNameMoreAreaRequestData"
 /// 刷新MoreArea 数据
 public let kMsgNameMoreAreaReloadData = "kMsgNameMoreAreaReloadData"
+/// 网络卡顿展示
+public let kMsgNameNetBreakingUpStatus = "kMsgNameNetBreakingUpStatus"
 
 // ------------- Event Name -------------
 /// 切换全屏半屏

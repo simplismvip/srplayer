@@ -29,12 +29,19 @@ public enum StreamType: Int {
 
 extension StreamType: Codable { }
 
+enum ToastStatus {
+    case show     // 展示
+    case update   // 更新
+    case hide     // 隐藏
+}
+
 public enum ToastType {
     case seek        // 快进 快退
     case longPress   // 长按快进
     case volume      // 音量
     case brightness  // 亮度
     case loading     // 加载动画
+    case netSpeed    // 加载动画、网速
     case screenShot(CGPoint, UIImage)  // 截屏
     case none        // 加载动画
     
@@ -48,11 +55,13 @@ public enum ToastType {
             return "sr_volum"
         case .brightness:
             return "sr_ brightness"
-        case .loading, .screenShot, .none:
+        case .loading, .screenShot, .netSpeed, .none:
             return ""
         }
     }
 }
+
+extension ToastType: Equatable { }
 
 public enum PlaybackRate: Float {
     case rate0x75 = 0.75   // 0.75x
@@ -118,6 +127,23 @@ public enum PlaybackState {
             return .paused
         }
     }
+    
+    var name: String {
+        switch self {
+        case .stop:
+            return "播放停止"
+        case .playing:
+            return "播放中..."
+        case .pause:
+            return "暂停播放"
+        case .interrupted:
+            return "播放被打断"
+        case .seekingForward:
+            return "快进"
+        case .seekingBackward:
+            return "快退"
+        }
+    }
 }
 
 public enum PlayLoadState {
@@ -127,15 +153,14 @@ public enum PlayLoadState {
     case stateStalled // Playback will be automatically paused in this state, if started
     
     static func transFrom(_ ijkState: IJKMPMovieLoadState) -> PlayLoadState {
-        switch ijkState {
-        case .playable:
-            return .playable
-        case .playthroughOK:
-            return .playthroughOK
-        case .stalled:
-            return .stateStalled
-        default:
-            return .unknow
+        if ijkState.contains(.playable) {
+            return PlayLoadState.playable
+        } else if ijkState.contains(.playthroughOK) {
+            return PlayLoadState.playthroughOK
+        } else if ijkState.contains(.stalled) {
+            return PlayLoadState.stateStalled
+        } else {
+            return PlayLoadState.unknow
         }
     }
     
@@ -149,6 +174,19 @@ public enum PlayLoadState {
             return .stalled
         default:
             return []
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case .unknow:
+            return "未知状态"
+        case .playable:
+            return "准备播放"
+        case .playthroughOK:
+            return "开始播放"
+        case .stateStalled:
+            return "缓冲中..."
         }
     }
 }

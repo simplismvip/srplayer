@@ -29,7 +29,7 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
-
+  s.swift_version = "5.0"
   s.source_files = 'SRPlayer/Classes/**/*'
   # OC & Swift混编添加桥接文件
   s.public_header_files = 'Pod/Classes/Define/*.h'

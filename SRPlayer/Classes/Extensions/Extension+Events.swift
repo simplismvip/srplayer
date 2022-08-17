@@ -26,6 +26,7 @@ extension SRPlayerNormalController {
             let fullScrenn = self?.barManager.bottom.buttonItem(.fullScrenn)
             if self?.barManager.top.screenType == .half {
                 fullScrenn?.image = "sr_halfscreen"
+                self?.jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
                 self?.jmRouterEvent(eventName: kEventNamePopController, info: nil)
             } else if self?.barManager.top.screenType == .full {
                 UIDevice.setNewOrientation(.portrait)
@@ -204,6 +205,14 @@ extension SRPlayerNormalController {
             if let model = self?.flowManager.model(SRMoreAreaFlow.self) {
                 self?.view.moreAreaView.relodata(model.items)
             }
+            return nil
+        }
+        
+        /// 卡顿展示loading和网速
+        jmReciverMsg(msgName: kMsgNameNetBreakingUpStatus) { [weak self] _ in
+            let current = StreamCount.share.totalCurrSpeed()
+            self?.view.floatView.update(0, text: current)
+            SRLogger.debug("卡顿展示loading和网速\(current)")
             return nil
         }
     }
