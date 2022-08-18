@@ -210,7 +210,7 @@ extension SRPlayerNormalController {
         
         /// 卡顿展示loading和网速
         jmReciverMsg(msgName: kMsgNameNetBreakingUpStatus) { [weak self] _ in
-            let current = StreamCount.share.totalCurrSpeed()
+            let current = NetSpeed.share.totalRecvSpeed()
             self?.view.floatView.update(0, text: current)
             SRLogger.debug("卡顿展示loading和网速\(current)")
             return nil

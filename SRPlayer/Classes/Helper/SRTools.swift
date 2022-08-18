@@ -91,6 +91,12 @@ extension Int {
     }
 }
 
+extension UInt64 {
+    var double: Double {
+        return Double(self)
+    }
+}
+
 extension Double {
     var kb: Double {
         return self / 1024
@@ -110,11 +116,11 @@ extension Double {
     
     public var unitString: String {
         if self.gb > 1 {
-            return self.gb.format(1) + " GB"
+            return self.gb.format(0) + " GB"
         } else if self.mb > 1 {
-            return self.mb.format(1) + " MB"
+            return self.mb.format(0) + " MB"
         } else {
-            return self.kb.format(1) + " KB"
+            return self.kb.format(0) + " KB"
         }
     }
 }

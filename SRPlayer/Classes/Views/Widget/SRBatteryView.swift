@@ -63,7 +63,7 @@ class SRBatteryView: UIView {
         }
         dateFormat.calendar = Calendar(identifier: .gregorian)
         timeL.text = dateFormat.string(from: Date())
-        wifi.text = NetStatus.netStatus().name
+        wifi.text = NetSpeed.share.connType.name
     }
     
     // 判断是否是24小时制

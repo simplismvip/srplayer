@@ -16,9 +16,9 @@ public class SRFloatView: SRPierceView, SRFloat_P {
         if self.type == type || type == .none { return }
         self.type = type
         hide()
+        SRLogger.debug("卡顿展示 ))))--\(type)")
         setupViews(type)
         toastView?.begin(type)
-        SRLogger.debug("卡顿展示--\(type)")
     }
     
     public func update(_ progress: CGFloat, text: String? = nil) {
@@ -26,7 +26,7 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     }
     
     public func hide() {
-        SRLogger.debug("卡顿展示--隐藏 \(type)")
+        SRLogger.debug("卡顿展示 ))))--隐藏 \(type)")
         toastView?.hide()
         toastView = nil
         self.type = .none

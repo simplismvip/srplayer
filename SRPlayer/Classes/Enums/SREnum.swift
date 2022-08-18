@@ -8,6 +8,49 @@
 
 import UIKit
 
+public enum SpeedType {
+    case wifi_recv
+    case wifi_sent
+    case wwan_recv
+    case wwan_sent
+    case all_recv
+    case all_sent
+    
+    var name: String {
+        switch self {
+        case .wifi_recv:
+            return "Wi-Fi下载速度"
+        case .wifi_sent:
+            return "Wi-Fi上传速度"
+        case .wwan_recv:
+            return "蜂窝网络下载速度"
+        case .wwan_sent:
+            return "蜂窝网络上传速度"
+        case .all_recv:
+            return "当前下载速度"
+        case .all_sent:
+            return "当前上传速度"
+        }
+    }
+}
+
+public enum ConnectType {
+    case wifi
+    case wwan
+    case unknow
+    
+    var name: String {
+        switch self {
+        case .wifi:
+            return "Wi-Fi"
+        case .wwan:
+            return "蜂窝网络"
+        case .unknow:
+            return "无网络"
+        }
+    }
+}
+
 /** 播放器层枚举 */
 public enum PlayerUnit {
     case player   // 播放器层

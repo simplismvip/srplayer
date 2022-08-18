@@ -8,10 +8,10 @@
 
 import UIKit
 
-struct Action {
+public struct Action {
     var name: String
-    var target: NSObject
-    var selector: Selector
+    let target: NSObject
+    let selector: Selector
     
     init(target: NSObject, selector: Selector) {
         self.target = target
@@ -19,15 +19,15 @@ struct Action {
         self.name = ""
     }
     
-    func perform() {
+    public func perform() {
         target.perform(selector)
     }
     
-    func perform(_ with: Any) {
+    public func perform(_ with: Any) {
         target.perform(selector, with: with)
     }
     
-    func perform(_ with: Any, delay: TimeInterval) {
+    public func perform(_ with: Any, delay: TimeInterval) {
         target.perform(selector, with: with, afterDelay: delay)
     }
 }

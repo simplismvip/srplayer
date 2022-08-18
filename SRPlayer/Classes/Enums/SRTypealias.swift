@@ -14,4 +14,5 @@ public typealias SRFinish = () -> Void
 public typealias SRVisible = (_ visible: Bool) -> Void
 public typealias SREdgeVisible = (_ visible: Bool, _ unit: EdgeAreaUnit) -> Void
 public typealias SRUnit = (_ unit: EdgeAreaUnit) -> Void
+public typealias CurrNetSpeed = (_ speed: String) -> Void
 
