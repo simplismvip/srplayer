@@ -36,7 +36,7 @@ public class SRLoading: UIView {
         content.addSubview(left)
         content.addSubview(centerV)
         content.addSubview(right)
-        content.bringSubview(toFront: left)
+        content.bringSubviewToFront(left)
         updatePosition(0)
     }
     
@@ -44,7 +44,7 @@ public class SRLoading: UIView {
         content.isHidden = false
         pause()
         displaylink = CADisplayLink(target: self, selector: #selector(updateAnimation))
-        displaylink?.add(to: RunLoop.main, forMode: .commonModes)
+        displaylink?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
     }
     
     public func pause() {
@@ -58,7 +58,7 @@ public class SRLoading: UIView {
         pause()
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(start), object: nil)
         left.addSubview(centerV)
-        content.bringSubview(toFront: right)
+        content.bringSubviewToFront(right)
         direction = .positive
         updatePosition(0)
     }
@@ -108,7 +108,7 @@ public class SRLoading: UIView {
             
             if left.frame.maxX >= content.jmWidth || right.frame.minX <= 0 {
                 direction = .negatiove
-                content.bringSubview(toFront: right)
+                content.bringSubviewToFront(right)
                 right.addSubview(centerV)
                 reset()
             }
@@ -129,7 +129,7 @@ public class SRLoading: UIView {
             
             if left.frame.minX <= 0 || right.frame.maxX >= content.jmWidth {
                 direction = .positive
-                content.bringSubview(toFront: left)
+                content.bringSubviewToFront(left)
                 left.addSubview(centerV)
                 reset()
             }

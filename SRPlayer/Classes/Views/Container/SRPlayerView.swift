@@ -164,7 +164,7 @@ public class SRPlayerView: SRPierceView {
 }
 
 extension SRPlayerView: UIGestureRecognizerDelegate {
-    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         SRLogger.debug("---gestureRecognizer")
         if let isKind = otherGestureRecognizer.view?.isKind(of: UITableView.self), isKind && (gestureRecognizer == panGesture) {
             return true
@@ -172,7 +172,7 @@ extension SRPlayerView: UIGestureRecognizerDelegate {
         return false
     }
     
-    private func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         SRLogger.debug("gestureRecognizer---")
         if gestureRecognizer == panGesture {
             return false

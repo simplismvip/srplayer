@@ -254,6 +254,8 @@ extension SRIjkPlayer {
             SRLogger.debug("interrupted: interrupted")
         case .seekingForward, .seekingBackward:
             SRLogger.debug("seekingBackward: seeking")
+        @unknown default:
+            SRLogger.debug("seekingBackward: seeking")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
@@ -315,8 +317,9 @@ struct Options {
         options.setFormatOptionIntValue(0, forKey:"auto_convert")
         // 重连次数
         options.setFormatOptionIntValue(1, forKey:"reconnect")
-        // 开启硬解码
-        options.setPlayerOptionIntValue(1, forKey:"videotoolbox")
+        // 暂时关闭硬解码，有声音视频推到后台再返回画面不动
+        // https://github.com/bilibili/ijkplayer/issues/3328
+        options.setPlayerOptionIntValue(0, forKey:"videotoolbox")
         return options
     }
 }

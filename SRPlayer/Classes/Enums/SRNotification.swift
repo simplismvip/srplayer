@@ -30,15 +30,15 @@ enum Noti {
         case .stateChange:
             return NSNotification.Name.IJKMPMoviePlayerPlaybackStateDidChange
         case .willChangeStatusBar:
-            return NSNotification.Name.UIApplicationWillChangeStatusBarOrientation
+            return UIApplication.willChangeStatusBarOrientationNotification
         case .didChangeStatusBar:
-            return NSNotification.Name.UIApplicationDidChangeStatusBarOrientation
+            return UIApplication.didChangeStatusBarOrientationNotification
         case .enterBackground:
-            return NSNotification.Name.UIApplicationDidEnterBackground
+            return UIApplication.didEnterBackgroundNotification
         case .becomeActive:
-            return NSNotification.Name.UIApplicationDidBecomeActive
+            return UIApplication.didBecomeActiveNotification
         case .battery:
-            return NSNotification.Name.UIDeviceBatteryLevelDidChange
+            return UIDevice.batteryLevelDidChangeNotification
         }
     }
 }
