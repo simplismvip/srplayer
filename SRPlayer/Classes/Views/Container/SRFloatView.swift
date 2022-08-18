@@ -15,8 +15,6 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     public func show(_ type: ToastType) {
         if self.type == type || type == .none { return }
         self.type = type
-        hide()
-        SRLogger.debug("卡顿展示 ))))--\(type)")
         setupViews(type)
         toastView?.begin(type)
     }
@@ -26,7 +24,6 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     }
     
     public func hide() {
-        SRLogger.debug("卡顿展示 ))))--隐藏 \(type)")
         toastView?.hide()
         toastView = nil
         self.type = .none
@@ -50,7 +47,6 @@ extension SRFloatView {
         case .netSpeed:
             let loading = SRLoading()
             self.toastView = loading
-            loading.backgroundColor = UIColor.red
             addSubview(loading)
             loading.snp.makeConstraints { make in
                 make.width.equalTo(100)

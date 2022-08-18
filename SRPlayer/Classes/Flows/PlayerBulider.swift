@@ -23,7 +23,7 @@ public struct PlayerBulider {
                 rate: PlaybackRate = .rate1x0,
                 mute: Bool = false,
                 mirror: Bool = false,
-                autoPlay: Bool = false) {
+                autoPlay: Bool = true) {
         self.video = video
         self.scaMode = scaMode
         self.stream = streamType
@@ -34,6 +34,22 @@ public struct PlayerBulider {
     }
     
     public struct Video {
+        // 默认使用的播放器视频地址
+        public let videoUrl: URL
+        public var title: String?
+        public var cover: String?
+        public var resolution: String?
+        public var multiURLs: [Video]? // 多码率视频地址
+        
+        public init(videoUrl: URL, title: String?, cover: String?, resolution: String?) {
+            self.videoUrl = videoUrl
+            self.title = title
+            self.cover = cover
+            self.resolution = resolution
+        }
+    }
+    
+    public struct Options {
         // 默认使用的播放器视频地址
         public let videoUrl: URL
         public var title: String?

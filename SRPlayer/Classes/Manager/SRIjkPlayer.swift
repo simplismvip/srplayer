@@ -40,8 +40,6 @@ class SRIjkPlayer: NSObject {
         self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { [weak self] _ in
             if let isPlaying = self?.ijkPlayer.isPlaying(), isPlaying {
                 self?.jmSendMsg(msgName: kMsgNamePlaybackTimeUpdate, info: nil)
-                let current = NetSpeed.share.currNetSpeed(.all)
-                SRLogger.debug("卡顿展示loading和网速\(current)")
             }
         })
     }

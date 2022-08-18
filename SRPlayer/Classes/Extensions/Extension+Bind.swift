@@ -47,10 +47,8 @@ extension SRPlayerNormalController {
         model.observe(String.self, "loadingStatue") { [weak self] loadingStatue in
             if model.loadState == .stateStalled {
                 self?.view.floatView.show(.netSpeed)
-                SRLogger.debug("卡顿展示loading")
             } else {
                 self?.view.floatView.hide()
-                SRLogger.debug("卡顿隐藏loading")
             }
         }.add(&disposes)
         
