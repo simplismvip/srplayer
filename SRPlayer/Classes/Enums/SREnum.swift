@@ -9,27 +9,19 @@
 import UIKit
 
 public enum SpeedType {
-    case wifi_recv
-    case wifi_sent
-    case wwan_recv
-    case wwan_sent
-    case all_recv
-    case all_sent
+    case recv
+    case sent
+    case all
     
+    // wifi和wwan只能使用一个上面能表示所以情况
     var name: String {
         switch self {
-        case .wifi_recv:
-            return "Wi-Fi下载速度"
-        case .wifi_sent:
-            return "Wi-Fi上传速度"
-        case .wwan_recv:
-            return "蜂窝网络下载速度"
-        case .wwan_sent:
-            return "蜂窝网络上传速度"
-        case .all_recv:
-            return "当前下载速度"
-        case .all_sent:
-            return "当前上传速度"
+        case .recv:
+            return "下载速度"
+        case .sent:
+            return "上传速度"
+        case .all:
+            return "当前总速度"
         }
     }
 }

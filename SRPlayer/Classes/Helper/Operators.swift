@@ -2,7 +2,8 @@
 //  Operators.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/18.
+//  Created by JunMing on 2022/8/18.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
@@ -31,16 +32,16 @@ func -(lhs: ByteCount, rhs: ByteCount) -> ByteCount {
     return result
 }
 
-func +(lhs: ByteData, rhs: ByteData) -> ByteData {
-    var result = lhs
-    result.wifi = result.wifi + rhs.wifi
-    result.wwan = result.wwan + rhs.wwan
-    return result
-}
-
-func -(lhs: ByteData, rhs: ByteData) -> ByteData {
-    var result = lhs
-    result.wifi = result.wifi - rhs.wifi
-    result.wwan = result.wwan - rhs.wwan
-    return result
-}
+//func +(lhs: ByteData, rhs: ByteData) -> ByteData {
+//    var result = lhs
+//    result.wifi = result.wifi + rhs.wifi
+//    result.wwan = result.wwan + rhs.wwan
+//    return result
+//}
+//
+//func -(lhs: ByteData, rhs: ByteData) -> ByteData {
+//    var result = lhs
+//    result.wifi = result.wifi - rhs.wifi
+//    result.wwan = result.wwan - rhs.wwan
+//    return result
+//}
