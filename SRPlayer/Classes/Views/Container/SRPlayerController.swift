@@ -106,7 +106,7 @@ extension SRPlayerController: SRPlayerGesture {
     
     private func volume(_ offset: CGFloat) {
         guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
-        if fabs(model.systemVolume) >= 0.1 {
+        if abs(model.systemVolume) >= 0.1 {
             model.systemVolume -= offset
             
 //            let mpVolume = MPVolumeView()

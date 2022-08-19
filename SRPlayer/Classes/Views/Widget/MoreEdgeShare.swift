@@ -30,7 +30,7 @@ class MoreEdgeShare: UIView {
 }
 
 extension MoreEdgeShare: SRMoreContent {
-    public func reload(_ item: [Results]) {
+    public func reload(_ item: [MoreResult]) {
 //        self.items = items
 //        tableView.reloadData()
 //        hideLoading()

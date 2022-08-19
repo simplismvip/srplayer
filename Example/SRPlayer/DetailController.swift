@@ -12,7 +12,8 @@ import SnapKit
 import SRPlayer
 
 class DetailController: ViewController {
-    let player: SRPlayerNormalController
+    let player: SRPlayerController
+    let request: SRMoreDataRequest
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -24,7 +25,12 @@ class DetailController: ViewController {
     }
 
     init(_ type: VideoType) {
-        self.player = SRPlayerNormalController()
+        if type == .local || type == .remote {
+            self.player = SRPlayerLivingController()
+        } else {
+            self.player = SRPlayerNormalController()
+        }
+        self.request = SRMoreDataRequest()
         super.init(nibName: nil, bundle: nil)
         self.type = type
     }
@@ -37,6 +43,7 @@ class DetailController: ViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         registerEvent()
+        self.request.associatPlayer(self.player)
     }
     
     override func setupViews() {

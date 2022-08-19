@@ -11,8 +11,21 @@ import UIKit
 /** MoreEdge View */
 protocol MoreEdgeItem: Codable {
     var title: String { get set }
-    var image: String { get set }
     var event: String { get set }
+    var image: String? { get set }
+    var url: String? { get set }
+}
+
+public struct MoreItem: MoreEdgeItem {
+    var title: String
+    var image: String?
+    var event: String
+    var url: String?
+}
+
+public struct MoreResult: Codable {
+    var count: String
+    var results: [MoreItem]
 }
 
 public enum MoreEdgeType {
@@ -23,7 +36,7 @@ public enum MoreEdgeType {
     case share
     case none
     
-    var name: String {
+    public var name: String {
         switch self {
         case .playrate:
             return "playrate"
@@ -39,15 +52,4 @@ public enum MoreEdgeType {
             return ""
         }
     }
-}
-
-public struct MoreItem: MoreEdgeItem {
-    var title: String
-    var image: String
-    var event: String
-}
-
-public struct Results: Codable {
-    var count: String
-    var results: [MoreItem]
 }

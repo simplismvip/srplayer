@@ -30,6 +30,10 @@
 		E90F824F289BA04A001C9F04 /* local.json in Resources */ = {isa = PBXBuildFile; fileRef = E90F8249289BA04A001C9F04 /* local.json */; };
 		E912C97528AA196500A8147D /* ADFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912C97428AA196500A8147D /* ADFlow.swift */; };
 		E912C97728AA196C00A8147D /* ADModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912C97628AA196C00A8147D /* ADModel.swift */; };
+		E912C9F328AF574800A8147D /* playrate.json in Resources */ = {isa = PBXBuildFile; fileRef = E912C9F028AF574800A8147D /* playrate.json */; };
+		E912C9F428AF574800A8147D /* resolve.json in Resources */ = {isa = PBXBuildFile; fileRef = E912C9F128AF574800A8147D /* resolve.json */; };
+		E912C9F528AF574800A8147D /* series.json in Resources */ = {isa = PBXBuildFile; fileRef = E912C9F228AF574800A8147D /* series.json */; };
+		E912C9F728AF606B00A8147D /* MoreDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912C9F628AF606B00A8147D /* MoreDataRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +78,10 @@
 		E90F8249289BA04A001C9F04 /* local.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = local.json; sourceTree = "<group>"; };
 		E912C97428AA196500A8147D /* ADFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADFlow.swift; sourceTree = "<group>"; };
 		E912C97628AA196C00A8147D /* ADModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADModel.swift; sourceTree = "<group>"; };
+		E912C9F028AF574800A8147D /* playrate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = playrate.json; sourceTree = "<group>"; };
+		E912C9F128AF574800A8147D /* resolve.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resolve.json; sourceTree = "<group>"; };
+		E912C9F228AF574800A8147D /* series.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = series.json; sourceTree = "<group>"; };
+		E912C9F628AF606B00A8147D /* MoreDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreDataRequest.swift; sourceTree = "<group>"; };
 		FAC219AF178BC5727BE36BD5 /* Pods-SRPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SRPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-SRPlayer_Example/Pods-SRPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,6 +145,7 @@
 				6855BCBD2883EF2F00DBFFE7 /* TableViewCell.swift */,
 				6855BCB92883ED8F00DBFFE7 /* Model.swift */,
 				6855BCBF2883F9F800DBFFE7 /* Helper.swift */,
+				E912C9F628AF606B00A8147D /* MoreDataRequest.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -194,6 +203,9 @@
 		E90F8243289BA04A001C9F04 /* Josn */ = {
 			isa = PBXGroup;
 			children = (
+				E912C9F028AF574800A8147D /* playrate.json */,
+				E912C9F128AF574800A8147D /* resolve.json */,
+				E912C9F228AF574800A8147D /* series.json */,
 				E90F8244289BA04A001C9F04 /* rtsp.json */,
 				E90F8245289BA04A001C9F04 /* living.json */,
 				E90F8246289BA04A001C9F04 /* remote.json */,
@@ -317,12 +329,15 @@
 				E90F824A289BA04A001C9F04 /* rtsp.json in Resources */,
 				68BFC5EF2896287000966C4D /* 001.MOV in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				E912C9F428AF574800A8147D /* resolve.json in Resources */,
 				E90F824D289BA04A001C9F04 /* rtmp.json in Resources */,
 				E90F824F289BA04A001C9F04 /* local.json in Resources */,
 				689FA6B728A72DF700E943CB /* 003.MOV in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				E90F824B289BA04A001C9F04 /* living.json in Resources */,
+				E912C9F328AF574800A8147D /* playrate.json in Resources */,
+				E912C9F528AF574800A8147D /* series.json in Resources */,
 				68BFC5F02896287000966C4D /* 002.MOV in Resources */,
 				E90F824C289BA04A001C9F04 /* remote.json in Resources */,
 			);
@@ -396,6 +411,7 @@
 				6855BCBE2883EF2F00DBFFE7 /* TableViewCell.swift in Sources */,
 				E90F823E289B9BFA001C9F04 /* TestController.swift in Sources */,
 				E912C97528AA196500A8147D /* ADFlow.swift in Sources */,
+				E912C9F728AF606B00A8147D /* MoreDataRequest.swift in Sources */,
 				E912C97728AA196C00A8147D /* ADModel.swift in Sources */,
 				6855BCC02883F9F800DBFFE7 /* Helper.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,

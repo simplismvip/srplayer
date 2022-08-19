@@ -21,7 +21,6 @@ class SRIjkPlayer: NSObject {
     private var ijkKvo: IJKKVOController?
     /** 开启时间循环 */
     private var timer: Timer?
-    var disposes = Set<RSObserver>()
     
     init(_ build: PlayerBulider) {
         self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.videoUrl, with: Options.options())
@@ -49,7 +48,7 @@ class SRIjkPlayer: NSObject {
         jmSetAssociatedMsgRouter(router: r)
     }
     
-    func stopPlayer() {
+    public func stopPlayer() {
         timer?.invalidate()
         timer = nil
         stop()
@@ -230,7 +229,7 @@ extension SRIjkPlayer {
             SRLogger.debug("Finish: ???: \(reason)\n")
         }
         stopPlayer()
-        // jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
+        jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
     
@@ -248,7 +247,7 @@ extension SRIjkPlayer {
             SRLogger.debug("pause: paused")
         case .stopped:
             SRLogger.debug("stopped: stopped")
-            // jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
+            jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         case .interrupted:
             jmSendMsg(msgName: kMsgNamePlayerUnknowError, info: nil)
             SRLogger.debug("interrupted: interrupted")

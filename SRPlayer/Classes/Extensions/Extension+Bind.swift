@@ -9,7 +9,7 @@
 import UIKit
 
 // KVO 绑定
-extension SRPlayerNormalController {
+extension SRPlayerController {
     func kvoBind() {
         guard let model = self.flowManager.model(SRPlayFlow.self) else {
             return
@@ -52,8 +52,9 @@ extension SRPlayerNormalController {
             }
         }.add(&disposes)
         
-        model.observe(String.self, "playingStatue") { playingStatue in
-            
+        let titleItem = self.barManager.top.buttonItem(.scale)
+        model.observe(String.self, "videoTitle") { videoTitle in
+            titleItem?.title = videoTitle
         }.add(&disposes)
     }
 }

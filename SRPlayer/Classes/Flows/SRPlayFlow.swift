@@ -21,6 +21,7 @@ class SRPlayFlow: NSObject {
     }
     
     private func setupPlayer(_ build: PlayerBulider) {
+        model.videoTitle = build.video.title
         stopPlayer()
         player = SRIjkPlayer(build)
         player?.associatedRouter(self.msgRouter)

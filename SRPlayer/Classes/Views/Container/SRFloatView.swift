@@ -50,7 +50,7 @@ extension SRFloatView {
             addSubview(loading)
             loading.snp.makeConstraints { make in
                 make.width.equalTo(100)
-                make.height.equalTo(50)
+                make.height.equalTo(44)
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }

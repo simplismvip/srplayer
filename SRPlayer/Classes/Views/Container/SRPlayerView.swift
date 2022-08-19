@@ -64,8 +64,8 @@ public class SRPlayerView: SRPierceView {
         
         switch gesture.state {
         case .began:
-            let x = fabs(velocty.x)
-            let y = fabs(velocty.y)
+            let x = abs(velocty.x)
+            let y = abs(velocty.y)
             if x > y {
                 SRLogger.debug("began:水平移动")
                 panDirection = .horizontal
@@ -129,6 +129,8 @@ public class SRPlayerView: SRPierceView {
             }
         case .possible:
             SRLogger.debug("无滑动")
+        @unknown default:
+            fatalError()
         }
     }
     
@@ -155,6 +157,8 @@ public class SRPlayerView: SRPierceView {
             SRLogger.debug("无长按")
         case .ended:
             delegate?.longPress(.end)
+        @unknown default:
+            fatalError()
         }
     }
     
