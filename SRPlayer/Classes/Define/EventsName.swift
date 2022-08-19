@@ -20,10 +20,12 @@ public let kMsgNameStartPlay = "kMsgNameStartPlay"
 public let kMsgNameCurrentPlaying = "kMsgNameCurrentPlaying"
 /// 停止播放
 public let kMsgNameStopPlaying = "kMsgNameStopPlaying"
-/// 播放发生错误❌
-public let kMsgNamePlayerUnknowError = "kMsgNamePlayerUnknowError"
+/// 播放完成
+public let kMsgNamePausePlayEnding = "kMsgNamePausePlayEnding"
 /// 暂停播放
 public let kMsgNamePausePlaying = "kMsgNamePausePlaying"
+/// 播放发生错误❌
+public let kMsgNamePlayerUnknowError = "kMsgNamePlayerUnknowError"
 /// 暂停/播放
 public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
 ///  刷新播放器状态

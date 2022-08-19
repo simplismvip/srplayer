@@ -21,7 +21,6 @@ class SRIjkPlayer: NSObject {
     private var ijkKvo: IJKKVOController?
     /** 开启时间循环 */
     private var timer: Timer?
-    var disposes = Set<RSObserver>()
     
     init(_ build: PlayerBulider) {
         self.ijkPlayer = IJKFFMoviePlayerController(contentURL: build.video.videoUrl, with: Options.options())
@@ -49,7 +48,7 @@ class SRIjkPlayer: NSObject {
         jmSetAssociatedMsgRouter(router: r)
     }
     
-    func stopPlayer() {
+    public func stopPlayer() {
         timer?.invalidate()
         timer = nil
         stop()
@@ -230,7 +229,7 @@ extension SRIjkPlayer {
             SRLogger.debug("Finish: ???: \(reason)\n")
         }
         stopPlayer()
-        // jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
+        jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
     
@@ -248,11 +247,13 @@ extension SRIjkPlayer {
             SRLogger.debug("pause: paused")
         case .stopped:
             SRLogger.debug("stopped: stopped")
-            // jmSendMsg(msgName: kMsgNameStopPlaying, info: nil)
+            jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         case .interrupted:
             jmSendMsg(msgName: kMsgNamePlayerUnknowError, info: nil)
             SRLogger.debug("interrupted: interrupted")
         case .seekingForward, .seekingBackward:
+            SRLogger.debug("seekingBackward: seeking")
+        @unknown default:
             SRLogger.debug("seekingBackward: seeking")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
@@ -315,8 +316,9 @@ struct Options {
         options.setFormatOptionIntValue(0, forKey:"auto_convert")
         // 重连次数
         options.setFormatOptionIntValue(1, forKey:"reconnect")
-        // 开启硬解码
-        options.setPlayerOptionIntValue(1, forKey:"videotoolbox")
+        // 暂时关闭硬解码，有声音视频推到后台再返回画面不动
+        // https://github.com/bilibili/ijkplayer/issues/3328
+        options.setPlayerOptionIntValue(0, forKey:"videotoolbox")
         return options
     }
 }

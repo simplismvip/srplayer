@@ -175,7 +175,7 @@ extension SRPlayerNormalController {
         }
         
         /// 停止播放
-        jmReciverMsg(msgName: kMsgNameStopPlaying) { [weak self] _ in
+        jmReciverMsg(msgName: kMsgNamePausePlayEnding) { [weak self] _ in
             self?.view.bkgView.endPlay()
             return nil
         }

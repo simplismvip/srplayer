@@ -61,7 +61,7 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         return 44
     }
     
-    private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
         jmRouterEvent(eventName: item.event, info: item as MsgObjc)
     }
