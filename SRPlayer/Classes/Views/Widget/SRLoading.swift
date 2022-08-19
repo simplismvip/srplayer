@@ -9,174 +9,68 @@
 import UIKit
 
 public class SRLoading: UIView {
-    enum MoveDirection {
-        case positive
-        case negatiove
-    }
+    private let leftV = CAShapeLayer()
+    private let centerV = CAShapeLayer()
+    private let rightV = CAShapeLayer()
     
-    let content = UIView(frame: .zero)
-    let left = UIView(frame: .zero)
-    let centerV = UIView(frame: .zero)
-    let right = UIView(frame: .zero)
+    private var r_radius: CGFloat = 8
     let title = UILabel(frame: .zero)
-    
-    var displaylink: CADisplayLink?
-    var direction: MoveDirection = .positive
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        content.layer.masksToBounds = true
-        left.loadingConfig(UIColor.green)
-        centerV.loadingConfig(UIColor.black)
-        right.loadingConfig(UIColor.red)
-        title.jmConfigLabel(alig: .center, font: UIFont.jmRegular(14), color: UIColor.white)
-        addSubview(content)
+        
+        layer.addSublayer(leftV)
+        layer.addSublayer(centerV)
+        layer.addSublayer(rightV)
+        
+        centerV.color(UIColor.black)
+        rightV.color(UIColor.green)
+        leftV.color(UIColor.red)
+        title.jmConfigLabel(alig: .center, font: UIFont.jmRegular(12), color: UIColor.white)
         addSubview(title)
-        content.isHidden = true
-        content.addSubview(left)
-        content.addSubview(centerV)
-        content.addSubview(right)
-        content.bringSubview(toFront: left)
-        updatePosition(0)
-    }
-    
-    @objc public func start() {
-        content.isHidden = false
-        pause()
-        displaylink = CADisplayLink(target: self, selector: #selector(updateAnimation))
-        displaylink?.add(to: RunLoop.main, forMode: .commonModes)
-    }
-    
-    public func pause() {
-//        content.isHidden = true
-        displaylink?.invalidate()
-        displaylink = nil
-    }
-    
-    public func stop() {
-        content.isHidden = true
-        pause()
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(start), object: nil)
-        left.addSubview(centerV)
-        content.bringSubview(toFront: right)
-        direction = .positive
-        updatePosition(0)
-    }
-    
-    public func reset() {
-        pause()
-        self.perform(#selector(start), with: nil, afterDelay: 0.18)
-    }
-    
-    func updatePosition(_ progress: CGFloat) {
-        var center = left.center
-        center.x = 12 * 0.5 + 1.1 * 12 * progress
-        left.center = center
         
-        center = right.center
-        center.x = 12 * 1.6 - 1.1 * 12 * progress;
-        right.center = center
-        
-        if progress != 0 || progress != 1 {
-            left.transform = largerTransformOfCenterX(center.x)
-            right.transform = smallerTransformOfCenterX(center.x)
-        } else {
-            left.transform = CGAffineTransform.identity
-            right.transform = CGAffineTransform.identity
-        }
-        
-        centerV.frame = right.convert(right.bounds, to: left)
-        centerV.layer.cornerRadius = centerV.jmWidth * 0.5
-    }
-    
-    @objc func updateAnimation() {
-        // SRLogger.error("update")
-        if direction == .positive {
-            var center = left.center
-            center.x += 0.7
-            left.center = center
-            
-            center = right.center
-            center.x -= 0.7
-            right.center = center
-            
-            left.transform = largerTransformOfCenterX(center.x)
-            right.transform = smallerTransformOfCenterX(center.x)
-            
-            centerV.frame = right.convert(right.bounds, to: left)
-            centerV.layer.cornerRadius = centerV.jmWidth * 0.5
-            
-            if left.frame.maxX >= content.jmWidth || right.frame.minX <= 0 {
-                direction = .negatiove
-                content.bringSubview(toFront: right)
-                right.addSubview(centerV)
-                reset()
-            }
-        } else if direction == .negatiove {
-            var center = left.center
-            center.x -= 0.7
-            left.center = center
-            
-            center = right.center
-            center.x += 0.7
-            right.center = center
-            
-            left.transform = largerTransformOfCenterX(center.x)
-            right.transform = smallerTransformOfCenterX(center.x)
-            
-            centerV.frame = left.convert(left.bounds, to: right)
-            centerV.layer.cornerRadius = centerV.jmWidth * 0.5
-            
-            if left.frame.minX <= 0 || right.frame.maxX >= content.jmWidth {
-                direction = .positive
-                content.bringSubview(toFront: left)
-                left.addSubview(centerV)
-                reset()
-            }
-        }
-    }
-    
-    // 放大动画
-    func largerTransformOfCenterX(_ centerX: CGFloat) -> CGAffineTransform {
-        let cosValue = cosValueOfCenterX(centerX)
-        return CGAffineTransform(scaleX: 1 + cosValue * 0.25, y: 1 + cosValue * 0.25);
-    }
-
-    // 缩小动画
-    func smallerTransformOfCenterX(_ centerX: CGFloat) -> CGAffineTransform {
-        let cosValue = cosValueOfCenterX(centerX)
-        return CGAffineTransform(scaleX: 1 - cosValue * 0.25, y: 1 - cosValue * 0.25);
-    }
-
-    func cosValueOfCenterX(_ centerX: CGFloat) -> CGFloat {
-        // 移动距离
-        let apart = centerX - content.bounds.size.width * 0.5
-        // 最大距离(球心距离Container中心距离)
-        let maxAppart = (content.bounds.size.width - 12) * 0.5
-        // 移动距离和最大距离的比例
-        let angle = apart / maxAppart * Double.pi/2;
-        // 获取比例对应余弦曲线的Y值
-        return cos(angle)
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        content.frame = CGRect.Rect(0, 0, 25.2, 24)
-        content.center = CGPoint(x: self.jmWidth * 0.5, y: 14)
-        title.frame = CGRect.Rect(0, content.frame.maxY, jmWidth, jmHeight - 24)
-        
-        left.frame = CGRect.Rect(0, 0, 12, 12)
-        left.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
-        
-        centerV.frame = CGRect.Rect(0, 0, 12, 12)
-        centerV.center = CGPoint(x: 12 * 0.5, y: self.content.jmHeight * 0.5)
-        
-        right.frame = CGRect.Rect(0, 0, 12, 12)
-        right.center = CGPoint(x: self.content.jmWidth - 12 * 0.5, y: self.content.jmHeight * 0.5)
+        backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    
+        let diameter = 2 * r_radius
+        let cX = bounds.size.width/2
+        let height = bounds.size.height
+        
+        let leftP = CGPoint(x: cX - diameter, y: diameter + r_radius)
+        let rightP = CGPoint(x: cX + diameter, y: diameter + r_radius)
+
+        leftV.frame = CGRect(x: leftP.x, y: diameter, width: diameter, height: diameter)
+        leftV.radius(r_radius)
+        leftV.position(from: leftP, to: rightP, dutation: 0.6)
+        leftV.scale(from: 0.6, to: 1, dutation: 0.6)
+        
+        rightV.frame = CGRect(x: cX + r_radius, y: diameter, width: diameter, height: diameter)
+        rightV.radius(r_radius)
+        rightV.position(from: rightP, to: leftP, dutation: 0.6)
+        rightV.scale(from: 1, to: 0.6, dutation: 0.6)
+        
+        centerV.frame = CGRect(x: cX - r_radius, y: diameter, width: diameter, height: diameter)
+        centerV.radius(r_radius)
+        centerV.scale(from: 0.8, to: 0.4, dutation: 0.3)
+        
+        title.frame = CGRect(x: 0, y: centerV.frame.maxY, width: bounds.size.width, height: height - diameter)
+    }
+    
+    func remove() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alpha = 0.0
+        }) { (finished) in
+            self.removeFromSuperview()
+        }
     }
     
     deinit {

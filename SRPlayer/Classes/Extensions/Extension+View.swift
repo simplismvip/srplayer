@@ -55,4 +55,38 @@ extension UIDevice {
     }
 }
 
+extension CAShapeLayer {
+    func radius(_ radius: CGFloat) {
+        let bezier = UIBezierPath(arcCenter: CGPoint(x: radius, y: radius), radius: radius, startAngle: 0, endAngle: CGFloat(.pi * 2.0), clockwise: true)
+        self.path = bezier.cgPath
+    }
+    
+    func color(_ color: UIColor) {
+        self.opacity = 1.0
+        self.fillColor = color.cgColor
+    }
+    
+    func position(from: CGPoint, to: CGPoint, dutation: Double) {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = dutation
+        animation.repeatCount = HUGE
+        animation.autoreverses = true
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        add(animation, forKey: "positionAnimation")
+    }
+    
+    func scale(from: CGFloat, to: CGFloat, dutation: Double) {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = dutation
+        animation.autoreverses = true
+        animation.repeatCount = HUGE;
+        animation.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        add(animation, forKey: "rotationAni")
+    }
+}
+
 
