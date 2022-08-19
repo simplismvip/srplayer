@@ -9,7 +9,7 @@
 import UIKit
 import ZJMKit
 
-// More 视频质量、播放速率选择页面
+// More 切换剧集、视频质量、播放速率选择页面
 public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
     var items = [MoreEdgeItem]()
     let tableView: UITableView
@@ -27,7 +27,9 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         
         addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.top.equalTo(self).offset(10)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.left.width.equalTo(self)
         }
         
         loading.start()
@@ -74,6 +76,7 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
         let cover = UIImageView()
         let title = UILabel()
         var item: MoreEdgeItem?
+        
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             backgroundColor = UIColor.clear
@@ -83,20 +86,27 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
             
             cover.contentMode = .scaleAspectFill
             cover.clipsToBounds = true
+            cover.layer.cornerRadius = 8
             
-            title.jmConfigLabel(font: UIFont.jmRegular(20), color: UIColor.white)
+            title.jmConfigLabel(font: UIFont.jmRegular(17), color: UIColor.white)
             layoutViews()
         }
         
         func refresh(_ item: MoreEdgeItem) {
             self.item = item
             title.text = item.title
-            cover.image = item.image.image
+            cover.alpha = 0
+            cover.setimage(url: item.image) { [weak self] in
+                UIView.animate(withDuration: 0.3) {
+                    self?.cover.alpha = 1
+                }
+            }
         }
         
         private func layoutViews() {
             cover.snp.makeConstraints { (make) in
-                make.height.width.equalTo(36)
+                make.height.equalTo(30)
+                make.width.lessThanOrEqualTo(30)
                 make.left.equalTo(self).offset(10)
                 make.centerY.equalTo(self.snp.centerY)
             }
@@ -105,7 +115,7 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
                 make.centerY.equalTo(self.snp.centerY)
                 make.left.equalTo(cover.snp.right).offset(5)
                 make.right.equalTo(self.snp.right).offset(-10)
-                make.height.equalTo(36)
+                make.height.equalTo(30)
             }
         }
         
@@ -113,11 +123,10 @@ public class MoreEdgeView: UIView, UITableViewDelegate, UITableViewDataSource {
             fatalError(" implemented")
         }
     }
-
 }
 
 extension MoreEdgeView: SRMoreContent {
-    public func reload(_ item: [Results]) {
+    public func reload(_ item: [MoreResult]) {
         self.items = item.flatMap({ $0.results })
         tableView.reloadData()
         hideLoading()

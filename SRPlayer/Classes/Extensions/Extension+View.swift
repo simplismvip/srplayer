@@ -89,4 +89,17 @@ extension CAShapeLayer {
     }
 }
 
+extension UIImageView {
+    func setimage(url: String?, placerHolder: String? = nil, complate: @escaping () -> Void) {
+        self.image = placerHolder?.image
+        guard let url = url else {
+            return
+        }
+        ImageCache.shared.loaderFor(url: url, callback: {
+            self.image = $0
+            complate()
+        })
+    }
+}
+
 

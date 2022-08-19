@@ -16,25 +16,12 @@ class SRMoreAreaFlow: NSObject {
     }
     
     func request(_ type: MoreEdgeType) {
-//        DataParser<Results>.request(path: type.name) { result in
-//            if let res = result {
-//                self.model.items = [res]
-//                self.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
-//            }
-//        }
-
-        if let result = DataParser<Results>.decode(type.name, "json") {
-            self.model.items = [result]
-            self.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
+        if let result = DataParser<MoreResult>.decode(type.name, "json") {
+            self.jmSendMsg(msgName: kMsgNameMoreAreaRequestDone, info: [result] as MsgObjc)
+        } else {
+            // 内部没有数据可提供，抛出到外部请求数据
+            self.jmSendMsg(msgName: kMsgNameMoreAreaRequestOutsideData, info: type as MsgObjc)
         }
-    }
-    
-    public func willRemoveFlow() {
-        
-    }
-    
-    public func didRemoveFlow(){
-        
     }
     
     deinit {
@@ -44,11 +31,29 @@ class SRMoreAreaFlow: NSObject {
 
 extension SRMoreAreaFlow: SRFlow {
     func configFlow() {
-        jmReciverMsg(msgName: kMsgNameMoreAreaRequestData) { [weak self] edgeType in
-            if let type = edgeType as? MoreEdgeType {
+        // 外部请求数据完成返回数据
+        jmReciverMsg(msgName: kMsgNameMoreAreaRequestDone) { [weak self] moreItems in
+            if let result = moreItems as? [MoreResult] {
+                self?.model.items = result
+                self?.jmSendMsg(msgName: kMsgNameMoreAreaReloadData, info: nil)
+            }
+            return nil
+        }
+        
+        // 请求more页面展示数据
+        jmReciverMsg(msgName: kMsgNameMoreAreaRequestData) { [weak self] moreType in
+            if let type = moreType as? MoreEdgeType {
                 self?.request(type)
             }
             return nil
         }
+    }
+    
+    public func willRemoveFlow() {
+        
+    }
+    
+    public func didRemoveFlow(){
+        
     }
 }

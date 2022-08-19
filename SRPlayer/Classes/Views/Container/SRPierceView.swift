@@ -19,12 +19,8 @@ public class SRPierceView: UIView, SRPierce {
             return nil
         }
 
-        if let view = super.hitTest(point, with: event) {
-            if view.isEqual(self) {
-                return nil
-            } else {
-                return view
-            }
+        if let view = super.hitTest(point, with: event), !view.isEqual(self) {
+            return view
         } else {
             return nil
         }

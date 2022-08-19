@@ -22,7 +22,7 @@ class SRBatteryView: UIView {
         setupViews()
         
         updateTime()
-        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { [weak self](_) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self](_) in
             self?.updateTime()
         }
     }
@@ -32,14 +32,14 @@ class SRBatteryView: UIView {
         addSubview(timeL)
         addSubview(battery)
         
-        wifi.jmConfigLabel(alig: .center, font: UIFont.jmBold(9), color: UIColor.white)
+        wifi.jmConfigLabel(alig: .center, font: UIFont.jmBold(10), color: UIColor.white)
         wifi.snp.makeConstraints { (make) in
             make.left.equalTo(self).offset(5)
             make.top.height.equalTo(self)
             make.centerY.equalTo(snp.centerY)
         }
         
-        timeL.jmConfigLabel(alig: .center, font: UIFont.jmBold(10), color: UIColor.white)
+        timeL.jmConfigLabel(alig: .center, font: UIFont.jmBold(11), color: UIColor.white)
         timeL.snp.makeConstraints { (make) in
             make.top.height.equalTo(self)
             make.centerX.equalTo(snp.centerX)

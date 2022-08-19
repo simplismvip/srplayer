@@ -57,8 +57,12 @@ public let kMsgNameStartLoading = "kMsgNameStartLoading"
 public let kMsgNameEndLoading = "kMsgNameEndLoading"
 /// 截屏完成
 public let kMsgNameScreenShotDone = "kMsgNameScreenShotDone"
-/// 请求MoreArea 展示数据
+/// 请求MoreArea 展示数据，先走内部流程
 public let kMsgNameMoreAreaRequestData = "kMsgNameMoreAreaRequestData"
+/// 请求MoreArea 展示数据，内部流程没有数据再走外部数据
+public let kMsgNameMoreAreaRequestOutsideData = "kMsgNameMoreAreaRequestOutsideData"
+/// 刷新MoreArea 数据
+public let kMsgNameMoreAreaRequestDone = "kMsgNameMoreAreaRequestDone"
 /// 刷新MoreArea 数据
 public let kMsgNameMoreAreaReloadData = "kMsgNameMoreAreaReloadData"
 /// 网络卡顿展示

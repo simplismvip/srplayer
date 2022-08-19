@@ -7,10 +7,10 @@
 //
 
 import UIKit
-
+import ZJMKit
 public protocol SRMoreContent: UIView {
     var loading: SRLoading { get }
-    func reload(_ item: [Results])
+    func reload(_ item: [MoreResult])
 }
 
 extension SRMoreContent {
@@ -21,6 +21,7 @@ extension SRMoreContent {
 
 /// MARK: -- 更多层协议
 public protocol SRMoreArea: UIView {
+    
     var content: SRMoreContent? { get }
     var type: MoreEdgeType { set get }
     // 开始刷新数据
@@ -58,7 +59,7 @@ extension SRMoreArea {
     }
     
     // 刷新数据
-    public func relodata(_ item: [Results]) {
+    public func relodata(_ item: [MoreResult]) {
         self.content?.reload(item)
     }
 }
