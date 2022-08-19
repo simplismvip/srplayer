@@ -319,6 +319,7 @@ struct Options {
         options.setFormatOptionIntValue(1, forKey:"reconnect")
         // 暂时关闭硬解码，有声音视频推到后台再返回画面不动
         // https://github.com/bilibili/ijkplayer/issues/3328
+        // https://juejin.cn/post/7021810912281493511
         options.setPlayerOptionIntValue(0, forKey:"videotoolbox")
         return options
     }
