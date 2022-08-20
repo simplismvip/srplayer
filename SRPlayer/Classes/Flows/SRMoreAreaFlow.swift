@@ -16,7 +16,7 @@ class SRMoreAreaFlow: NSObject {
     }
     
     func request(_ type: MoreEdgeType) {
-        if let result = DataParser<MoreResult>.decode(type.name, "json") {
+        if let result = DataParser<MoreResult>.decode(type.name) {
             self.jmSendMsg(msgName: kMsgNameMoreAreaRequestDone, info: [result] as MsgObjc)
         } else {
             // 内部没有数据可提供，抛出到外部请求数据

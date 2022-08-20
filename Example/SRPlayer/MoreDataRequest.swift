@@ -23,8 +23,8 @@ class SRMoreDataRequest: NSObject, RequestData {
 //                self.jmSendMsg(msgName: kMsgNameMoreAreaRequestDone, info: [result] as MsgObjc)
 //            }
 //        }
-        
-        if let result = DataTool<MoreResult>.decode(type.name) {
+
+        if let result = DataParser<Results>.decode(name: type.name, bundle: .main) {
             self.jmSendMsg(msgName: kMsgNameMoreAreaRequestDone, info: [result] as MsgObjc)
         }
     }

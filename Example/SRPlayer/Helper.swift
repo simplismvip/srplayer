@@ -10,21 +10,6 @@ import UIKit
 import SRPlayer
 import Kingfisher
 
-struct DataTool<T: Codable> {
-    static func decode(_ name: String) -> T? {
-        if let url = Bundle.main.url(forResource: name, withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let models = try JSONDecoder().decode(T.self, from: data)
-                return models
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
-    }
-}
-
 extension UIImageView {
     func setImage(url: String?, placeholder: UIImage? = nil, complate: ((UIImage, URL?) -> Void)? = nil ) {
         if let headerUrl = url {

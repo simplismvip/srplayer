@@ -9,7 +9,21 @@
 import UIKit
 
 public struct DataParser<T: Codable> {
-    public static func decode(_ name: String, _ ext: String) -> T? {
+    /// 解析数据模型，需要传入bundle
+    public static func decode(name: String, bundle: Bundle, ext: String = "json") -> T? {
+        if let url = bundle.url(forResource: name, withExtension: ext) {
+            do {
+                let data = try Data(contentsOf: url)
+                return parser(data)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    /// 解析数据模型，使用内部bundle，这个外部用不了
+    static func decode(_ name: String, ext: String = "json") -> T? {
         if let url = Bundle.bundle.url(forResource: name, withExtension: ext) {
             do {
                 let data = try Data(contentsOf: url)
@@ -21,6 +35,7 @@ public struct DataParser<T: Codable> {
         return nil
     }
     
+    /// 解析数据模型 Data -> Model
     public static func parser(_ data: Data) -> T? {
         do {
             return try JSONDecoder().decode(T.self, from: data)
@@ -30,6 +45,7 @@ public struct DataParser<T: Codable> {
         return nil
     }
     
+    /// Json -> Data
     public static func jsonData(_ param: Any) -> Data? {
         if !JSONSerialization.isValidJSONObject(param) {
             return nil
@@ -40,6 +56,7 @@ public struct DataParser<T: Codable> {
         return data
     }
     
+    /// Model -> Dictionary
     public static func encode(_ model: T) -> [String: Any]? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -55,6 +72,7 @@ public struct DataParser<T: Codable> {
         return dict
     }
     
+    /// Model -> JsonString
     public static func encodeToString(_ model: T) -> String? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SRPlayer
 import SnapKit
 
 class ViewController: UIViewController {
@@ -26,7 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let results = DataTool<Results>.decode(type.name)?.results {
+        if let results = DataParser<Results>.decode(name: type.name, bundle: .main)?.results {
             dataSource.append(contentsOf: results)
         }
         setupViews()
