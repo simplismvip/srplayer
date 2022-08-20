@@ -11,10 +11,12 @@ class ImageCache {
     static let shared = ImageCache()
     var caches: NSCache<NSString, ImageLoader> = NSCache()
     
-    public func loaderFor(url: String, callback: @escaping (UIImage?) -> Void) {
+    public func loaderFor(url: String, callback: @escaping SRImager) {
         let key = url as NSString
         if let loader = caches.object(forKey: key) {
-             callback(loader.image)
+            if let image = loader.image {
+                callback(image)
+            }
         } else {
             let loader = ImageLoader(path: url)
             loader.loadImage(callback: callback)
@@ -24,16 +26,17 @@ class ImageCache {
     
     class ImageLoader {
         let url: URL?
-        var image: UIImage? = nil
+        var image: UIImage?
+        var imager: SRImager?
         public init(path: String) {
             self.url = URL(string: path)
         }
         
-        func loadImage(callback:@escaping (UIImage?) -> Void) {
+        func loadImage(callback: @escaping SRImager) {
             guard let poster = url, image == nil else {
                 return
             }
-            
+            self.imager = callback
             URLSession.shared.dataTask(with: poster) { (data, response, _) in
                 guard
                     let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -49,6 +52,10 @@ class ImageCache {
                     callback(image)
                 }
             }.resume()
+        }
+        
+        deinit {
+            SRLogger.debug("🆘🆘🆘🆘ImageLoader释放掉了")
         }
     }
 }

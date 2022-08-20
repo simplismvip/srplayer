@@ -52,7 +52,7 @@ extension SRPlayerController {
             }
         }.add(&disposes)
         
-        let titleItem = self.barManager.top.buttonItem(.scale)
+        let titleItem = self.barManager.top.buttonItem(.title)
         model.observe(String.self, "videoTitle") { videoTitle in
             titleItem?.title = videoTitle
         }.add(&disposes)

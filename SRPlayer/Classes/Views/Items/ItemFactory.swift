@@ -86,7 +86,6 @@ struct ItemFactory {
             
         } else if itemStyle == .series {
             
-            item.title = "选集"
             item.titleColor = UIColor.white
             item.direction = .anticlockwis
             item.font = UIFont.jmRegular(14)
@@ -117,6 +116,7 @@ struct ItemFactory {
                 .map { "sr_back_live_\($0)".image }
                 .compactMap { $0 }
             item.animatedImage = UIImage.animatedImage(with: images, duration: 1)
+            item.size = CGSize(width: 0, height: 34)
         }
         return item
     }

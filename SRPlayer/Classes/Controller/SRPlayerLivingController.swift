@@ -15,11 +15,11 @@ public class SRPlayerLivingController: SRPlayerController {
         configFlow()
         initEdgeItems()
         addEdgeSubViews()
-//        registerMsg()
-//        registerItemsEvent()
+        registerMsgEvent()
+        registerItemEvent()
         kvoBind()
     }
-    
+   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -36,6 +36,7 @@ extension SRPlayerLivingController {
         let urlP = SRPlayUrlFlow()
         let switchP = SRQualityFlow()
         let moreFlow = SRMoreAreaFlow()
+        
         self.flowManager.addFlow(playP)
         self.flowManager.addFlow(urlP)
         self.flowManager.addFlow(switchP)

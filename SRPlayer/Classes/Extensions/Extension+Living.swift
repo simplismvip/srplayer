@@ -1,16 +1,15 @@
 //
-//  Extension+Events.swift
+//  Extension+LivingEvents.swift
 //  SRPlayer
 //
-//  Created by JunMing on 2022/7/29.
-//  Copyright © 2022 JunMing. All rights reserved.
+//  Created by JunMing on 2022/8/20.
 //
 
 import UIKit
 import ZJMKit
 
-extension SRPlayerNormalController {
-    func registerItemsEvent() {
+extension SRPlayerLivingController {
+    func registerItemEvent() {
         jmRegisterEvent(eventName: kEventNameFullScrennAction, block: { [weak self] _ in
             let fullScrenn = self?.barManager.bottom.buttonItem(.fullScrenn)
             if self?.barManager.top.screenType == .half {
@@ -148,8 +147,10 @@ extension SRPlayerNormalController {
             }
         }, next: false)
     }
-    
-    func registerMsg() {
+}
+
+extension SRPlayerLivingController {
+    func registerMsgEvent() {
         /// 开始播放
         jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
             if let view = playView as? UIView {
@@ -217,5 +218,3 @@ extension SRPlayerNormalController {
         }
     }
 }
-
-

@@ -15,6 +15,7 @@ public class SRPlayerController: UIView {
     public let flowManager: SRFlowManager
     public let barManager: SRBarManager
     var disposes = Set<RSObserver>()
+    
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()

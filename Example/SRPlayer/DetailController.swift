@@ -26,9 +26,9 @@ class DetailController: ViewController {
 
     init(_ type: VideoType) {
         if type == .local || type == .remote {
-            self.player = SRPlayerLivingController()
-        } else {
             self.player = SRPlayerNormalController()
+        } else {
+            self.player = SRPlayerLivingController()
         }
         self.request = SRMoreDataRequest()
         super.init(nibName: nil, bundle: nil)

@@ -9,13 +9,14 @@ import UIKit
 import ZJMKit
 
 public class SRPlayerNormalController: SRPlayerController {
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         configFlow()
         initEdgeItems()
         addEdgeSubViews()
-        registerMsg()
-        registerItemsEvent()
+        registerMsgEvent()
+        registerItemEvent()
         kvoBind()
     }
     
