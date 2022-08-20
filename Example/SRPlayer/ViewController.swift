@@ -11,7 +11,7 @@ import SnapKit
 
 class ViewController: UIViewController {
     var dataSource = [Model]()
-    var type: VideoType = .home
+    var type: SourceType = .home
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: view.bounds, style: .plain)

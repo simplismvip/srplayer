@@ -108,6 +108,8 @@ public enum PlaybackState {
             return seekingBackward
         case .paused:
             return .pause
+        @unknown default:
+            fatalError()
         }
     }
     
@@ -207,6 +209,8 @@ public enum ScalingMode {
             return .aspectFill
         case .fill:
             return .fill
+        @unknown default:
+            fatalError()
         }
     }
     
@@ -250,6 +254,8 @@ enum FinishReason {
             return .error
         case .userExited:
             return .exited
+        @unknown default:
+            fatalError()
         }
     }
     

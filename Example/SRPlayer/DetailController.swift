@@ -24,12 +24,9 @@ class DetailController: ViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    init(_ type: VideoType) {
-        if type == .local || type == .remote {
-            self.player = SRPlayerNormalController()
-        } else {
-            self.player = SRPlayerLivingController()
-        }
+    init(_ type: SourceType) {
+        let contain = [SourceType.home, SourceType.vod, SourceType.local].contains(type)
+        self.player = SRPlayerNormalController(contain ? .vod : .living)
         self.request = SRMoreDataRequest()
         super.init(nibName: nil, bundle: nil)
         self.type = type

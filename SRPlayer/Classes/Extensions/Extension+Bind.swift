@@ -9,7 +9,7 @@
 import UIKit
 
 // KVO 绑定
-extension SRPlayerController {
+extension SRPlayerNormalController {
     func kvoBind() {
         guard let model = self.flowManager.model(SRPlayFlow.self) else {
             return

@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum VideoType: Int {
+enum SourceType: Int {
     case home = 0
     case local = 2
-    case remote = 3
+    case vod = 3
     case rtsp = 4
     case rtmp = 5
     case living = 6
@@ -22,7 +22,7 @@ enum VideoType: Int {
             return "home"
         case .local:
             return "local"
-        case .remote:
+        case .vod:
             return "remote"
         case .rtmp:
             return "rtmp"
@@ -34,13 +34,13 @@ enum VideoType: Int {
     }
 }
 
-extension VideoType: Codable { }
+extension SourceType: Codable { }
 
 struct Model: Codable {
     var title: String
     var image: String
     var url: String
-    var type: VideoType
+    var type: SourceType
 }
 
 struct Results: Codable {

@@ -9,9 +9,10 @@ import UIKit
 import ZJMKit
 
 public class SRPlayerNormalController: SRPlayerController {
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    let videoType: VideoType
+    public init(_ type: VideoType) {
+        self.videoType = type
+        super.init(frame: .zero)
         configFlow()
         initEdgeItems()
         addEdgeSubViews()
