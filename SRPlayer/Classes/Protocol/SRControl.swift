@@ -34,7 +34,8 @@ extension SRControlBar {
 }
 
 public protocol SRItemButton {
-    func configure<T: SRPlayerItem>(_ item: T)
+    associatedtype ITEMS: SRItem
+    func configure(_ item: ITEMS)
 }
 
 public protocol SRBarManager_P {

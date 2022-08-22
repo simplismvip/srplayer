@@ -23,22 +23,22 @@ class SRPlayerButton: UIButton {
 }
 
 extension SRPlayerButton: SRItemButton {
-    func configure<T: SRPlayerItem>(_ item: T) {
-        let btnItem = SRPlayerButtonItem.convert(item)
-        self.item = btnItem
-        self.titleLabel?.font = btnItem.font
-        self.tintColor = btnItem.tintColor
-        self.setTitleColor(btnItem.titleColor, for: .normal)
-        self.isUserInteractionEnabled = btnItem.isUserInteractionEnabled
-        btnItem.observe(String.self, "image") { [weak self] newImage in
+    func configure(_ item: SRPlayerButtonItem) {
+        self.item = item
+        self.titleLabel?.font = item.font
+        self.tintColor = item.tintColor
+        self.setTitleColor(item.titleColor, for: .normal)
+        self.isUserInteractionEnabled = item.isUserInteractionEnabled
+        
+        item.observe(String.self, "image") { [weak self] newImage in
             self?.setImage(newImage?.image, for: .normal)
         }.add(&disposes)
         
-        btnItem.observe(String.self, "title") { [weak self] title in
+        item.observe(String.self, "title") { [weak self] title in
             self?.setTitle(title, for: .normal)
         }.add(&disposes)
         
-        btnItem.observe(CGSize.self, "size") { [weak self] newSize in
+        item.observe(CGSize.self, "size") { [weak self] newSize in
             if let size = newSize, let cSize = self?.frame.size, !size.equalTo(cSize) {
                 self?.invalidateIntrinsicContentSize()
             }

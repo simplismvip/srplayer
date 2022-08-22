@@ -29,12 +29,10 @@ class SRPlayerText: UILabel {
 }
 
 extension SRPlayerText: SRItemButton {
-    func configure<T: SRPlayerItem>(_ item: T) {
-        let title = SRPlayerTextItem.convert(item)
-        text = title.text
-        font = title.font
-        
-        title.observe(String.self, "text") { [weak self] title in
+    func configure(_ item: SRPlayerTextItem) {
+        text = item.text
+        font = item.font
+        item.observe(String.self, "text") { [weak self] title in
             self?.text = title
         }.add(&disposes)
     }

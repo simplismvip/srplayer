@@ -146,8 +146,7 @@ class SRPlayerSlider: UIControl {
 }
 
 extension SRPlayerSlider: SRItemButton {
-    func configure<T: SRPlayerItem>(_ item: T) {
-        let item = SRPlayerSliderItem.convert(item)
+    func configure(_ item: SRPlayerSliderItem) {
         minTrackTintColor = item.minTintColor
         maxTrackTintColor = item.maxTintColor
         updateValue(item.value)

@@ -21,11 +21,20 @@ public class SRPlayerItem: NSObject, SRItem {
     public var cornerRadius: CGFloat
     public var className: String
     
+    // item 对应的view
     var view: UIView? {
         let barView = InitClass<UIView>.instance(className)
-        (barView as? SRItemButton)?.configure(self)
-        (barView as? SRPlayerButton)?.jmAddAction { [weak self] _ in
-            barView?.jmRouterEvent(eventName: self?.eventName ?? "", info: self)
+        if let btn = (barView as? SRPlayerButton), let item = self as? SRPlayerButtonItem {
+            btn.configure(item)
+            if !self.eventName.isEmpty {
+                btn.jmAddAction { [weak self] _ in
+                    barView?.jmRouterEvent(eventName: self?.eventName ?? "", info: self)
+                }
+            }
+        } else if let btn = (barView as? SRPlayerSlider), let item = self as? SRPlayerSliderItem {
+            btn.configure(item)
+        } else if let btn = (barView as? SRPlayerText), let item = self as? SRPlayerTextItem {
+            btn.configure(item)
         }
         return barView
     }
@@ -40,7 +49,7 @@ public class SRPlayerItem: NSObject, SRItem {
         self.itemStyle = itemStyle
         self.direction = direction
         self.location = location
-        self.className = "SRPlayerItem"
+        self.className = ""
     }
     
     public struct Margin {
