@@ -149,14 +149,10 @@ public class SRPlayerView: SRPierceView {
         switch gesture.state {
         case .began:
             delegate?.longPress(.begin)
-        case .changed:
-            delegate?.longPress(.change(0))
-        case .cancelled, .failed:
+        case .cancelled, .failed, .ended:
             delegate?.longPress(.cancle)
-        case .possible:
+        case .possible, .changed:
             SRLogger.debug("无长按")
-        case .ended:
-            delegate?.longPress(.end)
         @unknown default:
             fatalError()
         }
@@ -168,21 +164,21 @@ public class SRPlayerView: SRPierceView {
 }
 
 extension SRPlayerView: UIGestureRecognizerDelegate {
+    // 是否允许多手势
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        SRLogger.debug("---gestureRecognizer")
         if let isKind = otherGestureRecognizer.view?.isKind(of: UITableView.self), isKind && (gestureRecognizer == panGesture) {
             return true
         }
         return false
     }
     
+    // 这个方法返回YES，第一个手势和第二个互斥时，第一个会失效
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        SRLogger.debug("gestureRecognizer---")
         if gestureRecognizer == panGesture {
             return false
         }
         
-        if otherGestureRecognizer == clickGesture {
+        if gestureRecognizer == longPressGesture {
             return false
         }
         

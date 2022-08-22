@@ -154,7 +154,7 @@ extension SRPlayerController: SRPlayerGesture {
                 guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
                 model.panSeekTargetTime = model.currentTime
             default:
-                SRLogger.debug("")
+                SRLogger.debug("begin")
             }
             view.floatView.show(type)
         case .change(let value):
@@ -166,19 +166,17 @@ extension SRPlayerController: SRPlayerGesture {
             case .brightness:
                 brightness(value)
             default:
-                SRLogger.debug("")
+                SRLogger.debug("change -- \(state)--\(type)")
             }
             
         case .end, .cancle:
-            SRLogger.debug("end")
-            view.floatView.hide()
-            
             switch type {
             case .seek:
                 seekEnd()
             default:
-                SRLogger.debug("")
+                SRLogger.debug("end")
             }
+            view.floatView.hide()
         }
     }
     

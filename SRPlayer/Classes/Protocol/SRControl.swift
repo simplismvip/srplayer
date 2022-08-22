@@ -29,10 +29,7 @@ extension SRControlBar {
     }
     
     public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
-        if let item = items.style(style) {
-            return SRPlayerButtonItem.convert(item)
-        }
-        return nil
+        return items.style(style) as? SRPlayerButtonItem
     }
 }
 
