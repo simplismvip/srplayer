@@ -18,6 +18,7 @@ enum Noti {
     case enterBackground
     case becomeActive
     case battery
+    case sysVolume
     
     var name: NSNotification.Name {
         switch self {
@@ -39,6 +40,18 @@ enum Noti {
             return UIApplication.didBecomeActiveNotification
         case .battery:
             return UIDevice.batteryLevelDidChangeNotification
+        case .sysVolume:
+            return NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification")
         }
+    }
+    
+    var strName: String {
+        return name.rawValue
+//        switch self {
+//        case .loadChange, .playbackFinish, .isPrepared, .stateChange, .willChangeStatusBar, .didChangeStatusBar, .enterBackground, .becomeActive, .battery:
+//
+//        case .sysVolume:
+//            return "AVSystemController_SystemVolumeDidChangeNotification"
+//        }
     }
 }

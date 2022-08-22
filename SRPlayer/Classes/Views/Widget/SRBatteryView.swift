@@ -99,7 +99,7 @@ class Bettary: UIView {
         text.jmConfigLabel(alig: .center, font: UIFont.jmBold(8), color: UIColor.white)
         updateValue()
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.battery.name.rawValue) { [weak self](_) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.battery.strName) { [weak self](_) in
             self?.updateValue()
         }
     }
@@ -133,7 +133,7 @@ class Bettary: UIView {
     }
     
     deinit {
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.battery.name.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.battery.strName)
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     

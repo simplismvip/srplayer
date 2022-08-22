@@ -14,6 +14,8 @@ public class SRPlayerController: UIView {
     public let view: SRContainerView
     public let flowManager: SRFlowManager
     public let barManager: SRBarManager
+    // 系统音量
+    private var systemVolume: CGFloat = 0
     var disposes = Set<RSObserver>()
     
     public override init(frame: CGRect) {
@@ -29,11 +31,11 @@ public class SRPlayerController: UIView {
     }
     
     private func addNotioObserve() {
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.willChangeStatusBar.name.rawValue) { (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.willChangeStatusBar.strName) { (notify) in
             SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.didChangeStatusBar.name.rawValue) { [weak self] (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.didChangeStatusBar.strName) { [weak self] (notify) in
             let orientation = UIApplication.shared.statusBarOrientation
             switch (orientation) {
             case .portrait:
@@ -49,7 +51,7 @@ public class SRPlayerController: UIView {
             }
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.name.rawValue) { [weak self] (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.strName) { [weak self] (notify) in
             SRLogger.debug("enterBackground")
             guard let model = self?.flowManager.model(SRPlayFlow.self) else { return }
             if model.isPlaying {
@@ -57,9 +59,32 @@ public class SRPlayerController: UIView {
             }
         }
         
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.name.rawValue) { [weak self] (notify) in
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.strName) { [weak self] (notify) in
             SRLogger.debug("becomeActive")
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
+        }
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+        } catch let error as NSError {
+            print("\(error)")
+        }
+        NotificationCenter.default.jm.addObserver(target: self, name: Noti.sysVolume.strName) { [weak self] (notify) in
+            SRLogger.debug("sysVolume")
+            if let volume = notify.userInfo?["AVSystemController_AudioVolumeNotificationParameter"] as? Float {
+                let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
+                self?.view.floatView.update(CGFloat(volumeTranslateValue))
+            }
+        }
+    }
+    
+    private func setSysVolum(_ value: Float) {
+        let volumeView = MPVolumeView()
+        if let view = volumeView.subviews.first as? UISlider {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { // 延迟0.01秒就能够正常播放
+                view.value = value
+            }
         }
     }
     
@@ -89,10 +114,11 @@ public class SRPlayerController: UIView {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.willChangeStatusBar.name.rawValue)
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.didChangeStatusBar.name.rawValue)
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.enterBackground.name.rawValue)
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.becomeActive.name.rawValue)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.willChangeStatusBar.strName)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.didChangeStatusBar.strName)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.enterBackground.strName)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.becomeActive.strName)
+        NotificationCenter.default.jm.removeObserver(target: self, Noti.sysVolume.strName)
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
@@ -101,24 +127,21 @@ extension SRPlayerController: PlayerCotrol { }
 
 extension SRPlayerController: SRPlayerGesture {
     private func brightness(_ offset: CGFloat) {
+        SRLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
         UIScreen.main.brightness -= offset
         view.floatView.update(UIScreen.main.brightness)
     }
     
     private func volume(_ offset: CGFloat) {
-        guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
-        if abs(model.systemVolume) >= 0.1 {
-            model.systemVolume -= offset
-            
-//            let mpVolume = MPVolumeView()
-//            mpVolume.vo
-//
+        self.systemVolume -= offset
+        SRLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
+        if abs(self.systemVolume) >= 0.1 {
 //            let playerController = MPMusicPlayerController.applicationMusicPlayer
-//            let volume = AVAudioSession.sharedInstance().outputVolume + Float(model.systemVolume)
-//            let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
+            let volume = AVAudioSession.sharedInstance().outputVolume + Float(self.systemVolume)
+            let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
 //            playerController.volume =  volumeTranslateValue
-            
-//            view.floatView.update(model.systemVolume)
+            view.floatView.update(CGFloat(volumeTranslateValue))
+            self.systemVolume = 0
         }
     }
     

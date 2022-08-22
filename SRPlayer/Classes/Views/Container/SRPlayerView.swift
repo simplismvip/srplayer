@@ -92,10 +92,10 @@ public class SRPlayerView: SRPierceView {
                 delegate?.panHorizontal(self, state: .change(value/200))
             } else if currentEvent == .vertLeftPan {
                 SRLogger.debug("changed:左侧垂直滑动--亮度")
-                delegate?.panLeftVertical(self, state: .change(value/1000))
+                delegate?.panLeftVertical(self, state: .change(value/10000))
             } else if currentEvent == .vertRightPan {
                 SRLogger.debug("changed:右侧垂直滑动---声音")
-                delegate?.panRightVertical(self, state: .change(value/1000))
+                delegate?.panRightVertical(self, state: .change(value/10000))
             } else {
                 SRLogger.debug("无滑动")
             }
