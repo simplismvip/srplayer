@@ -16,31 +16,25 @@ public protocol SRControlBar {
     var view: UIView { get }
     
     func layoutItems()
-    func layoutItem(_ itemStyle: ItemStyle)
-    func viewFrom<T: Command>(_ item: T) -> UIView?
+    func addItem(_ item: SRPlayerItem)
 }
 
-//extension SRControlBar {
-//    public mutating func addItem(_ item: SRPlayerItem) {
-//        self.items.append(item)
-//    }
-//    
-//    public func itemOfStyle(_ style: ItemStyle) -> SRPlayerItem? {
-//        return self.items.filter { $0.itemStyle == style }.first
-//    }
-//    
-//    public func sliderItem() -> SRPlayerSliderItem? {
-//        return itemOfStyle(.slider) as? SRPlayerSliderItem
-//    }
-//    
-//    public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
-//        return itemOfStyle(style) as? SRPlayerButtonItem
-//    }
-//    
-//    public func titleItem(_ style: ItemStyle) -> SRPlayerTextItem? {
-//        return itemOfStyle(style) as? SRPlayerTextItem
-//    }
-//}
+extension SRControlBar {
+    public func sliderItem() -> SRPlayerSliderItem? {
+        return items.style(.slider) as? SRPlayerSliderItem
+    }
+
+    public func titleItem() -> SRPlayerTextItem? {
+        return items.style(.title) as? SRPlayerTextItem
+    }
+    
+    public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
+        if let item = items.style(style) {
+            return SRPlayerButtonItem.convert(item)
+        }
+        return nil
+    }
+}
 
 public protocol SRItemButton {
     func configure<T: SRPlayerItem>(_ item: T)

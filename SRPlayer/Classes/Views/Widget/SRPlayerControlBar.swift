@@ -72,27 +72,9 @@ public class SRPlayerControlBar: UIView {
     }
 }
 
-extension Array where Element: SRItem {
-    public func style(_ style: ItemStyle) -> Element? {
-        return self.filter { $0.itemStyle == style }.first
-    }
-}
-
 extension SRPlayerControlBar: SRControlBar { 
     public func addItem(_ item: SRPlayerItem) {
         self.items.append(item)
-    }
-    
-    public func sliderItem() -> SRPlayerSliderItem? {
-        return items.style(.slider) as? SRPlayerSliderItem
-    }
-    
-    public func buttonItem(_ style: ItemStyle) -> SRPlayerButtonItem? {
-        return items.style(style) as? SRPlayerButtonItem
-    }
-    
-    public func titleItem(_ style: ItemStyle) -> SRPlayerTextItem? {
-        return items.style(style) as? SRPlayerTextItem
     }
     
     public func findView(_ item: SRPlayerItem?) -> UIView? {
@@ -122,20 +104,10 @@ extension SRPlayerControlBar: SRControlBar {
             }
         }
     }
-    
-    public func layoutItem(_ itemStyle: ItemStyle) {
-        if self.barType == barType {
-            layoutItems()
-        }
-    }
-    
-    public func viewFrom<T: Command>(_ item: T) -> UIView? {
-        return nil
-    }
 }
 
 extension SRPlayerControlBar {
-    public func horizontalLayout(_ targetItems: [SRPlayerItem]) {
+    func horizontalLayout(_ targetItems: [SRPlayerItem]) {
         // 顺时针( | --> )从最左侧侧布局，记录最右👉侧view的item
         var tempLeftLastItem: SRPlayerItem?
         targetItems
@@ -211,7 +183,6 @@ extension SRPlayerControlBar {
                         make.left.equalTo(l.snp.right).offset(item.margin.space)
                         make.right.equalTo(r.snp.left).offset(-item.margin.space)
                     } else {
-                        // 这里有可能左侧或者右侧不存在
                         if let l = leftV, rightV == nil {
                             make.left.equalTo(l.snp.right).offset(item.margin.space)
                             make.right.equalTo(self.view.snp.right).offset(-item.margin.right)

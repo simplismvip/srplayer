@@ -38,14 +38,6 @@ extension String {
     }
 }
 
-extension Array {
-    public func allUnits(callback: (_ unit: Element) -> Void) {
-        forEach { element in
-            callback(element)
-        }
-    }
-}
-
 extension UIDevice {
     // 横竖屏
     static func setNewOrientation(_ orientation: UIDeviceOrientation) {
