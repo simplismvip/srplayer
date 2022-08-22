@@ -204,12 +204,24 @@ extension SRPlayerControlBar {
                 itemView.snp.makeConstraints { make in
                     make.centerY.equalTo(self.view.snp.centerY)
                     make.top.bottom.equalTo(self.view)
-                    if let l = findView(tempLeftLastItem), let r = findView(tempRightLastItem) {
+                    
+                    let leftV = findView(tempLeftLastItem)
+                    let rightV = findView(tempRightLastItem)
+                    if let l = leftV, let r = rightV {
                         make.left.equalTo(l.snp.right).offset(item.margin.space)
                         make.right.equalTo(r.snp.left).offset(-item.margin.space)
                     } else {
-                        make.left.equalTo(self.view.snp.right).offset(item.margin.left)
-                        make.right.equalTo(self.view.snp.left).offset(-item.margin.right)
+                        // 这里有可能左侧或者右侧不存在
+                        if let l = leftV, rightV == nil {
+                            make.left.equalTo(l.snp.right).offset(item.margin.space)
+                            make.right.equalTo(self.view.snp.right).offset(-item.margin.right)
+                        } else if let r = rightV, leftV == nil {
+                            make.left.equalTo(self.view.snp.left).offset(item.margin.left)
+                            make.right.equalTo(r.snp.left).offset(-item.margin.space)
+                        } else {
+                            make.left.equalTo(self.view.snp.right).offset(item.margin.left)
+                            make.right.equalTo(self.view.snp.left).offset(-item.margin.right)
+                        }
                     }
                 }
             } else {

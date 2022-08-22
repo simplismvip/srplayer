@@ -26,4 +26,23 @@ public struct SRBarManager: SRBarManager_P {
             bar.setScreenType(type)
         }
     }
+    
+    public func layoutItems() {
+        [top, bottom, left, right].forEach { bar in
+            bar.layoutItems()
+        }
+    }
+    
+    public func addItem(_ item: SRPlayerItem) {
+        switch item.location {
+        case .top:
+            top.addItem(item)
+        case .bottom:
+            bottom.addItem(item)
+        case .left:
+            left.addItem(item)
+        case .right:
+            right.addItem(item)
+        }
+    }
 }

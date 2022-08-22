@@ -148,4 +148,53 @@ public enum ItemStyle: String {
 
     // left
     case lockScreen = "kEventNameLockScreenAction"// 锁屏
+    
+    var image: String {
+        switch self {
+        case .back:
+            return "sr_back"
+        case .title:
+            return ""
+        case .share:
+            return "sr_share"
+        case .more:
+            return "sr_more"
+        case .mirro:
+            return "sr_mirror"
+        case .scale:
+            return "sr_scare_big"
+        case .play:
+            return "sr_play"
+        case .curTime:
+            return ""
+        case .next:
+            return "sr_next"
+        case .tolTime:
+            return ""
+        case .slider:
+            return ""
+        case .sharpness:
+            return ""
+        case .playRate:
+            return ""
+        case .series:
+            return ""
+        case .resolve:
+            return ""
+        case .fullScrenn:
+            return "sr_fullscreen"
+        case .volume:
+            return ""
+        case .brightLight:
+            return ""
+        case .living:
+            return "sr_living"
+        case .screenShot:
+            return "sr_capture"
+        case .recording:
+            return ""
+        case .lockScreen:
+            return "sr_unlock"
+        }
+    }
 }

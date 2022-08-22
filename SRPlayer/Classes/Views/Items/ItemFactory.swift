@@ -28,7 +28,7 @@ struct ItemFactory {
             
         } else if itemStyle == .share {
             item.direction = .anticlockwis
-            item.isHalfHidden = true
+//            item.isHalfHidden = true
             
         } else if itemStyle == .more {
             item.direction = .anticlockwis
@@ -116,7 +116,7 @@ struct ItemFactory {
                 .map { "sr_back_live_\($0)".image }
                 .compactMap { $0 }
             item.animatedImage = UIImage.animatedImage(with: images, duration: 1)
-            item.size = CGSize(width: 0, height: 34)
+            item.size = CGSize(width: 43, height: 34)
         }
         return item
     }
