@@ -79,6 +79,18 @@ public class SREdgeAreaView: SRPierceView {
             make.height.greaterThanOrEqualTo(CGFloat.leastNormalMagnitude)
         }
     }
+    
+    @objc private func delayHide() {
+        self.showUnit(units: units, visible: false)
+    }
+    
+    private func autoHide() {
+        if visible {
+            self.perform(#selector(delayHide), with: nil, afterDelay: 10)
+        } else {
+            NSObject.cancelPreviousPerformRequests(withTarget: self)
+        }
+    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -90,5 +102,6 @@ extension SREdgeAreaView: SREdgeArea {
         self.units = units
         self.visible = visible
         visibleUnit(units: units, visible: visible, completion: nil)
+        autoHide()
     }
 }
