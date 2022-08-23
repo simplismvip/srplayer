@@ -14,20 +14,17 @@ public class SRPlayerController: UIView {
     public let view: SRContainerView
     public let flowManager: SRFlowManager
     public let barManager: SRBarManager
-    // 系统音量
-    private var systemVolume: CGFloat = 0
-    var disposes = Set<RSObserver>()
-    
+    internal var disposes = Set<RSObserver>()
+    internal let volume: Volumizer
     public override init(frame: CGRect) {
         self.view = SRContainerView()
         self.barManager = SRBarManager()
         self.flowManager = SRFlowManager()
+        self.volume = Volumizer()
         super.init(frame: frame)
-        addSubview(view)
-        view.snp.makeConstraints { $0.edges.equalTo(self) }
+        setupView()
+        mainKvoBind()
         addNotioObserve()
-        showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
-        view.playerView.delegate = self
     }
     
     private func addNotioObserve() {
@@ -63,29 +60,14 @@ public class SRPlayerController: UIView {
             SRLogger.debug("becomeActive")
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         }
-        
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-            UIApplication.shared.beginReceivingRemoteControlEvents()
-        } catch let error as NSError {
-            print("\(error)")
-        }
-        NotificationCenter.default.jm.addObserver(target: self, name: Noti.sysVolume.strName) { [weak self] (notify) in
-            SRLogger.debug("sysVolume")
-            if let volume = notify.userInfo?["AVSystemController_AudioVolumeNotificationParameter"] as? Float {
-                let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
-                self?.view.floatView.update(CGFloat(volumeTranslateValue))
-            }
-        }
     }
     
-    private func setSysVolum(_ value: Float) {
-        let volumeView = MPVolumeView()
-        if let view = volumeView.subviews.first as? UISlider {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { // 延迟0.01秒就能够正常播放
-                view.value = value
-            }
-        }
+    private func setupView() {
+        addSubview(view)
+        view.snp.makeConstraints { $0.edges.equalTo(self) }
+        showEdgeAreaUnit(units: [.left, .right, .top, .bottom], animation: true)
+        view.playerView.delegate = self
+        volume.hideSystem(view: self)
     }
     
     private func remakePlayer(_ type: ScreenType) {
@@ -106,6 +88,21 @@ public class SRPlayerController: UIView {
             }
         }
     }
+    
+    private func mainKvoBind() {
+        volume.observe(Float.self, "currVolume") { [weak self] currVolume in
+            if let volum = currVolume {
+                self?.view.floatView.show(.volume)
+                self?.view.floatView.update(CGFloat(volum))
+                self?.volume.volumeDismiss = CFAbsoluteTimeGetCurrent()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if CFAbsoluteTimeGetCurrent() - (self?.volume.volumeDismiss ?? 0) > 1.0 {
+                        self?.view.floatView.hide()
+                    }
+                }
+            }
+        }.add(&disposes)
+    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -118,7 +115,6 @@ public class SRPlayerController: UIView {
         NotificationCenter.default.jm.removeObserver(target: self, Noti.didChangeStatusBar.strName)
         NotificationCenter.default.jm.removeObserver(target: self, Noti.enterBackground.strName)
         NotificationCenter.default.jm.removeObserver(target: self, Noti.becomeActive.strName)
-        NotificationCenter.default.jm.removeObserver(target: self, Noti.sysVolume.strName)
         SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
@@ -132,16 +128,12 @@ extension SRPlayerController: SRPlayerGesture {
         view.floatView.update(UIScreen.main.brightness)
     }
     
-    private func volume(_ offset: CGFloat) {
-        self.systemVolume -= offset
-        SRLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
-        if abs(self.systemVolume) >= 0.1 {
-//            let playerController = MPMusicPlayerController.applicationMusicPlayer
-            let volume = AVAudioSession.sharedInstance().outputVolume + Float(self.systemVolume)
-            let volumeTranslateValue = floorf(volume / 0.0625) * 0.0625
-//            playerController.volume =  volumeTranslateValue
-            view.floatView.update(CGFloat(volumeTranslateValue))
-            self.systemVolume = 0
+    private func setVolume(_ offset: CGFloat) {
+        self.volume.tempSysVolume -= offset
+        if abs(self.volume.tempSysVolume) >= 0.1 {
+            self.volume.setSysVolum()
+            self.volume.tempSysVolume = 0
+            SRLogger.debug("changed:左侧垂直滑动--音量\(offset)")
         }
     }
     
@@ -185,7 +177,7 @@ extension SRPlayerController: SRPlayerGesture {
             case .seek:
                 seekChange(value)
             case .volume:
-                volume(value)
+                setVolume(value)
             case .brightness:
                 brightness(value)
             default:

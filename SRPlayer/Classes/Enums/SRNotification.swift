@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 enum Noti {
     case loadChange
@@ -19,6 +20,8 @@ enum Noti {
     case becomeActive
     case battery
     case sysVolume
+    case interruption
+    case routeChange
     
     var name: NSNotification.Name {
         switch self {
@@ -42,16 +45,14 @@ enum Noti {
             return UIDevice.batteryLevelDidChangeNotification
         case .sysVolume:
             return NSNotification.Name("AVSystemController_SystemVolumeDidChangeNotification")
+        case .interruption:
+            return AVAudioSession.interruptionNotification
+        case .routeChange:
+            return AVAudioSession.routeChangeNotification
         }
     }
     
     var strName: String {
         return name.rawValue
-//        switch self {
-//        case .loadChange, .playbackFinish, .isPrepared, .stateChange, .willChangeStatusBar, .didChangeStatusBar, .enterBackground, .becomeActive, .battery:
-//
-//        case .sysVolume:
-//            return "AVSystemController_SystemVolumeDidChangeNotification"
-//        }
     }
 }
