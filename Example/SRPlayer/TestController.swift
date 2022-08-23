@@ -40,7 +40,7 @@ class TestController: UIViewController {
 //            }
 //
 //            for line in lines.makeIterator() {
-//                SRLogger.debug(line)
+//                JMLogger.debug(line)
 //            }
         }
     }

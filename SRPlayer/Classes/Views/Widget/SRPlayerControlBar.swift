@@ -27,7 +27,7 @@ public class SRPlayerControlBar: UIView {
     }
     
     public func setScreenType(_ type: ScreenType) {
-        SRLogger.debug("\(type)--\(screenType)")
+        JMLogger.debug("\(type)--\(screenType)")
         if screenType == type { return }
         self.screenType = type
         self.layoutItems()
@@ -64,7 +64,7 @@ public class SRPlayerControlBar: UIView {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {
@@ -133,7 +133,7 @@ extension SRPlayerControlBar {
                 }
                 tempLeftLastItem = item
             } else {
-                SRLogger.error(item.itemStyle.rawValue)
+                JMLogger.error(item.itemStyle.rawValue)
             }
         }
         
@@ -163,7 +163,7 @@ extension SRPlayerControlBar {
                 }
                 tempRightLastItem = item
             } else {
-                SRLogger.error(item.itemStyle.rawValue)
+                JMLogger.error(item.itemStyle.rawValue)
             }
         }
         
@@ -196,7 +196,7 @@ extension SRPlayerControlBar {
                     }
                 }
             } else {
-                SRLogger.error(item.itemStyle.rawValue)
+                JMLogger.error(item.itemStyle.rawValue)
             }
         }
     }
@@ -220,7 +220,7 @@ extension SRPlayerControlBar {
                 }
                 tempItem = item
             } else {
-                SRLogger.error(item.itemStyle.rawValue)
+                JMLogger.error(item.itemStyle.rawValue)
             }
         }
     }

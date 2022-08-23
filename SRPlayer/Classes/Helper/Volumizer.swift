@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 import MediaPlayer
 
 fileprivate let AVAudioSessionOutputVolumeKey = "outputVolume"
@@ -51,7 +52,7 @@ class Volumizer: NSObject {
             try session.setCategory( .playback, mode: .default, options: .mixWithOthers)
             try session.setActive(true)
         }
-        catch { SRLogger.error(error.localizedDescription) }
+        catch { JMLogger.error(error.localizedDescription) }
         
         volumeView.setVolumeThumbImage(UIImage(), for: UIControl.State())
         volumeView.isUserInteractionEnabled = false
@@ -103,7 +104,7 @@ class Volumizer: NSObject {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let change = change, let value = change[.newKey] as? Float , keyPath == AVAudioSessionOutputVolumeKey else { return }
-        SRLogger.debug(value)
+        JMLogger.debug(value)
         currVolume = value
     }
     

@@ -8,29 +8,29 @@
 
 import UIKit
 
-func +(lhs: ByteCount, rhs: ByteCount) -> ByteCount {
-    var result = lhs
-    result.received += rhs.received
-    result.sent += rhs.sent
-    return result
-}
-
-func -(lhs: ByteCount, rhs: ByteCount) -> ByteCount {
-    var result = lhs
-    if result.received > rhs.received {
-        result.received -= rhs.received
-    } else {
-        result.received = 0
-    }
-    
-    if result.sent > rhs.sent {
-        result.sent -= rhs.sent
-    } else {
-        result.sent = 0
-    }
-    
-    return result
-}
+//func +(lhs: ByteCount, rhs: ByteCount) -> ByteCount {
+//    var result = lhs
+//    result.received += rhs.received
+//    result.sent += rhs.sent
+//    return result
+//}
+//
+//func -(lhs: ByteCount, rhs: ByteCount) -> ByteCount {
+//    var result = lhs
+//    if result.received > rhs.received {
+//        result.received -= rhs.received
+//    } else {
+//        result.received = 0
+//    }
+//    
+//    if result.sent > rhs.sent {
+//        result.sent -= rhs.sent
+//    } else {
+//        result.sent = 0
+//    }
+//    
+//    return result
+//}
 
 //func +(lhs: ByteData, rhs: ByteData) -> ByteData {
 //    var result = lhs

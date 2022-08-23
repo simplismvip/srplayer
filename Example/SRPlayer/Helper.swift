@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 import SRPlayer
 import Kingfisher
 
@@ -16,7 +17,7 @@ extension UIImageView {
             self.kf.setImage(with: URL(string: headerUrl), placeholder: placeholder) { (result) in
                 switch result {
                 case .failure(let error):
-                    SRLogger.error("%@", error.errorDescription ?? "")
+                    JMLogger.error("%@", error.errorDescription ?? "")
                 case .success(let resultImage):
                     complate?(resultImage.image, resultImage.source.url)
                 }

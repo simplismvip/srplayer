@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class SRPlayUrlFlow: NSObject, SRFlow {
     var model: SRPlayUrlModel
@@ -27,6 +28,6 @@ class SRPlayUrlFlow: NSObject, SRFlow {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }

@@ -25,7 +25,7 @@ class SRMoreAreaFlow: NSObject {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

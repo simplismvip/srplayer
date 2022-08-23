@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ZJMKit
 
 @propertyWrapper
 struct Storage<T: Codable> {
@@ -46,7 +47,7 @@ public class JMBookStore {
                 let data = try PropertyListEncoder().encode(object)
                 NSKeyedArchiver.archiveRootObject(data, toFile: cachePath)
             }catch let error {
-                SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+                JMLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
             }
         }
     }
@@ -63,7 +64,7 @@ public class JMBookStore {
                 let object = try PropertyListDecoder().decode(T.self, from: data)
                 DispatchQueue.main.async { complate(object) }
             }catch let error {
-                SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+                JMLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
             }
         }
     }
@@ -79,7 +80,7 @@ public class JMBookStore {
             let object = try PropertyListDecoder().decode(T.self, from: data)
             DispatchQueue.main.async { complate(object) }
         }catch let error {
-            SRLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
+            JMLogger.debug("data cache \(error.localizedDescription)!!!⚽️⚽️⚽️")
         }
     }
     

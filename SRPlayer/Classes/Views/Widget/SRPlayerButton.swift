@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class SRPlayerButton: UIButton {
     var disposes = Set<RSObserver>()
@@ -18,7 +19,7 @@ class SRPlayerButton: UIButton {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

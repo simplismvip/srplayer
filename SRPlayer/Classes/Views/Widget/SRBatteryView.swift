@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class SRBatteryView: UIView {
     private var is12Hour = false
@@ -63,7 +64,7 @@ class SRBatteryView: UIView {
         }
         dateFormat.calendar = Calendar(identifier: .gregorian)
         timeL.text = dateFormat.string(from: Date())
-        wifi.text = NetSpeed.share.connType.name
+//        wifi.text = NetSpeed.share.connType.name
     }
     
     // 判断是否是24小时制
@@ -78,7 +79,7 @@ class SRBatteryView: UIView {
     deinit {
         timer?.invalidate()
         timer = nil
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {
@@ -134,7 +135,7 @@ class Bettary: UIView {
     
     deinit {
         NotificationCenter.default.jm.removeObserver(target: self, Noti.battery.strName)
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {

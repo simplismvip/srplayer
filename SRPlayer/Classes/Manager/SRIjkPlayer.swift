@@ -58,8 +58,8 @@ class SRIjkPlayer: NSObject {
     }
     
     deinit {
-        SRLogger.debug("‼️‼️‼️‼️‼️‼️ - SRIjkPlayer 释放播放器")
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.debug("‼️‼️‼️‼️‼️‼️ - SRIjkPlayer 释放播放器")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
@@ -204,14 +204,14 @@ extension SRIjkPlayer {
     
     @objc func loadStateDidChange(_ notification: Notification) {
         if ijkPlayer.loadState.contains(.playthroughOK) {
-            SRLogger.debug("playthroughOK")
+            JMLogger.debug("playthroughOK")
             if !ijkPlayer.shouldAutoplay {
                 self.startPlay()
             }
         } else if ijkPlayer.loadState.contains(.stalled) {
-            SRLogger.debug("stateStalled")
+            JMLogger.debug("stateStalled")
         } else {
-            SRLogger.debug("loadStateDidChange: ???: \n")
+            JMLogger.debug("loadStateDidChange: ???: \n")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
@@ -220,13 +220,13 @@ extension SRIjkPlayer {
         let reason = notification.userInfo?[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] as! Int
         switch reason {
         case FinishReason.ended.ijk:
-            SRLogger.debug("Finish Ended: \(reason)\n")
+            JMLogger.debug("Finish Ended: \(reason)\n")
         case FinishReason.exited.ijk:
-            SRLogger.debug("Finish UserExited: \(reason)\n")
+            JMLogger.debug("Finish UserExited: \(reason)\n")
         case FinishReason.error.ijk:
-            SRLogger.debug("Finish PlaybackError: \(reason)\n")
+            JMLogger.debug("Finish PlaybackError: \(reason)\n")
         default:
-            SRLogger.debug("Finish: ???: \(reason)\n")
+            JMLogger.debug("Finish: ???: \(reason)\n")
         }
         stopPlayer()
         jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
@@ -234,27 +234,27 @@ extension SRIjkPlayer {
     }
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
-        SRLogger.debug("mediaIsPreparedToPlayDidChange\n")
+        JMLogger.debug("mediaIsPreparedToPlayDidChange\n")
         jmSendMsg(msgName: kMsgNamePrepareToPlay, info: nil)
     }
     
     @objc func moviePlayBackStateDidChange(_ notification: Notification) {
         switch ijkPlayer.playbackState {
         case .playing:
-            SRLogger.debug("playing: playing")
+            JMLogger.debug("playing: playing")
             jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
         case .paused:
-            SRLogger.debug("pause: paused")
+            JMLogger.debug("pause: paused")
         case .stopped:
-            SRLogger.debug("stopped: stopped")
+            JMLogger.debug("stopped: stopped")
             jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         case .interrupted:
             jmSendMsg(msgName: kMsgNamePlayerUnknowError, info: nil)
-            SRLogger.debug("interrupted: interrupted")
+            JMLogger.debug("interrupted: interrupted")
         case .seekingForward, .seekingBackward:
-            SRLogger.debug("seekingBackward: seeking")
+            JMLogger.debug("seekingBackward: seeking")
         @unknown default:
-            SRLogger.debug("seekingBackward: seeking")
+            JMLogger.debug("seekingBackward: seeking")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }

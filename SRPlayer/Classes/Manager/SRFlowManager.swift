@@ -25,7 +25,7 @@ public class SRFlowManager: NSObject {
             }
             items[key] = flow
         } else {
-            SRLogger.error("\(key)已经添加过了，不允许❎❎❎重复添加")
+            JMLogger.error("\(key)已经添加过了，不允许❎❎❎重复添加")
         }
     }
     
@@ -53,7 +53,7 @@ public class SRFlowManager: NSObject {
     
     deinit {
         items.removeAll()
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

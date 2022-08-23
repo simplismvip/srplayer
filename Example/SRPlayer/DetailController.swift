@@ -83,7 +83,7 @@ class DetailController: ViewController {
                         self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
                     }
                 }
-                SRLogger.debug(m.title)
+                JMLogger.debug(m.title)
             }
         }, next: false)
         
@@ -147,11 +147,11 @@ class DetailController: ViewController {
 //            let build = PlayerBulider(video: video)
 //            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
 //        }
-//        SRLogger.debug(m.title)
+//        JMLogger.debug(m.title)
     }
     
     deinit {
-        SRLogger.error("类DetailController已经释放")
+        JMLogger.error("类DetailController已经释放")
     }
 }
 

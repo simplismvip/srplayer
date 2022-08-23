@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRLoading: UIView {
     private let leftV = CAShapeLayer()
@@ -72,7 +73,7 @@ public class SRLoading: UIView {
     func start() { }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

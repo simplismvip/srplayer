@@ -44,13 +44,13 @@ extension SRPlayerNormalController {
                 self?.showMoreArea(.more)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.more as MsgObjc)
             } else {
-                SRLogger.debug("半屏幕状态下点击更多")
+                JMLogger.debug("半屏幕状态下点击更多")
             }
         }, next: false)
         
         // 更多选择
         jmRegisterEvent(eventName: kEventNameMoreChoiceAction, block: { [weak self] _ in
-            SRLogger.debug("更多选择")
+            JMLogger.debug("更多选择")
         }, next: false)
         
         // 播放速率
@@ -59,13 +59,13 @@ extension SRPlayerNormalController {
                 self?.showMoreArea(.playrate)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.playrate as MsgObjc)
             } else {
-                SRLogger.debug("半屏幕状态下点击切换播放速率")
+                JMLogger.debug("半屏幕状态下点击切换播放速率")
             }
         }, next: false)
         
         // 播放速率选择
         jmRegisterEvent(eventName: kEventNamePlayRateChoiceAction, block: { [weak self] moreItem in
-            SRLogger.debug("播放速率选择")
+            JMLogger.debug("播放速率选择")
         }, next: false)
         
         // 剧集
@@ -74,13 +74,13 @@ extension SRPlayerNormalController {
                 self?.showMoreArea(.series)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.series as MsgObjc)
             } else {
-                SRLogger.debug("半屏幕状态下点击剧集")
+                JMLogger.debug("半屏幕状态下点击剧集")
             }
         }, next: false)
         
         // 剧集选择
         jmRegisterEvent(eventName: kEventNamePlaySeriesChoiceAction, block: { [weak self] moreItem in
-            SRLogger.debug("剧集选择")
+            JMLogger.debug("剧集选择")
         }, next: false)
         
         // 清晰度
@@ -89,13 +89,13 @@ extension SRPlayerNormalController {
                 self?.showMoreArea(.resolve)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.resolve as MsgObjc)
             } else {
-                SRLogger.debug("半屏幕状态下点击清晰度")
+                JMLogger.debug("半屏幕状态下点击清晰度")
             }
         }, next: false)
         
         // 清晰度选择
         jmRegisterEvent(eventName: kEventNamePlayResolveChoiceAction, block: { [weak self] moreItem in
-            SRLogger.debug("清晰度选择")
+            JMLogger.debug("清晰度选择")
         }, next: false)
   
         // 分享
@@ -104,17 +104,17 @@ extension SRPlayerNormalController {
                 self?.showMoreArea(.share)
                 self?.jmSendMsg(msgName: kMsgNameMoreAreaRequestData, info: MoreEdgeType.share as MsgObjc)
             } else {
-                SRLogger.debug("半屏幕状态下点击分享")
+                JMLogger.debug("半屏幕状态下点击分享")
             }
         }, next: false)
         
         // 分享选择
         jmRegisterEvent(eventName: kEventNameShareChoiceAction, block: { [weak self] info in
-            SRLogger.debug("分享选择")
+            JMLogger.debug("分享选择")
         }, next: false)
         
         jmRegisterEvent(eventName: kEventNameNextAction, block: { [weak self] info in
-            SRLogger.debug("播放下一个")
+            JMLogger.debug("播放下一个")
         }, next: false)
         
         // 截屏
@@ -124,7 +124,7 @@ extension SRPlayerNormalController {
         
         // 截取短视频
         jmRegisterEvent(eventName: kEventNameRecordingAction, block: { [weak self] info in
-            SRLogger.debug("录像")
+            JMLogger.debug("录像")
         }, next: false)
         
         // 视频缩放模式
@@ -157,21 +157,21 @@ extension SRPlayerNormalController {
             if let view = playView as? UIView {
                 self?.addSubview(view, unit: .player)
                 self?.view.bkgView.startPlay()
-                SRLogger.debug("添加播放器到视图.....")
+                JMLogger.debug("添加播放器到视图.....")
             }
             return nil
         }
         
         /// 准备开始播放
         jmReciverMsg(msgName: kMsgNameStartLoading) { [weak self] _ in
-            SRLogger.debug("准备播放.....")
+            JMLogger.debug("准备播放.....")
             self?.view.floatView.show(.loading)
             return nil
         }
         
         /// 开始播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
-            SRLogger.debug("开始播放.....")
+            JMLogger.debug("开始播放.....")
             self?.view.floatView.hide()
             return nil
         }
@@ -214,7 +214,7 @@ extension SRPlayerNormalController {
         jmReciverMsg(msgName: kMsgNameNetBreakingUpStatus) { [weak self] _ in
             let current = NetSpeed.share.currNetSpeed(.all)
             self?.view.floatView.update(0, text: current)
-            SRLogger.debug("卡顿展示loading和网速\(current)")
+            JMLogger.debug("卡顿展示loading和网速\(current)")
             return nil
         }
     }

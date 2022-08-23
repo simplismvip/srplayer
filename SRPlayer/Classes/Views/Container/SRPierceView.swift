@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRPierceView: UIView, SRPierce {
     public var canPierce: Bool = true
@@ -27,7 +28,7 @@ public class SRPierceView: UIView, SRPierce {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 

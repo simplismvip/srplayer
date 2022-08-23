@@ -56,7 +56,7 @@ class SRPlayFlow: NSObject {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
@@ -66,7 +66,7 @@ extension SRPlayFlow: SRFlow {
         /// 准备播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
             self?.model.isPrepareToPlay = true
-            SRLogger.debug("准备播放.....")
+            JMLogger.debug("准备播放.....")
             return nil
         }
         
@@ -74,7 +74,7 @@ extension SRPlayFlow: SRFlow {
         jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
             self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
             self?.refrashStatus()
-            SRLogger.debug("开始播放.....")
+            JMLogger.debug("开始播放.....")
             return nil
         }
         
@@ -86,7 +86,7 @@ extension SRPlayFlow: SRFlow {
 
             if model.currentTime != ijkPlayer.getCurrentPlaybackTime() {
                 model.currentTime = ijkPlayer.getCurrentPlaybackTime()
-                SRLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
+                JMLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
             }
             
             // 如果卡顿弹出提示框
@@ -111,7 +111,7 @@ extension SRPlayFlow: SRFlow {
         /// 准备初始化
         jmReciverMsg(msgName: kMsgNamePlayStartSetup) { [weak self] builder in
             if let build = builder as? PlayerBulider {
-                SRLogger.debug("初始化播放器.....")
+                JMLogger.debug("初始化播放器.....")
                 self?.setupPlayer(build)
                 self?.jmSendMsg(msgName: kMsgNameStartLoading, info: nil)
             }
@@ -188,7 +188,7 @@ extension SRPlayFlow: SRFlow {
         /// 播放
         jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
             if let playView = self.player?.view, let containerView = self.containerView {
-                SRLogger.debug("重新添加播放器到容器并设置播放器frame.....")
+                JMLogger.debug("重新添加播放器到容器并设置播放器frame.....")
                 containerView.addSubview(playView)
                 playView.translatesAutoresizingMaskIntoConstraints = true
                 playView.frame = containerView.bounds;

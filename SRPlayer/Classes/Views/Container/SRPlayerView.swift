@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRPlayerView: SRPierceView {
     public weak var delegate: SRPlayerGesture?
@@ -67,68 +68,68 @@ public class SRPlayerView: SRPierceView {
             let x = abs(velocty.x)
             let y = abs(velocty.y)
             if x > y {
-                SRLogger.debug("began:水平移动")
+                JMLogger.debug("began:水平移动")
                 panDirection = .horizontal
                 currentEvent = .horiPan
                 delegate?.panHorizontal(self, state: .begin)
             } else if x < y {
                 if (location.x > bounds.size.width / 2) && activityEvents.contains(.pan) {
-                    SRLogger.debug("began:右侧垂直滑动")
+                    JMLogger.debug("began:右侧垂直滑动")
                     currentEvent = .vertRightPan
                     delegate?.panRightVertical(self, state: .begin)
                 } else if (location.x <= bounds.size.width / 2) && activityEvents.contains(.pan) {
-                    SRLogger.debug("began:左侧垂直滑动")
+                    JMLogger.debug("began:左侧垂直滑动")
                     currentEvent = .vertLeftPan
                     delegate?.panLeftVertical(self, state: .begin)
                 } else {
-                    SRLogger.debug("无滑动")
+                    JMLogger.debug("无滑动")
                 }
             }
         case .changed:
             // 垂直滑动 水平滑动
             let value = (panDirection == .vertical) ? velocty.y : velocty.x
             if currentEvent == .horiPan {
-                SRLogger.debug("changed:水平移动--快进快退")
+                JMLogger.debug("changed:水平移动--快进快退")
                 delegate?.panHorizontal(self, state: .change(value/200))
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("changed:左侧垂直滑动--亮度")
+                JMLogger.debug("changed:左侧垂直滑动--亮度")
                 delegate?.panLeftVertical(self, state: .change(value/10000))
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("changed:右侧垂直滑动---声音")
+                JMLogger.debug("changed:右侧垂直滑动---声音")
                 delegate?.panRightVertical(self, state: .change(value/10000))
             } else {
-                SRLogger.debug("无滑动")
+                JMLogger.debug("无滑动")
             }
         case .ended:
-            SRLogger.debug("ended")
+            JMLogger.debug("ended")
             if currentEvent == .horiPan {
-                SRLogger.debug("ended:水平移动")
+                JMLogger.debug("ended:水平移动")
                 delegate?.panHorizontal(self, state: .end)
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("ended:左侧垂直滑动")
+                JMLogger.debug("ended:左侧垂直滑动")
                 delegate?.panLeftVertical(self, state: .end)
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("ended:右侧垂直滑动")
+                JMLogger.debug("ended:右侧垂直滑动")
                 delegate?.panRightVertical(self, state: .end)
             } else {
-                SRLogger.debug("无滑动")
+                JMLogger.debug("无滑动")
             }
         case .cancelled, .failed:
-            SRLogger.debug("failed")
+            JMLogger.debug("failed")
             if currentEvent == .horiPan {
-                SRLogger.debug("failed:水平移动")
+                JMLogger.debug("failed:水平移动")
                 delegate?.panHorizontal(self, state: .cancle)
             } else if currentEvent == .vertLeftPan {
-                SRLogger.debug("failed:左侧垂直滑动")
+                JMLogger.debug("failed:左侧垂直滑动")
                 delegate?.panLeftVertical(self, state: .cancle)
             } else if currentEvent == .vertRightPan {
-                SRLogger.debug("failed:右侧垂直滑动")
+                JMLogger.debug("failed:右侧垂直滑动")
                 delegate?.panRightVertical(self, state: .cancle)
             } else {
-                SRLogger.debug("无滑动")
+                JMLogger.debug("无滑动")
             }
         case .possible:
-            SRLogger.debug("无滑动")
+            JMLogger.debug("无滑动")
         @unknown default:
             fatalError()
         }
@@ -152,7 +153,7 @@ public class SRPlayerView: SRPierceView {
         case .cancelled, .failed, .ended:
             delegate?.longPress(.cancle)
         case .possible, .changed:
-            SRLogger.debug("无长按")
+            JMLogger.debug("无长按")
         @unknown default:
             fatalError()
         }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 import SnapKit
 
 public class SRContainerView: UIView, SRContent {
@@ -68,6 +69,6 @@ public class SRContainerView: UIView, SRContent {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }

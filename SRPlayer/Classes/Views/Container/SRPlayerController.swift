@@ -29,27 +29,27 @@ public class SRPlayerController: UIView {
     
     private func addNotioObserve() {
         NotificationCenter.default.jm.addObserver(target: self, name: Noti.willChangeStatusBar.strName) { (notify) in
-            SRLogger.debug("UIApplicationWillChangeStatusBarOrientation")
+            JMLogger.debug("UIApplicationWillChangeStatusBarOrientation")
         }
         
         NotificationCenter.default.jm.addObserver(target: self, name: Noti.didChangeStatusBar.strName) { [weak self] (notify) in
             let orientation = UIApplication.shared.statusBarOrientation
             switch (orientation) {
             case .portrait:
-                SRLogger.debug("half")
+                JMLogger.debug("half")
                 self?.remakePlayer(.half)
                 self?.barManager.setScreenType(.half)
             case .landscapeLeft, .landscapeRight:
-                SRLogger.debug("full")
+                JMLogger.debug("full")
                 self?.remakePlayer(.full)
                 self?.barManager.setScreenType(.full)
             default:
-                SRLogger.debug("statusBarOrientation")
+                JMLogger.debug("statusBarOrientation")
             }
         }
         
         NotificationCenter.default.jm.addObserver(target: self, name: Noti.enterBackground.strName) { [weak self] (notify) in
-            SRLogger.debug("enterBackground")
+            JMLogger.debug("enterBackground")
             guard let model = self?.flowManager.model(SRPlayFlow.self) else { return }
             if model.isPlaying {
                 self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
@@ -57,7 +57,7 @@ public class SRPlayerController: UIView {
         }
         
         NotificationCenter.default.jm.addObserver(target: self, name: Noti.becomeActive.strName) { [weak self] (notify) in
-            SRLogger.debug("becomeActive")
+            JMLogger.debug("becomeActive")
             self?.jmSendMsg(msgName: kMsgNamePauseOrRePlay, info: nil)
         }
     }
@@ -115,7 +115,7 @@ public class SRPlayerController: UIView {
         NotificationCenter.default.jm.removeObserver(target: self, Noti.didChangeStatusBar.strName)
         NotificationCenter.default.jm.removeObserver(target: self, Noti.enterBackground.strName)
         NotificationCenter.default.jm.removeObserver(target: self, Noti.becomeActive.strName)
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
@@ -123,7 +123,7 @@ extension SRPlayerController: PlayerCotrol { }
 
 extension SRPlayerController: SRPlayerGesture {
     private func brightness(_ offset: CGFloat) {
-        SRLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
+        JMLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
         UIScreen.main.brightness -= offset
         view.floatView.update(UIScreen.main.brightness)
     }
@@ -133,7 +133,7 @@ extension SRPlayerController: SRPlayerGesture {
         if abs(self.volume.tempSysVolume) >= 0.1 {
             self.volume.setSysVolum()
             self.volume.tempSysVolume = 0
-            SRLogger.debug("changed:左侧垂直滑动--音量\(offset)")
+            JMLogger.debug("changed:左侧垂直滑动--音量\(offset)")
         }
     }
     
@@ -158,7 +158,7 @@ extension SRPlayerController: SRPlayerGesture {
         jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
         model.panSeekOffsetTime = 0.0
         model.panSeekTargetTime = 0.0
-        SRLogger.debug("seekEnd")
+        JMLogger.debug("seekEnd")
     }
     
     private func floatViewAction(state: GestureState, type: ToastType) {
@@ -169,7 +169,7 @@ extension SRPlayerController: SRPlayerGesture {
                 guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
                 model.panSeekTargetTime = model.currentTime
             default:
-                SRLogger.debug("begin")
+                JMLogger.debug("begin")
             }
             view.floatView.show(type)
         case .change(let value):
@@ -181,7 +181,7 @@ extension SRPlayerController: SRPlayerGesture {
             case .brightness:
                 brightness(value)
             default:
-                SRLogger.debug("change -- \(state)--\(type)")
+                JMLogger.debug("change -- \(state)--\(type)")
             }
             
         case .end, .cancle:
@@ -189,7 +189,7 @@ extension SRPlayerController: SRPlayerGesture {
             case .seek:
                 seekEnd()
             default:
-                SRLogger.debug("end")
+                JMLogger.debug("end")
             }
             view.floatView.hide()
         }

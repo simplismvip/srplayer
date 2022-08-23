@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZJMKit
 import Accelerate
 
 class SRScreenShot: UIView {
@@ -54,7 +55,7 @@ extension SRScreenShot: Toast {
             self.image.image = image
             self.title.text = "点击分享图片"
         default:
-            SRLogger.debug("")
+            JMLogger.debug("")
         }
     }
     

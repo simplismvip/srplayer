@@ -2,10 +2,12 @@
 //  ImagerLoader.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/19.
+//  Created by JunMing on 2022/8/19.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
+import ZJMKit
 
 class ImageCache {
     static let shared = ImageCache()
@@ -55,7 +57,7 @@ class ImageCache {
         }
         
         deinit {
-            SRLogger.debug("🆘🆘🆘🆘ImageLoader释放掉了")
+            JMLogger.debug("🆘🆘🆘🆘ImageLoader释放掉了")
         }
     }
 }

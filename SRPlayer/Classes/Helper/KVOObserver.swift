@@ -45,7 +45,7 @@ protocol KVOObservableProtocol {
     }
     
     deinit {
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
 }
 
@@ -89,7 +89,7 @@ final class KVOObservable<Element>: KVOObservableProtocol {
     }
     
 //    deinit {
-//        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+//        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
 //    }
 }
 

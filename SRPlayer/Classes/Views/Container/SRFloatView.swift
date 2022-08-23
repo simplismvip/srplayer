@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRFloatView: SRPierceView, SRFloat_P {
     private var toastView: Toast?
@@ -105,7 +106,7 @@ extension SRFloatView {
                 self.hide()
             }
         case .none:
-            SRLogger.debug("None")
+            JMLogger.debug("None")
         }
     }
 }

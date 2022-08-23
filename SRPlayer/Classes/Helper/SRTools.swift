@@ -9,7 +9,7 @@
 import UIKit
 
 //let bottom = InitClass<SRPlayerBottomBar>.instance("SRPlayerBottomBar")
-//SRLogger.debug(bottom)
+//JMLogger.debug(bottom)
 public struct InitClass<T: NSObject> {
     public static func instance(_ className: String) -> T? {
         guard let clazz = classFrom(className) as? T.Type else {
@@ -87,40 +87,6 @@ extension Int {
             return String(format: "00:%02d", self)
         } else {
             return "00:00"
-        }
-    }
-}
-
-extension UInt64 {
-    var double: Double {
-        return Double(self)
-    }
-}
-
-extension Double {
-    var kb: Double {
-        return self / 1024
-    }
-    
-    var mb: Double {
-        return kb / 1024
-    }
-    
-    var gb: Double {
-        return mb / 1024
-    }
-    
-    func format(_ n: Int) -> String {
-        return String(format: "%.\(n)f", self)
-    }
-    
-    public var unitString: String {
-        if self.gb > 1 {
-            return self.gb.format(0) + " GB"
-        } else if self.mb > 1 {
-            return self.mb.format(0) + " MB"
-        } else {
-            return self.kb.format(0) + " KB"
         }
     }
 }

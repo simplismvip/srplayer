@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 public class SRMoreAreaView: SRPierceView {
     public var content: SRMoreContent?
@@ -53,7 +54,7 @@ extension SRMoreAreaView: SRMoreArea {
                 make.right.equalTo(snp.right).offset(180)
             }
         case .none:
-            SRLogger.debug(".none")
+            JMLogger.debug(".none")
         }
         self.content?.backgroundColor = UIColor.black.jmComponent(0.5)
     }

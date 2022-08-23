@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class SRPlayerSlider: UIControl {
     var trackLock: Bool = false
@@ -87,7 +88,7 @@ class SRPlayerSlider: UIControl {
     }
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        SRLogger.debug("beginTracking")
+        JMLogger.debug("beginTracking")
         var point = touch.location(in: self)
         point = thumbImageView.layer.convert(point, to: self.layer)
         if thumbImageView.layer.contains(point) {
@@ -98,7 +99,7 @@ class SRPlayerSlider: UIControl {
     }
     
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        SRLogger.debug("continueTracking")
+        JMLogger.debug("continueTracking")
         let point = touch.location(in: self)
         let value = (point.x - self.thumbSize.width / 2) / (self.frame.size.width - self.thumbSize.width)
         let cValue = min(max(value, 0), 1)
@@ -110,13 +111,13 @@ class SRPlayerSlider: UIControl {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        SRLogger.debug("endTracking")
+        JMLogger.debug("endTracking")
         self.sendActions(for: .valueChanged)
         trackLock = false
     }
     
     override func cancelTracking(with event: UIEvent?) {
-        SRLogger.debug("cancelTracking")
+        JMLogger.debug("cancelTracking")
         self.sendActions(for: .touchCancel)
         trackLock = false
     }
@@ -137,7 +138,7 @@ class SRPlayerSlider: UIControl {
     deinit {
         disposes.forEach { $0.deallocObserver() }
         disposes.removeAll()
-        SRLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {
