@@ -21,7 +21,6 @@ extension SRMoreContent {
 
 /// MARK: -- 更多层协议
 public protocol SRMoreArea: UIView {
-    
     var content: SRMoreContent? { get }
     var type: MoreEdgeType { set get }
     // 开始刷新数据

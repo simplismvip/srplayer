@@ -11,20 +11,19 @@ import UIKit
 public class SRMoreAreaView: SRPierceView {
     public var content: SRMoreContent?
     public var type: MoreEdgeType = .none
-    
     public var isShow: Bool {
-        switch type {
-        case .none:
-            return false
-        default:
-            return true
-        }
+        return !(type == .none)
+    }
+    
+    public func begin(_ type: MoreEdgeType) {
+        if self.type == type || type == .none { return }
+        self.type = type
+        setupViews(type)
     }
 }
 
 extension SRMoreAreaView: SRMoreArea {
-    public func begin(_ type: MoreEdgeType) {
-        self.type = type
+    private func setupViews(_ type: MoreEdgeType) {
         switch type {
         case .playrate, .resolve, .series:
             let edgeView = MoreEdgeView(frame: .zero)
