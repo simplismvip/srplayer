@@ -21,8 +21,8 @@ class SRPlayFlow: NSObject {
     }
     
     private func setupPlayer(_ build: PlayerBulider) {
-        model.videoTitle = build.video.title
         stopPlayer()
+        model.videoTitle = build.video.title
         player = SRIjkPlayer(build)
         player?.associatedRouter(self.msgRouter)
         // 添加视频view到播放器
@@ -33,6 +33,21 @@ class SRPlayFlow: NSObject {
     private func stopPlayer() {
         player?.stopPlayer()
         player = nil
+    }
+    
+    private func updatePlayTime() {
+        if let videoUrl = player?.videoInfo.videoUrl.lastPathComponent {
+            SRDBManager.share.updateDB(videoUrl: videoUrl, duration: model.duration, currTime: model.currentTime)
+        }
+    }
+    
+    private func seekPlayTime() {
+        if let info = player?.videoInfo,
+            let video = SRDBManager.share.queryDB(info) {
+            if video.currTime > model.currentTime {
+                jmSendMsg(msgName: kMsgNameShowSeekToPlayTime, info: video as MsgObjc)
+            }
+        }
     }
     
     private func refrashStatus() {
@@ -66,6 +81,9 @@ extension SRPlayFlow: SRFlow {
         /// 准备播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
             self?.model.isPrepareToPlay = true
+            if let video = self?.player?.videoInfo {
+                SRDBManager.share.insertDB(video)
+            }
             JMLogger.debug("准备播放.....")
             return nil
         }
@@ -74,6 +92,7 @@ extension SRPlayFlow: SRFlow {
         jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
             self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
             self?.refrashStatus()
+            self?.seekPlayTime()
             JMLogger.debug("开始播放.....")
             return nil
         }
@@ -100,6 +119,12 @@ extension SRPlayFlow: SRFlow {
         /// 刷新播放器状态
         jmReciverMsg(msgName: kMsgNameRefreashPlayerStatus) { [weak self] builder in
             self?.refrashStatus()
+            return nil
+        }
+        
+        /// 停止播放
+        jmReciverMsg(msgName: kMsgNamePausePlayEnding) { [weak self] _ in
+            self?.updatePlayTime()
             return nil
         }
     }
@@ -197,11 +222,6 @@ extension SRPlayFlow: SRFlow {
         }
     }
     
-    public func willRemoveFlow() {
-        
-    }
-    
-    public func didRemoveFlow(){
-        
-    }
+    public func willRemoveFlow() { }
+    public func didRemoveFlow() {}
 }

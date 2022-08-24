@@ -1,5 +1,5 @@
 //
-//  SRPlayUrlModel.swift
+//  SRSeekModel.swift
 //  Pods-SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/18.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SRPlayUrlModel {
+class SRSeekModel {
     var url: URL?
 }
 
-extension SRPlayUrlModel: SRModel { }
+extension SRSeekModel: SRModel { }

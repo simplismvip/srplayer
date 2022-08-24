@@ -34,7 +34,7 @@ extension SRPlayerNormalController {
         self.flowManager.jmSetAssociatedMsgRouter(router: router)
         
         let playP = SRPlayFlow()
-        let urlP = SRPlayUrlFlow()
+        let urlP = SRSeekFlow()
         let switchP = SRQualityFlow()
         let moreFlow = SRMoreAreaFlow()
         self.flowManager.addFlow(playP)

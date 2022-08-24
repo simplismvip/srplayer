@@ -18,7 +18,6 @@ class SRPlayModel: NSObject {
     @objc dynamic var cacheDuration: TimeInterval = 0
     @objc dynamic var thumbImage: UIImage?
     @objc dynamic var playbackVolume: Float = 0
-    // 当前视频的标题
     @objc dynamic var videoTitle: String?
     
     // 播放器状态

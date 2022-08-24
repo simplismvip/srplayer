@@ -1,5 +1,5 @@
 //
-//  SRPlayUrlFlow.swift
+//  SRSeekFlow.swift
 //  Pods-SRPlayer_Example
 //
 //  Created by JunMing on 2022/7/18.
@@ -9,14 +9,11 @@
 import UIKit
 import ZJMKit
 
-class SRPlayUrlFlow: NSObject, SRFlow {
-    var model: SRPlayUrlModel
-    override init() {
-        self.model = SRPlayUrlModel()
-    }
+class SRSeekFlow: NSObject {
+    var model: SRSeekModel
     
-    func configFlow() {
-        
+    override init() {
+        self.model = SRSeekModel()
     }
     
     public func willRemoveFlow() {
@@ -29,5 +26,11 @@ class SRPlayUrlFlow: NSObject, SRFlow {
     
     deinit {
         JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
+    }
+}
+
+extension SRSeekFlow: SRFlow {
+    func configFlow() {
+        
     }
 }

@@ -67,6 +67,8 @@ public let kMsgNameMoreAreaRequestDone = "kMsgNameMoreAreaRequestDone"
 public let kMsgNameMoreAreaReloadData = "kMsgNameMoreAreaReloadData"
 /// 网络卡顿展示
 public let kMsgNameNetBreakingUpStatus = "kMsgNameNetBreakingUpStatus"
+/// 展示已经播放过是否跳到播放按钮
+public let kMsgNameShowSeekToPlayTime = "kMsgNameShowSeekToPlayTime"
 
 // ------------- Event Name -------------
 /// 切换全屏半屏
@@ -116,6 +118,12 @@ public let kEventNameVolumeAction = "kEventNameVolumeAction"
 public let kEventNameBrightLightAction = "kEventNameBrightLightAction"
 /// 模式
 public let kEventNameScaleModeAction = "kEventNameScaleModeAction"
+/// 点击确认Seek
+public let kEventNameActionSeekToPlayTime = "kEventNameActionSeekToPlayTime"
+
+
+
+
 
 
 /// 切换语音和文本输入

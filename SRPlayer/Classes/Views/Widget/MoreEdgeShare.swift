@@ -2,7 +2,8 @@
 //  MoreEdgeShare.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/10.
+//  Created by JunMing on 2022/8/10.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit

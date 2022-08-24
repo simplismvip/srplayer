@@ -15,6 +15,8 @@ class SRIjkPlayer: NSObject {
     let view: UIView
     /** 播放流类型 */
     var streamType: StreamType
+    // 当前播放的视频资源
+    var videoInfo: PlayerBulider.Video
     /** 播放器 */
     private var ijkPlayer: IJKFFMoviePlayerController
     /** kvo监听 */
@@ -27,6 +29,7 @@ class SRIjkPlayer: NSObject {
         self.ijkPlayer.playbackRate = build.playRate.rawValue
         self.view = ijkPlayer.view
         self.streamType = build.stream
+        self.videoInfo = build.video
         super.init()
         // self.ijkKvo = IJKKVOController(target: self)
         ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]

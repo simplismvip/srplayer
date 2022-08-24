@@ -2,7 +2,8 @@
 //  SRBatteryView.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/4.
+//  Created by JunMing on 2022/8/4.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
@@ -64,7 +65,14 @@ class SRBatteryView: UIView {
         }
         dateFormat.calendar = Calendar(identifier: .gregorian)
         timeL.text = dateFormat.string(from: Date())
-//        wifi.text = NetSpeed.share.connType.name
+        switch NetSpeed.share.connType {
+        case .wifi:
+            wifi.text = "Wi-Fi"
+        case .wwan:
+            wifi.text = "蜂窝网络"
+        case .unknow:
+            wifi.text = "无网络"
+        }
     }
     
     // 判断是否是24小时制

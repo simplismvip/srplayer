@@ -147,6 +147,13 @@ extension SRPlayerNormalController {
                 self?.view.playerView.enableEvents([.longPress, .doubleClick, .pan], enabled: !lock.isLockScreen)
             }
         }, next: false)
+        
+        // Seek To
+        jmRegisterEvent(eventName: kEventNameActionSeekToPlayTime, block: { [weak self] seekTo in
+            if let offset = seekTo {
+                self?.jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
+            }
+        }, next: false)
     }
 }
 
@@ -215,6 +222,12 @@ extension SRPlayerNormalController {
             let current = NetSpeed.share.currNetSpeed(.all)
             self?.view.floatView.update(0, text: current)
             JMLogger.debug("卡顿展示loading和网速\(current)")
+            return nil
+        }
+        
+        /// 展示是否跳到之前播放的地方
+        jmReciverMsg(msgName: kMsgNameShowSeekToPlayTime) { [weak self] _ in
+            JMLogger.debug("展示是否Seek进度")
             return nil
         }
     }
