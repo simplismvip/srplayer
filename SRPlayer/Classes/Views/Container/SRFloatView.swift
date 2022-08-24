@@ -10,13 +10,13 @@ import UIKit
 import ZJMKit
 
 public class SRFloatView: SRPierceView, SRFloat_P {
-    public var units: [ToastType] = []
-    public var toasts: [Toast] = []
+    public var toasts: [FloatToast] = []
+    private var tTypes: [ToastType] {
+        return toasts.map({ $0.currType })
+    }
     
     public func show(_ type: ToastType) {
-        if !units.contain(type), let toast = setupViews(type) {
-            units.append(type)
-            
+        if !tTypes.contain(type), let toast = setupViews(type) {
             toasts.append(toast)
             toast.begin(type)
         }
@@ -29,11 +29,7 @@ public class SRFloatView: SRPierceView, SRFloat_P {
     public func hide(_ type: ToastType) {
         if let toast = current(type) {
             toast.hide()
-            if let index = units.jmIndex({ $0 == type }) {
-                units.remove(at: index)
-            }
-            
-            if let index = toasts.jmIndex({ $0.currType == type }) {
+            if let index = tTypes.index(type) {
                 toasts.remove(at: index)
             }
         }
@@ -41,7 +37,7 @@ public class SRFloatView: SRPierceView, SRFloat_P {
 }
 
 extension SRFloatView {
-    private func setupViews(_ type: ToastType) -> Toast? {
+    private func setupViews(_ type: ToastType) -> FloatToast? {
         switch type {
         case .loading:
             let loading = SRLoading()
@@ -119,9 +115,6 @@ extension SRFloatView {
                 make.left.equalTo(snp.left).offset(10)
             }
             return toastView
-        case .none:
-            JMLogger.debug("None")
-            return nil
         }
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import ZJMKit
 
-class QuickSeek: UIView, Toast {
+class QuickSeek: UIView, FloatToast {
     public var currType: ToastType
     private let image: UIImageView
     private let title: UILabel
@@ -76,7 +76,7 @@ class QuickSeek: UIView, Toast {
     }
 }
 
-class QuickAction: UIView, Toast {
+class QuickAction: UIView, FloatToast {
     public var currType: ToastType
     private let action: UIButton
     private var seekTo: Double?

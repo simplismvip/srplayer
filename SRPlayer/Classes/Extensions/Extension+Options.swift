@@ -16,13 +16,11 @@ extension Array where Element: SRItem {
 
 extension Array where Element == ToastType {
     public func contain(_ type: ToastType) -> Bool {
-        var isExist = false
-        self.forEach { ftype in
-            if case type = ftype {
-                isExist = true
-            }
-        }
-        return isExist
+        return !self.map { $0.name }.filter { $0 == type.name }.isEmpty
+    }
+    
+    public func index(_ type: ToastType) -> Int? {
+        return self.map { $0.name }.jmIndex { $0 == type.name }
     }
 }
 

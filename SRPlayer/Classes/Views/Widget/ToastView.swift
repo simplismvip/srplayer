@@ -2,20 +2,21 @@
 //  SRSeekView.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/4.
+//  Created by JunMing on 2022/8/4.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
 import ZJMKit
 
-class ToastView<T: ToastRight>: UIView, Toast {
+class ToastView<T: ToastRight>: UIView, FloatToast {
     public var currType: ToastType
     private let image: UIButton
     private let right: T
     init(frame: CGRect, right: T) {
         self.image = UIButton()
         self.right = right
-        self.currType = .none
+        self.currType = .volume(0.0)
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -55,6 +56,10 @@ class ToastView<T: ToastRight>: UIView, Toast {
         default:
             JMLogger.debug("")
         }
+    }
+    
+    deinit {
+        JMLogger.error("类\(NSStringFromClass(type(of: self)))已经释放")
     }
     
     required init?(coder: NSCoder) {

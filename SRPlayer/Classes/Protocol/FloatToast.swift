@@ -12,18 +12,18 @@ protocol ToastRight: UIView {
     func update(_ progress: CGFloat)
 }
 
-public protocol Toast: UIView {
+public protocol FloatToast: UIView {
     var currType: ToastType { get set }
     func begin(_ type: ToastType)
     func update(_ type: ToastType)
 }
 
-extension Toast {
+extension FloatToast {
     func hide() {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.5) {
             self.alpha = 0
         } completion: { _ in
-            self.isHidden = true
+            self.removeFromSuperview()
         }
     }
 }

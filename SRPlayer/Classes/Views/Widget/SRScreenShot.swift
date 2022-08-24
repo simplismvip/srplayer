@@ -2,7 +2,8 @@
 //  SRScreenShot.swift
 //  SRPlayer
 //
-//  Created by jh on 2022/8/9.
+//  Created by JunMing on 2022/8/9.
+//  Copyright © 2022 JunMing. All rights reserved.
 //
 
 import UIKit
@@ -49,7 +50,7 @@ class SRScreenShot: UIView {
     }
 }
 
-extension SRScreenShot: Toast {
+extension SRScreenShot: FloatToast {
     func begin(_ type: ToastType) {
         self.currType = type
         switch type {

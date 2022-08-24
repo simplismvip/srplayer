@@ -44,20 +44,25 @@ public enum ToastType {
     case netSpeed(String)      // 加载动画、网速
     case seekAction(Float, String)  // seek切换
     case screenShot(CGPoint, UIImage)  // 截屏
-    case none        // 加载动画
     
     var name: String {
         switch self {
         case .seek:
             return "sr_forward"
         case .longPress:
-            return "sr_forward"
+            return "sr_longpress"
         case .volume:
             return "sr_volum"
         case .brightness:
             return "sr_ brightness"
-        case .loading, .screenShot, .netSpeed, .seekAction, .none:
-            return ""
+        case .loading:
+            return "loading"
+        case .screenShot:
+            return "screenShot"
+        case .netSpeed:
+            return "netSpeed"
+        case .seekAction:
+            return "seekAction"
         }
     }
 }

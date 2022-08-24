@@ -201,8 +201,7 @@ extension SRPlayerNormalController {
                let screenShot = self?.barManager.right.buttonItem(.screenShot),
                let v = self?.barManager.right.findView(screenShot),
                let point = self?.barManager.right.convert(v.frame.origin, to: self?.view.floatView) {
-                let screen = ToastType.screenShot(point, thumbImage)
-                self?.view.floatView.show(screen)
+                self?.view.floatView.show(.screenShot(point, thumbImage))
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self?.view.floatView.hide(.screenShot(CGPoint.zero, UIImage()))
                 }

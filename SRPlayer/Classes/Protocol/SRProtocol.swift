@@ -30,13 +30,12 @@ public protocol SRBarrage: UIView {
 
 /// MARK: -- 浮动层协议
 public protocol SRFloat_P: UIView {
-    var toasts: [Toast] { get }
-    var units: [ToastType] { get set }
+    var toasts: [FloatToast] { get }
 }
 
 extension SRFloat_P {
-    public func current(_ type: ToastType) -> Toast? {
-        return toasts.filter { $0.currType == type }.first
+    public func current(_ type: ToastType) -> FloatToast? {
+        return toasts.filter { $0.currType.name == type.name }.first
     }
 }
 

@@ -79,7 +79,7 @@ public class SRLoading: UIView {
     }
 }
 
-extension SRLoading: Toast {
+extension SRLoading: FloatToast {
     public func update(_ type: ToastType) {
         switch type {
         case .netSpeed(let string):
