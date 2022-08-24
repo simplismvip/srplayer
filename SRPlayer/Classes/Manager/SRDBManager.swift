@@ -45,7 +45,7 @@ class SRDBManager {
     
     func updateDB(videoUrl: String, duration: Double, currTime: Double) {
         do {
-            let sql = "UPDATE Video SET duration = \(duration), currTime = \(currTime) WHERE urlPath = '\(videoUrl)';"
+            let sql = "UPDATE Video SET duration = \(duration), currTime = \(currTime) WHERE videoUrl = '\(videoUrl)';"
             try db?.update(sql: sql)
         } catch  {
             JMLogger.error("打开数据库失败")

@@ -25,18 +25,18 @@ class SRPlayFlow: NSObject {
         model.videoTitle = build.video.title
         player = SRIjkPlayer(build)
         player?.associatedRouter(self.msgRouter)
-        // 添加视频view到播放器
         jmSendMsg(msgName: kMsgNameAddPlayerView, info: player?.view)
         containerView = player?.view.superview
     }
     
     private func stopPlayer() {
+        updatePlayTime()
         player?.stopPlayer()
         player = nil
     }
     
     private func updatePlayTime() {
-        if let videoUrl = player?.videoInfo.videoUrl.lastPathComponent {
+        if let videoUrl = player?.videoInfo.videoUrl.lastPathComponent, model.duration > 0 && model.currentTime > 0 {
             SRDBManager.share.updateDB(videoUrl: videoUrl, duration: model.duration, currTime: model.currentTime)
         }
     }
