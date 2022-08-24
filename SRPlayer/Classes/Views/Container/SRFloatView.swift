@@ -105,6 +105,16 @@ extension SRFloatView {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.hide()
             }
+        case .seekAction:
+            let toastView = QuickAction(frame: .zero)
+            self.toastView = toastView
+            addSubview(toastView)
+            toastView.snp.makeConstraints { make in
+                make.width.equalTo(100)
+                make.height.equalTo(30)
+                make.bottom.equalTo(snp.bottom).offset(-30)
+                make.left.equalTo(snp.left).offset(10)
+            }
         case .none:
             JMLogger.debug("None")
         }

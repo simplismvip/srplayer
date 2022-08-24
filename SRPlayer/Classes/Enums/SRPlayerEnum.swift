@@ -42,6 +42,7 @@ public enum ToastType {
     case brightness  // 亮度
     case loading     // 加载动画
     case netSpeed    // 加载动画、网速
+    case seekAction    // 加载动画、网速
     case screenShot(CGPoint, UIImage)  // 截屏
     case none        // 加载动画
     
@@ -55,7 +56,7 @@ public enum ToastType {
             return "sr_volum"
         case .brightness:
             return "sr_ brightness"
-        case .loading, .screenShot, .netSpeed, .none:
+        case .loading, .screenShot, .netSpeed, .seekAction, .none:
             return ""
         }
     }

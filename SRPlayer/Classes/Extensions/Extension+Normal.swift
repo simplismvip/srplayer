@@ -226,8 +226,12 @@ extension SRPlayerNormalController {
         }
         
         /// 展示是否跳到之前播放的地方
-        jmReciverMsg(msgName: kMsgNameShowSeekToPlayTime) { [weak self] _ in
-            JMLogger.debug("展示是否Seek进度")
+        jmReciverMsg(msgName: kMsgNameShowSeekToPlayTime) { [weak self] videos in
+            if let v = videos as? Video {
+                self?.view.floatView.show(.seekAction)
+                self?.view.floatView.update(v.currTime, text: "上次播放到\(Int(v.currTime).format)")
+                JMLogger.debug("展示是否Seek进度")
+            }
             return nil
         }
     }

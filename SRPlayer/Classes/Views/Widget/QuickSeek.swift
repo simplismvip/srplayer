@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class QuickSeek: UIView, Toast {
     private let image: UIImageView
@@ -65,5 +66,41 @@ class QuickSeek: UIView, Toast {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
+
+class QuickAction: UIView, Toast {
+    private let action: UIButton
+    private var seekTo: Double?
+    override init(frame: CGRect) {
+        self.action = UIButton(type: .system)
+        super.init(frame: frame)
+        
+        backgroundColor = UIColor.black.jmComponent(0.5)
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
+        
+        action.titleLabel?.jmConfigLabel(alig: .center, font: UIFont.jmRegular(12), color: UIColor.white)
+        addSubview(action)
+        action.snp.makeConstraints { make in
+            make.edges.equalTo(self)
+        }
+        
+        action.jmAddAction { [weak self] _ in
+            self?.jmRouterEvent(eventName: kEventNameActionSeekToPlayTime, info: self?.seekTo as MsgObjc)
+        }
+    }
+    
+    func begin(_ type: ToastType) {
+        
+    }
+    
+    func update(_ progress: CGFloat, text: String?) {
+        action.setTitle(text, for: .normal)
+        seekTo = Double(progress)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
