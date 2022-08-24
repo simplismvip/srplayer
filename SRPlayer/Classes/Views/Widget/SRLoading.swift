@@ -78,11 +78,11 @@ public class SRLoading: UIView {
 }
 
 extension SRLoading: Toast {
-    func update(_ progress: CGFloat, text: String?) {
+    public func update(_ progress: CGFloat, text: String?) {
         title.text = text
     }
     
-    func begin(_ type: ToastType) {
+    public func begin(_ type: ToastType) {
         start()
     }
     

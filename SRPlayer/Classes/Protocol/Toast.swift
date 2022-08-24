@@ -12,7 +12,7 @@ protocol ToastRight: UIView {
     func update(_ progress: CGFloat)
 }
 
-protocol Toast: UIView {
+public protocol Toast: UIView {
     func begin(_ type: ToastType)
     func update(_ progress: CGFloat, text: String?)
 }

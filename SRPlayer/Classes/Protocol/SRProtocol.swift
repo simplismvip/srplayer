@@ -30,7 +30,9 @@ public protocol SRBarrage: UIView {
 
 /// MARK: -- 浮动层协议
 public protocol SRFloat_P: UIView {
-
+    var toasts: [Toast] { get }
+    var units: [ToastType] { get set }
+    func showUnit(units: [ToastType], visible: Bool)
 }
 
 /// MARK: -- 遮罩层协议

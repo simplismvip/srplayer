@@ -10,9 +10,11 @@ import UIKit
 import ZJMKit
 
 public class SRFloatView: SRPierceView, SRFloat_P {
+    public var units: [ToastType] = [.none]
+    public var toasts: [Toast] = []
     private var toastView: Toast?
     private var type: ToastType = .none
-    
+
     public func show(_ type: ToastType) {
         if self.type == type || type == .none { return }
         self.type = type
@@ -33,6 +35,10 @@ public class SRFloatView: SRPierceView, SRFloat_P {
 }
 
 extension SRFloatView {
+    public func showUnit(units: [ToastType], visible: Bool) {
+        
+    }
+    
     private func setupViews(_ type: ToastType) {
         switch type {
         case .loading:
