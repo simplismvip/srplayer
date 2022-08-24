@@ -92,12 +92,12 @@ public class SRPlayerController: UIView {
     private func mainKvoBind() {
         volume.observe(Float.self, "currVolume") { [weak self] currVolume in
             if let volum = currVolume {
-                self?.view.floatView.show(.volume)
-                self?.view.floatView.update(CGFloat(volum))
+                self?.view.floatView.show(.volume(0.0))
+                self?.view.floatView.update(.volume(volum))
                 self?.volume.volumeDismiss = CFAbsoluteTimeGetCurrent()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     if CFAbsoluteTimeGetCurrent() - (self?.volume.volumeDismiss ?? 0) > 1.0 {
-                        self?.view.floatView.hide(.volume)
+                        self?.view.floatView.hide(.volume(0.0))
                     }
                 }
             }
@@ -125,7 +125,7 @@ extension SRPlayerController: SRPlayerGesture {
     private func brightness(_ offset: CGFloat) {
         JMLogger.debug("changed:左侧垂直滑动--亮度\(offset)")
         UIScreen.main.brightness -= offset
-        view.floatView.update(UIScreen.main.brightness)
+        view.floatView.update(.brightness(Float(UIScreen.main.brightness)))
     }
     
     private func setVolume(_ offset: CGFloat) {
@@ -148,7 +148,7 @@ extension SRPlayerController: SRPlayerGesture {
             model.panSeekOffsetTime = 0 - model.panSeekTargetTime;
         }
     
-        view.floatView.update(model.seekProgress, text: model.seekTimeString)
+        view.floatView.update(.seek(Float(model.seekProgress), model.seekTimeString))
     }
     
     // 发送最终seek to消息，执行
@@ -196,15 +196,15 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func panLeftVertical(_ player: UIView, state: GestureState) {
-        floatViewAction(state: state, type: .brightness)
+        floatViewAction(state: state, type: .brightness(0.0))
     }
     
     public func panRightVertical(_ player: UIView, state: GestureState) {
-        floatViewAction(state: state, type: .volume)
+        floatViewAction(state: state, type: .volume(0.0))
     }
     
     public func panHorizontal(_ player: UIView, state: GestureState) {
-        floatViewAction(state: state, type: .seek)
+        floatViewAction(state: state, type: .seek(0.0, ""))
     }
     
     public func longPress(_ state: GestureState) {

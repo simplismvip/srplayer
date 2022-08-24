@@ -36,13 +36,13 @@ enum ToastStatus {
 }
 
 public enum ToastType {
-    case seek        // 快进 快退
-    case longPress   // 长按快进
-    case volume      // 音量
-    case brightness  // 亮度
-    case loading     // 加载动画
-    case netSpeed    // 加载动画、网速
-    case seekAction    // 加载动画、网速
+    case seek(Float, String)   // 快进 快退
+    case longPress             // 长按快进
+    case volume (Float)        // 音量
+    case brightness(Float)     // 亮度
+    case loading               // 加载动画
+    case netSpeed(String)      // 加载动画、网速
+    case seekAction(Float, String)  // seek切换
     case screenShot(CGPoint, UIImage)  // 截屏
     case none        // 加载动画
     

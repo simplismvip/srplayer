@@ -9,44 +9,38 @@
 import UIKit
 import ZJMKit
 
-public struct FloatParma {
-    var type: ToastType
-    var progress: CGFloat = 0.0
-    var text: String = ""
-}
-
 public class SRFloatView: SRPierceView, SRFloat_P {
-    public var units: [ToastType] = [.none]
+    public var units: [ToastType] = []
     public var toasts: [Toast] = []
     
     public func show(_ type: ToastType) {
-        if units.contains(type) {
+        if !units.contain(type), let toast = setupViews(type) {
+            units.append(type)
             
-        } else {
-            if let toast = setupViews(type) {
-                units.append(type)
-                toasts.append(toast)
-                toast.begin(type)
-            }
+            toasts.append(toast)
+            toast.begin(type)
         }
     }
     
-    public func update(_ update: FloatParma) {
-//        toastView?.update(progress, text: text)
+    public func update(_ type: ToastType) {
+        current(type)?.update(type)
     }
     
     public func hide(_ type: ToastType) {
-//        toastView?.hide()
-//        toastView = nil
-        removellSubviews { _ in true }
+        if let toast = current(type) {
+            toast.hide()
+            if let index = units.jmIndex({ $0 == type }) {
+                units.remove(at: index)
+            }
+            
+            if let index = toasts.jmIndex({ $0.currType == type }) {
+                toasts.remove(at: index)
+            }
+        }
     }
 }
 
 extension SRFloatView {
-    public func showUnit(units: [ToastType], visible: Bool) {
-        
-    }
-    
     private func setupViews(_ type: ToastType) -> Toast? {
         switch type {
         case .loading:

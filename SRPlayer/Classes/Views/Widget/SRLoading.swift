@@ -80,8 +80,13 @@ public class SRLoading: UIView {
 }
 
 extension SRLoading: Toast {
-    public func update(_ update: FloatParma) {
-        title.text = update.text
+    public func update(_ type: ToastType) {
+        switch type {
+        case .netSpeed(let string):
+            title.text = string
+        default:
+            JMLogger.debug("")
+        }
     }
     
     public func begin(_ type: ToastType) {

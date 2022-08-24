@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 class ToastView<T: ToastRight>: UIView, Toast {
     public var currType: ToastType
@@ -45,8 +46,15 @@ class ToastView<T: ToastRight>: UIView, Toast {
         image.setImage(type.name.image, for: .normal)
     }
     
-    func update(_ update: FloatParma) {
-        right.update(update.progress)
+    func update(_ type: ToastType) {
+        switch type {
+        case .brightness(let value):
+            right.update(CGFloat(value))
+        case .volume(let value):
+            right.update(CGFloat(value))
+        default:
+            JMLogger.debug("")
+        }
     }
     
     required init?(coder: NSCoder) {

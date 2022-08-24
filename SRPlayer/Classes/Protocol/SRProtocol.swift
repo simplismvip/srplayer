@@ -32,7 +32,12 @@ public protocol SRBarrage: UIView {
 public protocol SRFloat_P: UIView {
     var toasts: [Toast] { get }
     var units: [ToastType] { get set }
-    func showUnit(units: [ToastType], visible: Bool)
+}
+
+extension SRFloat_P {
+    public func current(_ type: ToastType) -> Toast? {
+        return toasts.filter { $0.currType == type }.first
+    }
 }
 
 /// MARK: -- 遮罩层协议

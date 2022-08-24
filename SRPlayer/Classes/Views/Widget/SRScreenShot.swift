@@ -50,8 +50,6 @@ class SRScreenShot: UIView {
 }
 
 extension SRScreenShot: Toast {
-    
-    
     func begin(_ type: ToastType) {
         self.currType = type
         switch type {
@@ -63,5 +61,5 @@ extension SRScreenShot: Toast {
         }
     }
     
-    func update(_ update: FloatParma) { }
+    func update(_ type: ToastType) { }
 }

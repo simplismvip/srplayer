@@ -15,7 +15,7 @@ protocol ToastRight: UIView {
 public protocol Toast: UIView {
     var currType: ToastType { get set }
     func begin(_ type: ToastType)
-    func update(_ update: FloatParma)
+    func update(_ type: ToastType)
 }
 
 extension Toast {

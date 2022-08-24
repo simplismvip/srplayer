@@ -19,7 +19,7 @@ class QuickSeek: UIView, Toast {
         self.image = UIImageView()
         self.right = SRPlayerSlider()
         self.title = UILabel()
-        self.currType = .seek
+        self.currType = .seek(0.0, "")
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -61,9 +61,14 @@ class QuickSeek: UIView, Toast {
         title.text = "00:00/00:00"
     }
     
-    func update(_ update: FloatParma) {
-        right.updateValue(CGFloat(fabsf(Float(update.progress))))
-        title.text = update.text
+    public func update(_ type: ToastType) {
+        switch type {
+        case .seek(let value, let text):
+            right.updateValue(CGFloat(fabsf(value)))
+            title.text = text
+        default:
+            JMLogger.debug("")
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -77,7 +82,7 @@ class QuickAction: UIView, Toast {
     private var seekTo: Double?
     override init(frame: CGRect) {
         self.action = UIButton(type: .system)
-        self.currType = .seekAction
+        self.currType = .seekAction(0, "")
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -99,9 +104,14 @@ class QuickAction: UIView, Toast {
         self.currType = type
     }
     
-    func update(_ update: FloatParma) {
-        action.setTitle(update.text, for: .normal)
-        seekTo = Double(update.progress)
+    func update(_ type: ToastType) {
+        switch type {
+        case .seekAction(let value, let text):
+            seekTo = Double(value)
+            action.setTitle(text, for: .normal)
+        default:
+            JMLogger.debug("")
+        }
     }
     
     required init?(coder: NSCoder) {

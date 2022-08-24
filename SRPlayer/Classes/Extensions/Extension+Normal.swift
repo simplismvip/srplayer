@@ -223,7 +223,7 @@ extension SRPlayerNormalController {
         /// 卡顿展示loading和网速
         jmReciverMsg(msgName: kMsgNameNetBreakingUpStatus) { [weak self] _ in
             let current = NetSpeed.share.currNetSpeed(.all)
-            self?.view.floatView.update(0, text: current)
+            self?.view.floatView.update(.netSpeed(current))
             JMLogger.debug("卡顿展示loading和网速\(current)")
             return nil
         }
@@ -231,8 +231,8 @@ extension SRPlayerNormalController {
         /// 展示是否跳到之前播放的地方
         jmReciverMsg(msgName: kMsgNameShowSeekToPlayTime) { [weak self] videos in
             if let v = videos as? Video {
-                self?.view.floatView.show(.seekAction)
-                self?.view.floatView.update(v.currTime, text: "上次播放到\(Int(v.currTime).format)")
+                self?.view.floatView.show(.seekAction(0.0, ""))
+                self?.view.floatView.update(.seekAction(Float(v.currTime), "上次播放到\(Int(v.currTime).format)"))
                 JMLogger.debug("展示是否Seek进度")
             }
             return nil
