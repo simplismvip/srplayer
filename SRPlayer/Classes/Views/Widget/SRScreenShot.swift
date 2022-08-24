@@ -12,10 +12,11 @@ import Accelerate
 class SRScreenShot: UIView {
     public let title: UILabel
     public let image: UIImageView
-    
+    public var currType: ToastType
     override init(frame: CGRect) {
         self.title = UILabel(frame: .zero)
         self.image = UIImageView(frame: .zero)
+        self.currType = .screenShot(.zero, UIImage())
         super.init(frame: frame)
         backgroundColor = UIColor.black.jmComponent(0.6)
         layer.cornerRadius = 6
@@ -49,7 +50,10 @@ class SRScreenShot: UIView {
 }
 
 extension SRScreenShot: Toast {
+    
+    
     func begin(_ type: ToastType) {
+        self.currType = type
         switch type {
         case .screenShot(_, let image):
             self.image.image = image
@@ -59,5 +63,5 @@ extension SRScreenShot: Toast {
         }
     }
     
-    func update(_ progress: CGFloat, text: String?) { }
+    func update(_ update: FloatParma) { }
 }

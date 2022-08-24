@@ -10,6 +10,7 @@ import UIKit
 import ZJMKit
 
 class QuickSeek: UIView, Toast {
+    public var currType: ToastType
     private let image: UIImageView
     private let title: UILabel
     private let right: SRPlayerSlider
@@ -18,6 +19,7 @@ class QuickSeek: UIView, Toast {
         self.image = UIImageView()
         self.right = SRPlayerSlider()
         self.title = UILabel()
+        self.currType = .seek
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -54,13 +56,14 @@ class QuickSeek: UIView, Toast {
     }
     
     func begin(_ type: ToastType) {
+        self.currType = type
         image.image = type.name.image
         title.text = "00:00/00:00"
     }
     
-    func update(_ progress: CGFloat, text: String?) {
-        right.updateValue(CGFloat(fabsf(Float(progress))))
-        title.text = text
+    func update(_ update: FloatParma) {
+        right.updateValue(CGFloat(fabsf(Float(update.progress))))
+        title.text = update.text
     }
     
     required init?(coder: NSCoder) {
@@ -69,10 +72,12 @@ class QuickSeek: UIView, Toast {
 }
 
 class QuickAction: UIView, Toast {
+    public var currType: ToastType
     private let action: UIButton
     private var seekTo: Double?
     override init(frame: CGRect) {
         self.action = UIButton(type: .system)
+        self.currType = .seekAction
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -91,12 +96,12 @@ class QuickAction: UIView, Toast {
     }
     
     func begin(_ type: ToastType) {
-        
+        self.currType = type
     }
     
-    func update(_ progress: CGFloat, text: String?) {
-        action.setTitle(text, for: .normal)
-        seekTo = Double(progress)
+    func update(_ update: FloatParma) {
+        action.setTitle(update.text, for: .normal)
+        seekTo = Double(update.progress)
     }
     
     required init?(coder: NSCoder) {

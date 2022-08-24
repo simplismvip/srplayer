@@ -97,7 +97,7 @@ public class SRPlayerController: UIView {
                 self?.volume.volumeDismiss = CFAbsoluteTimeGetCurrent()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     if CFAbsoluteTimeGetCurrent() - (self?.volume.volumeDismiss ?? 0) > 1.0 {
-                        self?.view.floatView.hide()
+                        self?.view.floatView.hide(.volume)
                     }
                 }
             }
@@ -191,7 +191,7 @@ extension SRPlayerController: SRPlayerGesture {
             default:
                 JMLogger.debug("end")
             }
-            view.floatView.hide()
+            view.floatView.hide(type)
         }
     }
     

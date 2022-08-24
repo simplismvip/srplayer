@@ -48,7 +48,7 @@ extension SRPlayerNormalController {
             if model.loadState == .stateStalled {
                 self?.view.floatView.show(.netSpeed)
             } else {
-                self?.view.floatView.hide()
+                self?.view.floatView.hide(.netSpeed)
             }
         }.add(&disposes)
         

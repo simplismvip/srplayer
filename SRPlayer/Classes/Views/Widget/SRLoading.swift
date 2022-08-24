@@ -15,8 +15,10 @@ public class SRLoading: UIView {
     private let rightV = CAShapeLayer()
     private var r_radius: CGFloat = 6
     private let title = UILabel(frame: .zero)
+    public var currType: ToastType
     
     override init(frame: CGRect) {
+        self.currType = .loading
         super.init(frame: frame)
         
         layer.addSublayer(leftV)
@@ -78,11 +80,12 @@ public class SRLoading: UIView {
 }
 
 extension SRLoading: Toast {
-    public func update(_ progress: CGFloat, text: String?) {
-        title.text = text
+    public func update(_ update: FloatParma) {
+        title.text = update.text
     }
     
     public func begin(_ type: ToastType) {
+        self.currType = type
         start()
     }
     

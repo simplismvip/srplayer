@@ -9,27 +9,35 @@
 import UIKit
 import ZJMKit
 
+public struct FloatParma {
+    var type: ToastType
+    var progress: CGFloat = 0.0
+    var text: String = ""
+}
+
 public class SRFloatView: SRPierceView, SRFloat_P {
     public var units: [ToastType] = [.none]
     public var toasts: [Toast] = []
-    private var toastView: Toast?
-    private var type: ToastType = .none
-
+    
     public func show(_ type: ToastType) {
-        if self.type == type || type == .none { return }
-        self.type = type
-        setupViews(type)
-        toastView?.begin(type)
+        if units.contains(type) {
+            
+        } else {
+            if let toast = setupViews(type) {
+                units.append(type)
+                toasts.append(toast)
+                toast.begin(type)
+            }
+        }
     }
     
-    public func update(_ progress: CGFloat, text: String? = nil) {
-        toastView?.update(progress, text: text)
+    public func update(_ update: FloatParma) {
+//        toastView?.update(progress, text: text)
     }
     
-    public func hide() {
-        toastView?.hide()
-        toastView = nil
-        self.type = .none
+    public func hide(_ type: ToastType) {
+//        toastView?.hide()
+//        toastView = nil
         removellSubviews { _ in true }
     }
 }
@@ -39,11 +47,10 @@ extension SRFloatView {
         
     }
     
-    private func setupViews(_ type: ToastType) {
+    private func setupViews(_ type: ToastType) -> Toast? {
         switch type {
         case .loading:
             let loading = SRLoading()
-            self.toastView = loading
             addSubview(loading)
             loading.snp.makeConstraints { make in
                 make.width.equalTo(100)
@@ -51,9 +58,9 @@ extension SRFloatView {
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }
+            return loading
         case .netSpeed:
             let loading = SRLoading()
-            self.toastView = loading
             addSubview(loading)
             loading.snp.makeConstraints { make in
                 make.width.equalTo(100)
@@ -61,9 +68,9 @@ extension SRFloatView {
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }
+            return loading
         case .longPress:
             let toastView = ToastView(frame: .zero, right: UILabel())
-            self.toastView = toastView
             toastView.configText()
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
@@ -72,9 +79,9 @@ extension SRFloatView {
                 make.top.equalTo(snp.top).offset(50)
                 make.centerX.equalTo(snp.centerX)
             }
+            return toastView
         case .volume, .brightness:
             let toastView = ToastView(frame: .zero, right: SRPlayerSlider())
-            self.toastView = toastView
             toastView.configSlider()
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
@@ -83,9 +90,9 @@ extension SRFloatView {
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }
+            return toastView
         case .seek:
             let toastView = QuickSeek(frame: .zero)
-            self.toastView = toastView
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
                 make.width.equalTo(120)
@@ -93,9 +100,9 @@ extension SRFloatView {
                 make.centerY.equalTo(snp.centerY)
                 make.centerX.equalTo(snp.centerX)
             }
+            return toastView
         case .screenShot(let point, _):
             let screenShot = SRScreenShot(frame: .zero)
-            self.toastView = screenShot
             screenShot.begin(type)
             
             let offsetX = jmWidth - point.x
@@ -107,13 +114,9 @@ extension SRFloatView {
                 make.right.equalTo(snp.right).offset(-offsetX)
                 make.top.equalTo(snp.top).offset(offsetY)
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.hide()
-            }
+            return screenShot
         case .seekAction:
             let toastView = QuickAction(frame: .zero)
-            self.toastView = toastView
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
                 make.width.equalTo(100)
@@ -121,8 +124,10 @@ extension SRFloatView {
                 make.bottom.equalTo(snp.bottom).offset(-30)
                 make.left.equalTo(snp.left).offset(10)
             }
+            return toastView
         case .none:
             JMLogger.debug("None")
+            return nil
         }
     }
 }

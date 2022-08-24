@@ -8,12 +8,13 @@
 import UIKit
 
 class ToastView<T: ToastRight>: UIView, Toast {
+    public var currType: ToastType
     private let image: UIButton
     private let right: T
-    
     init(frame: CGRect, right: T) {
         self.image = UIButton()
         self.right = right
+        self.currType = .none
         super.init(frame: frame)
         
         backgroundColor = UIColor.black.jmComponent(0.5)
@@ -40,11 +41,12 @@ class ToastView<T: ToastRight>: UIView, Toast {
     }
     
     func begin(_ type: ToastType) {
+        currType = type
         image.setImage(type.name.image, for: .normal)
     }
     
-    func update(_ progress: CGFloat, text: String?) {
-        right.update(progress)
+    func update(_ update: FloatParma) {
+        right.update(update.progress)
     }
     
     required init?(coder: NSCoder) {

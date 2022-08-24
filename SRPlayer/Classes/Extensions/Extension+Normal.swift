@@ -179,7 +179,7 @@ extension SRPlayerNormalController {
         /// 开始播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
             JMLogger.debug("开始播放.....")
-            self?.view.floatView.hide()
+            self?.view.floatView.hide(.loading)
             return nil
         }
         
@@ -203,6 +203,9 @@ extension SRPlayerNormalController {
                let point = self?.barManager.right.convert(v.frame.origin, to: self?.view.floatView) {
                 let screen = ToastType.screenShot(point, thumbImage)
                 self?.view.floatView.show(screen)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self?.view.floatView.hide(.screenShot(CGPoint.zero, UIImage()))
+                }
             } else {
                 SRToast.toast("截图失败！")
             }
