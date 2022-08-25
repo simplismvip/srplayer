@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 import SRPlayer
 import SnapKit
 
@@ -41,7 +42,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testAction(_ sender: Any) {
-        navigationController?.pushViewController(TestController(), animated: true)
+        jmShowAlert("在线视频", nil, "输入视频URL") { urlStr in
+            if let urlStr = urlStr, let url = URL(string: urlStr), self.checkout(url.scheme) {
+                let video = PlayerBulider.Video(videoUrl: url, title: url.lastPathComponent, cover: "", size: "720x1080")
+                let build = PlayerBulider(video: video, streamType: .vod)
+                let dcv = DetailController(build: build)
+                self.navigationController?.pushViewController(dcv, animated: true)
+            } else {
+                JMTextToast.share.jmShowString(text: "输入地址错误", seconds: 1)
+                JMLogger.error("输入地址错误：\(String(describing: urlStr))")
+            }
+        }
+        // navigationController?.pushViewController(TestController(), animated: true)
+    }
+    
+    func checkout(_ scheme: String?) -> Bool {
+        return ["rtsp", "rtsp", "http"].contains(scheme)
     }
 }
 
@@ -65,6 +81,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(DetailController(dataSource[indexPath.row].type), animated: true)
+        if let model = DataParser<Results>.decode(name: dataSource[indexPath.row].type.name, bundle: .main)?.results.first {
+            let dcv = DetailController(model: model)
+            navigationController?.pushViewController(dcv, animated: true)
+        }
     }
 }

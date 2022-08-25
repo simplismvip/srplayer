@@ -24,12 +24,29 @@ class DetailController: ViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    init(_ type: SourceType) {
-        let contain = [SourceType.home, SourceType.vod, SourceType.local].contains(type)
+    init(stype: SourceType) {
+        let contain = [SourceType.home, SourceType.vod, SourceType.local].contains(stype)
         self.player = SRPlayerNormalController(contain ? .vod : .living)
         self.request = SRMoreDataRequest()
         super.init(nibName: nil, bundle: nil)
-        self.type = type
+        self.type = stype
+    }
+    
+    init(build: PlayerBulider) {
+        self.player = SRPlayerNormalController(build.stream)
+        self.request = SRMoreDataRequest()
+        super.init(nibName: nil, bundle: nil)
+        self.startPlay(build)
+        self.type = .living
+    }
+    
+    init(model: Model) {
+        let contain = [SourceType.home, SourceType.vod, SourceType.local].contains(model.type)
+        self.player = SRPlayerNormalController(contain ? .vod : .living)
+        self.request = SRMoreDataRequest()
+        super.init(nibName: nil, bundle: nil)
+        self.type = model.type
+        self.startPlay(model)
     }
     
     required init?(coder: NSCoder) {
@@ -70,21 +87,7 @@ class DetailController: ViewController {
     func registerEvent() {
         jmRegisterEvent(eventName: kEventNameStartPlayDemoVideo, block: { [weak self] model in
             if let m = model as? Model {
-                if m.type == .local {
-                    // let url = Bundle.main.url(forResource: m.url, withExtension: "MOV")
-                    if let url = URL(string: "/Users/jh/Desktop/dragon.mkv") {
-                        let video = PlayerBulider.Video(videoUrl: url, title: m.title, cover:  m.image, resolution: "720x1080")
-                        let build = PlayerBulider(video: video, streamType: .vod)
-                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-                    }
-                } else {
-                    if let url = URL(string: m.url) {
-                        let video = PlayerBulider.Video(videoUrl: url, title: m.title, cover:  m.image, resolution: "720x1080")
-                        let build = PlayerBulider(video: video, streamType: (m.type == .vod) ? .vod : .live)
-                        self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-                    }
-                }
-                JMLogger.debug(m.title)
+                self?.startPlay(m)
             }
         }, next: false)
         
@@ -101,6 +104,34 @@ class DetailController: ViewController {
         }, next: false)
     }
     
+    // 开始播放
+    func startPlay(_ build: PlayerBulider) {
+        // et url = URL(string: "/Users/jh/Desktop/dragon.mkv")
+        player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+    }
+    
+    func startPlay(_ model: Model) {
+        if model.type == .local {
+            if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
+                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
+                let build = PlayerBulider(video: video, streamType: .vod)
+                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+            }
+        } else {
+            if let url = URL(string: model.url) {
+                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
+                let build = PlayerBulider(video: video, streamType: (model.type == .vod) ? .vod : .living)
+                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+            }
+        }
+    }
+    
+    deinit {
+        JMLogger.error("类DetailController已经释放")
+    }
+}
+
+extension DetailController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "DetailViewCell")
         if cell == nil {
@@ -115,8 +146,13 @@ class DetailController: ViewController {
         return 200.0
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
+}
+
+
+extension DetailController {
+    override var shouldAutorotate: Bool {
+        return true
     }
     
     func test() {
@@ -149,15 +185,5 @@ class DetailController: ViewController {
 //            self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
 //        }
 //        JMLogger.debug(m.title)
-    }
-    
-    deinit {
-        JMLogger.error("类DetailController已经释放")
-    }
-}
-
-extension DetailController {
-    override var shouldAutorotate: Bool {
-        return true
     }
 }

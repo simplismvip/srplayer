@@ -12,7 +12,6 @@ public class SRBkgView: SRPierceView {
     private let imageView: UIImageView
     public override init(frame: CGRect) {
         imageView = UIImageView()
-//        imageView.isUserInteractionEnabled = true
         super.init(frame: frame)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -35,5 +34,7 @@ public class SRBkgView: SRPierceView {
 }
 
 extension SRBkgView: SRBackground {
-    
+    public func configBkg(_ image: UIImage?) {
+        imageView.image = image
+    }
 }

@@ -20,6 +20,7 @@ public protocol SRPierce {
 
 /// MARK: -- 背景层协议
 public protocol SRBackground: UIView {
+    func configBkg(_ image: UIImage?)
 
 }
 

@@ -8,11 +8,6 @@
 
 import UIKit
 
-public enum VideoType {
-    case vod
-    case living
-}
-
 public enum SpeedType {
     case recv
     case sent

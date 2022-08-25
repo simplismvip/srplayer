@@ -21,6 +21,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="UWP-hj-iVi">
+                        <barButtonItem key="leftBarButtonItem" title="添加URL" id="Zls-Uo-kKm"/>
                         <barButtonItem key="rightBarButtonItem" title="测试" id="LcA-8o-oXa">
                             <connections>
                                 <action selector="testAction:" destination="vXZ-lx-hvc" id="Gb7-Qe-wAP"/>

@@ -34,8 +34,8 @@ class SRIjkPlayer: NSObject {
         // self.ijkKvo = IJKKVOController(target: self)
         ijkPlayer.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         ijkPlayer.scalingMode = build.scaMode.transTo()
-        ijkPlayer.allowsMediaAirPlay = build.mirror
-        ijkPlayer.shouldAutoplay = build.autoPlay
+        ijkPlayer.allowsMediaAirPlay = build.config.mirror
+        ijkPlayer.shouldAutoplay = build.config.autoPlay
         ijkPlayer.prepareToPlay()
         addPlayerObserver()
         
@@ -124,7 +124,7 @@ extension SRIjkPlayer {
 /// IJKPlayer - Set
 extension SRIjkPlayer: VideoPlayer {
     public func seekto(_ seekTo: CGFloat) {
-        if ijkPlayer.isPreparedToPlay, streamType == .live {
+        if ijkPlayer.isPreparedToPlay, streamType == .living {
             return
         }
         

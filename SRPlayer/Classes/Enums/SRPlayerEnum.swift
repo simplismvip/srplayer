@@ -24,7 +24,7 @@ public enum ScreenState {
 // 流类型
 public enum StreamType: Int {
     case vod = 0   // 锁定
-    case live = 1  // 解锁
+    case living = 1  // 解锁
 }
 
 extension StreamType: Codable { }

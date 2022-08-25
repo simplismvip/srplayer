@@ -9,8 +9,8 @@ import UIKit
 import ZJMKit
 
 public class SRPlayerNormalController: SRPlayerController {
-    let videoType: VideoType
-    public init(_ type: VideoType) {
+    let videoType: StreamType
+    public init(_ type: StreamType) {
         self.videoType = type
         super.init(frame: .zero)
         configFlow()
