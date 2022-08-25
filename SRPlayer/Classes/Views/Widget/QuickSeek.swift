@@ -88,11 +88,14 @@ class QuickAction: UIView, FloatToast {
         backgroundColor = UIColor.black.jmComponent(0.5)
         layer.cornerRadius = 10
         layer.masksToBounds = true
+        action.setTitleColor(UIColor.white, for: .normal)
+        action.titleLabel?.font = UIFont.jmRegular(12)
         
-        action.titleLabel?.jmConfigLabel(alig: .center, font: UIFont.jmRegular(12), color: UIColor.white)
         addSubview(action)
         action.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.top.height.equalTo(self)
+            make.left.equalTo(self).offset(8)
+            make.right.equalTo(self.snp.right).offset(-8)
         }
         
         action.jmAddAction { [weak self] _ in

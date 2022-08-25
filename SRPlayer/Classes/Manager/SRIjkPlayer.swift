@@ -11,17 +11,17 @@ import ZJMKit
 import IJKMediaFramework
 
 class SRIjkPlayer: NSObject {
-    /** 显示视频的视图 */
+    /// 显示视频的视图
     let view: UIView
-    /** 播放流类型 */
+    /// 播放流类型
     var streamType: StreamType
-    // 当前播放的视频资源
+    /// 当前播放的视频资源
     var videoInfo: PlayerBulider.Video
-    /** 播放器 */
+    /// 播放器
     private var ijkPlayer: IJKFFMoviePlayerController
-    /** kvo监听 */
+    /// kvo监听
     private var ijkKvo: IJKKVOController?
-    /** 开启时间循环 */
+    /// 开启时间循环
     private var timer: Timer?
     
     init(_ build: PlayerBulider) {
@@ -124,9 +124,13 @@ extension SRIjkPlayer {
 
 /// IJKPlayer - Set
 extension SRIjkPlayer: VideoPlayer {
-    public func seekto(_ offset: CGFloat) {
-        if offset < ijkPlayer.duration {
-            ijkPlayer.currentPlaybackTime += offset
+    public func seekto(_ seekTo: CGFloat) {
+        if ijkPlayer.isPreparedToPlay, streamType == .live {
+            return
+        }
+        
+        if seekTo < ijkPlayer.duration {
+            ijkPlayer.currentPlaybackTime = seekTo
         }
     }
     
@@ -207,14 +211,15 @@ extension SRIjkPlayer {
     
     @objc func loadStateDidChange(_ notification: Notification) {
         if ijkPlayer.loadState.contains(.playthroughOK) {
-            JMLogger.debug("playthroughOK")
+            JMLogger.debug("Player👍👍👍👍: playthroughOK")
+            jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
             if !ijkPlayer.shouldAutoplay {
                 self.startPlay()
             }
         } else if ijkPlayer.loadState.contains(.stalled) {
-            JMLogger.debug("stateStalled")
+            JMLogger.debug("Player👍👍👍👍: stateStalled")
         } else {
-            JMLogger.debug("loadStateDidChange: ???: \n")
+            JMLogger.debug("Player👍👍👍👍:loadStateDidChange: ???: \n")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }
@@ -223,13 +228,13 @@ extension SRIjkPlayer {
         let reason = notification.userInfo?[IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey] as! Int
         switch reason {
         case FinishReason.ended.ijk:
-            JMLogger.debug("Finish Ended: \(reason)\n")
+            JMLogger.debug("Player👍👍👍👍: Finish Ended: \(reason)\n")
         case FinishReason.exited.ijk:
-            JMLogger.debug("Finish UserExited: \(reason)\n")
+            JMLogger.debug("Player👍👍👍👍: Finish UserExited: \(reason)\n")
         case FinishReason.error.ijk:
-            JMLogger.debug("Finish PlaybackError: \(reason)\n")
+            JMLogger.debug("Player👍👍👍👍: Finish PlaybackError: \(reason)\n")
         default:
-            JMLogger.debug("Finish: ???: \(reason)\n")
+            JMLogger.debug("Player👍👍👍👍: Finish: ???: \(reason)\n")
         }
         stopPlayer()
         jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
@@ -237,27 +242,29 @@ extension SRIjkPlayer {
     }
     
     @objc func mediaIsPreparedToPlayDidChange(notification: Notification) {
-        JMLogger.debug("mediaIsPreparedToPlayDidChange\n")
+        JMLogger.debug("Player👍👍👍👍: mediaIsPreparedToPlayDidChange\n")
         jmSendMsg(msgName: kMsgNamePrepareToPlay, info: nil)
     }
     
     @objc func moviePlayBackStateDidChange(_ notification: Notification) {
         switch ijkPlayer.playbackState {
         case .playing:
-            JMLogger.debug("playing: playing")
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: playing")
             jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
         case .paused:
-            JMLogger.debug("pause: paused")
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: paused")
         case .stopped:
-            JMLogger.debug("stopped: stopped")
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: stopped")
             jmSendMsg(msgName: kMsgNamePausePlayEnding, info: nil)
         case .interrupted:
             jmSendMsg(msgName: kMsgNamePlayerUnknowError, info: nil)
-            JMLogger.debug("interrupted: interrupted")
-        case .seekingForward, .seekingBackward:
-            JMLogger.debug("seekingBackward: seeking")
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: interrupted")
+        case .seekingForward:
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: seekingForward")
+        case .seekingBackward:
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: seekingBackward")
         @unknown default:
-            JMLogger.debug("seekingBackward: seeking")
+            JMLogger.debug("Player👍👍👍👍: PlayBackState: seeking")
         }
         jmSendMsg(msgName: kMsgNameRefreashPlayerStatus, info: nil)
     }

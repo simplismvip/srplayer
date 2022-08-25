@@ -154,6 +154,34 @@ extension SRPlayerNormalController {
                 self?.jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
             }
         }, next: false)
+        
+        // 开始拖动滑块Seek
+        jmRegisterEvent(eventName: kEventNameSliderBeginChangeValue, block: { [weak self] seekTo in
+            self?.view.floatView.show(.seek(0, ""))
+            // 设置seek状态
+            self?.flowManager.model(SRPlayFlow.self)?.isSeeking = true
+        }, next: false)
+        
+        // 正在拖动滑块Seek
+        jmRegisterEvent(eventName: kEventNameSliderDidChangeValue, block: { [weak self] cvalue in
+            if let model = self?.flowManager.model(SRPlayFlow.self), let offset = cvalue as? CGFloat {
+                let value = String(format: "%@/%@", Int(model.duration * offset).format, Int(model.duration).format)
+                self?.view.floatView.update(.seek(Float(offset), value))
+            }
+        }, next: false)
+        
+        // 结束拖动滑块Seek
+        jmRegisterEvent(eventName: kEventNameSliderEndChangeValue, block: { [weak self] seekTo in
+            self?.view.floatView.hide(.seek(0, ""))
+            if let model = self?.flowManager.model(SRPlayFlow.self), let offset = seekTo as? CGFloat {
+                self?.jmSendMsg(msgName: kMsgNameActionSeekTo, info: (model.duration * offset) as MsgObjc)
+            }
+        }, next: false)
+        
+        // 结束拖动滑块Seek
+        jmRegisterEvent(eventName: kEventNameSliderCancleChangeValue, block: { [weak self] seekTo in
+            self?.view.floatView.hide(.seek(0, ""))
+        }, next: false)
     }
 }
 

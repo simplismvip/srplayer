@@ -123,14 +123,14 @@ struct ItemFactory {
     
     static func titleItem(title: String, itemStyle: ItemStyle) -> SRPlayerTextItem {
         if itemStyle == .curTime {
-            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .clockwise, location: .bottom, font: UIFont.jmRegular(12))
+            let item = SRPlayerTextItem(title: title, itemStyle: itemStyle, direction: .clockwise, location: .bottom, font: UIFont.jmRegular(12))
             item.size = CGSize(width: 0, height: 34)
             return item
         } else if itemStyle == .title {
-            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .stretchable, location: .top, font: UIFont.jmRegular(15))
+            let item = SRPlayerTextItem(title: title, itemStyle: itemStyle, direction: .stretchable, location: .top, font: UIFont.jmRegular(15))
             return item
         } else {
-            let item = SRPlayerTextItem(text: title, itemStyle: itemStyle, direction: .anticlockwis, location: .bottom, font: UIFont.jmRegular(12))
+            let item = SRPlayerTextItem(title: title, itemStyle: itemStyle, direction: .anticlockwis, location: .bottom, font: UIFont.jmRegular(12))
             item.size = CGSize(width: 0, height: 34)
             return item
         }

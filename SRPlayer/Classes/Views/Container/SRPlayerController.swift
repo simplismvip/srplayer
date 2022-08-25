@@ -154,6 +154,7 @@ extension SRPlayerController: SRPlayerGesture {
     // 发送最终seek to消息，执行
     private func seekEnd() {
         guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
+        model.isSeeking = true // 设置seek状态
         let offset = model.panSeekTargetTime + model.panSeekOffsetTime
         jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
         model.panSeekOffsetTime = 0.0
@@ -196,11 +197,11 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     public func panLeftVertical(_ player: UIView, state: GestureState) {
-        floatViewAction(state: state, type: .brightness(0.0))
+        floatViewAction(state: state, type: .brightness(Float(UIScreen.main.brightness)))
     }
     
     public func panRightVertical(_ player: UIView, state: GestureState) {
-        floatViewAction(state: state, type: .volume(0.0))
+        floatViewAction(state: state, type: .volume(self.volume.currVolume))
     }
     
     public func panHorizontal(_ player: UIView, state: GestureState) {

@@ -31,8 +31,8 @@ class SRPlayerSlider: UIControl {
     }
     
     /* From 0 to 1 */
-    var value: CGFloat = 0.0
-    let thumbImageView: UIImageView
+    public var value: CGFloat = 0.0
+    public let thumbImageView: UIImageView
     
     private var loadFirst: Bool = true
     private let minTrackColorLayer: CALayer
@@ -47,6 +47,7 @@ class SRPlayerSlider: UIControl {
         minTrackTintColor = UIColor.red
         maxTrackTintColor = UIColor.green
         super.init(frame: frame)
+        
         thumbImageView.layer.cornerRadius = 4
         thumbImageView.backgroundColor = UIColor.cyan
         
@@ -62,6 +63,12 @@ class SRPlayerSlider: UIControl {
 
         thumbImageView.backgroundColor = UIColor.white
         thumbImageView.contentMode = .scaleAspectFit
+        
+        addTarget(self, action: #selector(sliderChangeValue(_:)), for: .valueChanged)
+        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpInside)
+        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpOutside)
+        addTarget(self, action: #selector(sliderChangeValueCanceled(_:)), for: .touchCancel)
+        addTarget(self, action: #selector(sliderValueBeganChange(_:)), for: .touchDown)
     }
 
     func updateValue(_ value: CGFloat) {
@@ -151,31 +158,26 @@ extension SRPlayerSlider: SRItemButton {
         minTrackTintColor = item.minTintColor
         maxTrackTintColor = item.maxTintColor
         updateValue(item.value)
-        item.observe(CGFloat.self, "value") { [weak self] newImage in
-            self?.updateValue(newImage ?? 0)
-        }.add(&disposes)
         
-        addTarget(self, action: #selector(sliderChangeValue(_:)), for: .valueChanged)
-        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpInside)
-        addTarget(self, action: #selector(sliderChangeValueEnd(_:)), for: .touchUpOutside)
-        addTarget(self, action: #selector(sliderChangeValueCanceled(_:)), for: .touchCancel)
-        addTarget(self, action: #selector(sliderValueBeganChange(_:)), for: .touchDown)
+        item.observe(CGFloat.self, "value") { [weak self] newValue in
+            self?.updateValue(newValue ?? 0)
+        }.add(&disposes)
     }
     
     @objc func sliderChangeValue(_ slider: SRPlayerSlider) {
-        
+        jmRouterEvent(eventName: kEventNameSliderDidChangeValue, info: slider.value as MsgObjc)
     }
     
     @objc func sliderChangeValueEnd(_ slider: SRPlayerSlider) {
-        
+        jmRouterEvent(eventName: kEventNameSliderEndChangeValue, info: slider.value as MsgObjc)
     }
     
     @objc func sliderChangeValueCanceled(_ slider: SRPlayerSlider) {
-        
+        jmRouterEvent(eventName: kEventNameSliderCancleChangeValue, info: slider.value as MsgObjc)
     }
     
     @objc func sliderValueBeganChange(_ slider: SRPlayerSlider) {
-        
+        jmRouterEvent(eventName: kEventNameSliderBeginChangeValue, info: slider.value as MsgObjc)
     }
 }
 

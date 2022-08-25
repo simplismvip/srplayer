@@ -120,26 +120,30 @@ public let kEventNameBrightLightAction = "kEventNameBrightLightAction"
 public let kEventNameScaleModeAction = "kEventNameScaleModeAction"
 /// 点击确认Seek
 public let kEventNameActionSeekToPlayTime = "kEventNameActionSeekToPlayTime"
+/// 开始拖动滑块seek
+public let kEventNameSliderBeginChangeValue = "kEventNameSliderBeginChangeValue"
+/// 正在拖动滑块seek
+public let kEventNameSliderDidChangeValue = "kEventNameSliderDidChangeValue"
+/// 结束拖动滑块seek
+public let kEventNameSliderEndChangeValue = "kEventNameSliderEndChangeValue"
+/// 取消拖动滑块seek
+public let kEventNameSliderCancleChangeValue = "kEventNameSliderCancleChangeValue"
 
 
 
 
 
 
-/// 切换语音和文本输入
-public let kEventNameVoiceTouchDragInside = "kEventNameVoiceTouchDragInside"
-/// 切换语音和文本输入
-public let kEventNameVoiceTouchDragOutside = "kEventNameVoiceTouchDragOutside"
-/// 更多键盘点击
-public let kEventNameVoiceTouchUpInside = "kEventNameVoiceTouchUpInside"
+
+
+
+
 /// 点击确定发送消息
 public let kEventNameVoiceTouchUpOutside = "kEventNameVoiceTouchUpOutside"
 /// 点击图片消息消息
 public let kEventNameDidSelectImage = "kEventNameDidSelectImage"
 /// 点击图文混合消息
 public let kEventNameDidSelectImageAndText = "kEventNameDidSelectImageAndText"
-
-
 /// 弹出文本键盘
 public let kEventNameKeyboardWeakup = "kEventNameKeyboardWeakup"
 /// 更新群组

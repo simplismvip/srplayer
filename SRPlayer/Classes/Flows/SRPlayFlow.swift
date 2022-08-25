@@ -41,7 +41,7 @@ class SRPlayFlow: NSObject {
         }
     }
     
-    private func seekPlayTime() {
+    private func checkLastPlayTime() {
         if let info = player?.videoInfo,
             let video = SRDBManager.share.queryDB(info) {
             if video.currTime > model.currentTime {
@@ -51,21 +51,20 @@ class SRPlayFlow: NSObject {
     }
     
     private func refrashStatus() {
-        guard let ijkPlayer = self.player else {
-            return
-        }
+        guard let ijkPlayer = self.player else { return }
         model.isPlaying = ijkPlayer.isPlaying()
+        model.isPrepareToPlay = ijkPlayer.isPrepareToPlay()
         model.playableDuration = ijkPlayer.getPlayableDuration()
-        model.duration = ijkPlayer.getDuration()
-        model.currentTime = ijkPlayer.getCurrentPlaybackTime()
-        model.playbackVolume = ijkPlayer.getVolume()
-        model.cacheDuration = ijkPlayer.getVideoCacheDuration()
         model.playState = ijkPlayer.getPlayState()
         model.loadState = ijkPlayer.getLoadState()
         model.scalingMode = ijkPlayer.getScalingMode()
         model.naturalSize = ijkPlayer.getNaturalSize()
         model.playbackVolume = ijkPlayer.getVolume()
         model.playbackRate = ijkPlayer.getPlaybackRate()
+        model.duration = ijkPlayer.getDuration()
+        model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+        model.playbackVolume = ijkPlayer.getVolume()
+        model.cacheDuration = ijkPlayer.getVideoCacheDuration()
     }
     
     deinit {
@@ -80,7 +79,8 @@ extension SRPlayFlow: SRFlow {
     func registerObserver() {
         /// 准备播放
         jmReciverMsg(msgName: kMsgNamePrepareToPlay) { [weak self] _ in
-            self?.model.isPrepareToPlay = true
+            self?.refrashStatus()
+            self?.checkLastPlayTime()
             if let video = self?.player?.videoInfo {
                 SRDBManager.share.insertDB(video)
             }
@@ -92,7 +92,7 @@ extension SRPlayFlow: SRFlow {
         jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
             self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
             self?.refrashStatus()
-            self?.seekPlayTime()
+            self?.model.isSeeking = false // 开始播放重置seek状态
             JMLogger.debug("开始播放.....")
             return nil
         }

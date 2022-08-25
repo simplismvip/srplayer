@@ -83,13 +83,9 @@ public class SRPlayerButtonItem: SRPlayerItem {
     }
 }
 
-public class SRPlayerSliderItem: SRPlayerItem {
-//    public var dragBegin: String?
-//    public var draging: String?
-//    public var dragEnded: String?
-    
+public class SRPlayerSliderItem: SRPlayerItem {    
     /* From 0 to 1 default 0 */
-    @objc dynamic public var value: CGFloat = 0
+    @objc dynamic public var value: CGFloat
     @objc dynamic public var thumbImage: UIImage?
     public let minTintColor: UIColor
     public let maxTintColor: UIColor
@@ -97,6 +93,7 @@ public class SRPlayerSliderItem: SRPlayerItem {
     init(_ thumbImage: UIImage?, value: CGFloat) {
         self.minTintColor = UIColor.white
         self.maxTintColor = UIColor.gray
+        self.value = 0
         super.init(.slider, direction: .stretchable, location: .bottom)
         self.className = "SRPlayerSlider"
         self.value = value
@@ -104,11 +101,11 @@ public class SRPlayerSliderItem: SRPlayerItem {
 }
 
 public class SRPlayerTextItem: SRPlayerItem {
-    @objc dynamic public var text: String?
+    @objc dynamic public var title: String?
     public var font: UIFont?
-    init(text: String?, itemStyle: ItemStyle, direction: Direction, location: Location, font: UIFont?) {
+    init(title: String?, itemStyle: ItemStyle, direction: Direction, location: Location, font: UIFont?) {
         super.init(itemStyle, direction: direction, location: location)
-        self.text = text
+        self.title = title
         self.font = font
         self.className = "SRPlayerText"
     }

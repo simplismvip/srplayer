@@ -71,7 +71,8 @@ class DetailController: ViewController {
         jmRegisterEvent(eventName: kEventNameStartPlayDemoVideo, block: { [weak self] model in
             if let m = model as? Model {
                 if m.type == .local {
-                    if let url = Bundle.main.url(forResource: m.url, withExtension: "MOV") {
+                    // let url = Bundle.main.url(forResource: m.url, withExtension: "MOV")
+                    if let url = URL(string: "/Users/jh/Desktop/dragon.mkv") {
                         let video = PlayerBulider.Video(videoUrl: url, title: m.title, cover:  m.image, resolution: "720x1080")
                         let build = PlayerBulider(video: video)
                         self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)

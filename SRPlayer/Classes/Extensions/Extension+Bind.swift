@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ZJMKit
 
 // KVO 绑定
 extension SRPlayerNormalController {
@@ -20,7 +21,10 @@ extension SRPlayerNormalController {
         let tolTimeItem = self.barManager.bottom.buttonItem(.tolTime)
         
         model.observe(TimeInterval.self, "currentTime") { currentTime in
-            sliderItem?.value = model.progress
+            if !model.isSeeking { // seek状态屏蔽进度
+                sliderItem?.value = model.progress
+            }
+            
             if let currTime = currentTime {
                 curTimeItem?.title = Int(currTime).format
                 tolTimeItem?.title = Int(model.duration).format
@@ -44,15 +48,16 @@ extension SRPlayerNormalController {
             scaleItem?.image = imagename
         }.add(&disposes)
         
-        model.observe(String.self, "loadingStatue") { [weak self] loadingStatue in
+        model.observe(String.self, "loadingStatue") { [weak self] _ in
+            let current = NetSpeed.share.currNetSpeed(.all)
             if model.loadState == .stateStalled {
-                self?.view.floatView.show(.netSpeed(""))
+                self?.view.floatView.show(.netSpeed(current))
             } else {
-                self?.view.floatView.hide(.netSpeed(""))
+                self?.view.floatView.hide(.netSpeed(current))
             }
         }.add(&disposes)
         
-        let titleItem = self.barManager.top.buttonItem(.title)
+        let titleItem = self.barManager.top.titleItem()
         model.observe(String.self, "videoTitle") { videoTitle in
             titleItem?.title = videoTitle
         }.add(&disposes)

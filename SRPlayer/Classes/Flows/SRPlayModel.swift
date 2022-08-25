@@ -10,6 +10,8 @@ import UIKit
 
 class SRPlayModel: NSObject {
     @objc dynamic var isPlaying: Bool = false
+    // 设置seek状态后回屏蔽进度kvo监听，因为滑动Slider时设置进度会导致Slider闪
+    @objc dynamic var isSeeking: Bool = false
     @objc dynamic var isPrepareToPlay: Bool = false
     @objc dynamic var airPlayMediaActive: Bool = false
     @objc dynamic var duration: TimeInterval = 0
@@ -65,6 +67,7 @@ extension SRPlayModel {
         }
     }
     
+    // 是否静音
     var isMute: Bool {
         return playbackVolume > 0
     }
@@ -74,6 +77,7 @@ extension SRPlayModel {
         return String(format: "%@/%@", Int(panSeekTargetTime + panSeekOffsetTime).format, Int(duration).format)
     }
     
+    // seek进度
     var seekProgress: Double {
         return (panSeekTargetTime + panSeekOffsetTime) / duration
     }
