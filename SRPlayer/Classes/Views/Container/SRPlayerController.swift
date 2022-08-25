@@ -87,6 +87,7 @@ public class SRPlayerController: UIView {
                 }
             }
         }
+        view.floatView.remakeSubFloat(.seekAction(0, ""), screenType: type)
     }
     
     private func mainKvoBind() {
@@ -138,10 +139,6 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     private func seekChange(_ offset: CGFloat) {
-        if !view.playerView.horiPanEnable {
-            return
-        }
-        
         guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
         model.panSeekOffsetTime += offset
         if (model.panSeekTargetTime + model.panSeekOffsetTime > model.duration) {

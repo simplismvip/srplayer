@@ -34,6 +34,26 @@ public class SRFloatView: SRPierceView, SRFloat_P {
             }
         }
     }
+    
+    public func remakeSubFloat(_ type: ToastType, screenType: ScreenType) {
+        if let toastView = current(type) {
+            switch type {
+            case .seekAction:
+                toastView.snp.remakeConstraints { make in
+                    if #available(iOS 11, *), screenType == .full {
+                        make.left.equalTo(self.safeAreaLayoutGuide.snp.left).offset(10)
+                        make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-40)
+                    } else {
+                        make.bottom.equalTo(snp.bottom).offset(-30)
+                        make.left.equalTo(snp.left).offset(10)
+                    }
+                    make.height.equalTo(30)
+                }
+            default:
+                JMLogger.debug("floatView remakeConstraint")
+            }
+        }
+    }
 }
 
 extension SRFloatView {
@@ -109,7 +129,6 @@ extension SRFloatView {
             let toastView = QuickAction(frame: .zero)
             addSubview(toastView)
             toastView.snp.makeConstraints { make in
-//                make.width.equalTo(100)
                 make.height.equalTo(30)
                 make.bottom.equalTo(snp.bottom).offset(-30)
                 make.left.equalTo(snp.left).offset(10)

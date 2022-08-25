@@ -152,6 +152,7 @@ extension SRPlayerNormalController {
         jmRegisterEvent(eventName: kEventNameActionSeekToPlayTime, block: { [weak self] seekTo in
             if let offset = seekTo {
                 self?.jmSendMsg(msgName: kMsgNameActionSeekTo, info: offset as MsgObjc)
+                self?.view.floatView.hide(.seekAction(0.0, ""))
             }
         }, next: false)
         
@@ -230,7 +231,7 @@ extension SRPlayerNormalController {
                let v = self?.barManager.right.findView(screenShot),
                let point = self?.barManager.right.convert(v.frame.origin, to: self?.view.floatView) {
                 self?.view.floatView.show(.screenShot(point, thumbImage))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self?.view.floatView.hide(.screenShot(CGPoint.zero, UIImage()))
                 }
             } else {
@@ -260,6 +261,9 @@ extension SRPlayerNormalController {
             if let v = videos as? Video {
                 self?.view.floatView.show(.seekAction(0.0, ""))
                 self?.view.floatView.update(.seekAction(Float(v.currTime), "上次播放到\(Int(v.currTime).format)"))
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self?.view.floatView.hide(.seekAction(0.0, ""))
+                }
                 JMLogger.debug("展示是否Seek进度")
             }
             return nil
