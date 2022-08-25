@@ -74,13 +74,13 @@ class DetailController: ViewController {
                     // let url = Bundle.main.url(forResource: m.url, withExtension: "MOV")
                     if let url = URL(string: "/Users/jh/Desktop/dragon.mkv") {
                         let video = PlayerBulider.Video(videoUrl: url, title: m.title, cover:  m.image, resolution: "720x1080")
-                        let build = PlayerBulider(video: video)
+                        let build = PlayerBulider(video: video, streamType: .vod)
                         self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
                     }
                 } else {
                     if let url = URL(string: m.url) {
                         let video = PlayerBulider.Video(videoUrl: url, title: m.title, cover:  m.image, resolution: "720x1080")
-                        let build = PlayerBulider(video: video)
+                        let build = PlayerBulider(video: video, streamType: (m.type == .vod) ? .vod : .live)
                         self?.player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
                     }
                 }

@@ -121,7 +121,6 @@ extension SRIjkPlayer {
     }
 }
 
-
 /// IJKPlayer - Set
 extension SRIjkPlayer: VideoPlayer {
     public func seekto(_ seekTo: CGFloat) {

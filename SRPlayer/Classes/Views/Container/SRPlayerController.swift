@@ -138,6 +138,10 @@ extension SRPlayerController: SRPlayerGesture {
     }
     
     private func seekChange(_ offset: CGFloat) {
+        if !view.playerView.horiPanEnable {
+            return
+        }
+        
         guard let model = self.flowManager.model(SRPlayFlow.self) else { return }
         model.panSeekOffsetTime += offset
         if (model.panSeekTargetTime + model.panSeekOffsetTime > model.duration) {

@@ -12,9 +12,8 @@ import ZJMKit
 class SRPlayFlow: NSObject {
     private var disposes = Set<RSObserver>()
     internal var model: SRPlayModel
+    internal var containerView: UIView?
     private var player: SRIjkPlayer?
-    var containerView: UIView?
-    
     override init() {
         self.model = SRPlayModel()
         super.init()

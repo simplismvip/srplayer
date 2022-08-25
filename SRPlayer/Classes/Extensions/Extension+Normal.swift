@@ -187,7 +187,7 @@ extension SRPlayerNormalController {
 
 extension SRPlayerNormalController {
     func registerMsgEvent() {
-        /// 开始播放
+        /// 播放器初始化
         jmReciverMsg(msgName: kMsgNameAddPlayerView) { [weak self] playView in
             if let view = playView as? UIView {
                 self?.addSubview(view, unit: .player)

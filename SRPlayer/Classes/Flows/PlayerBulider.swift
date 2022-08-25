@@ -18,8 +18,8 @@ public struct PlayerBulider {
     public var playRate: PlaybackRate
     
     public init(video: Video,
+                streamType: StreamType,
                 scaMode: ScalingMode = .aspectFit,
-                streamType: StreamType = .vod,
                 rate: PlaybackRate = .rate1x0,
                 mute: Bool = false,
                 mirror: Bool = false,

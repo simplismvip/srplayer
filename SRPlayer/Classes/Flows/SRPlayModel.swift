@@ -51,7 +51,7 @@ class SRPlayModel: NSObject {
             playRateStr = newValue.name
         }
     }
-    
+
     var naturalSize: CGSize = CGSize.zero
     var panSeekTargetTime: CGFloat = 0
     var panSeekOffsetTime: CGFloat = 0
