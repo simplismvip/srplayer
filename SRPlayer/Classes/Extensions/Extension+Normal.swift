@@ -202,6 +202,7 @@ extension SRPlayerNormalController {
         jmReciverMsg(msgName: kMsgNameStartLoading) { [weak self] _ in
             JMLogger.debug("准备播放.....")
             self?.view.floatView.show(.loading)
+            self?.view.floatView.update(.loading)
             return nil
         }
         
