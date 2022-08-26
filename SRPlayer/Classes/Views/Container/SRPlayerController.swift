@@ -91,7 +91,7 @@ public class SRPlayerController: UIView {
     }
     
     private func mainKvoBind() {
-        volume.observe(Float.self, "currVolume") { [weak self] currVolume in
+        volume.observe(Float.self, "currVolume", options: [.new]) { [weak self] currVolume in
             if let volum = currVolume {
                 self?.view.floatView.show(.volume(0.0))
                 self?.view.floatView.update(.volume(volum))
