@@ -85,7 +85,7 @@ extension SRLoading: FloatToast {
         case .netSpeed(let string):
             title.text = string
         default:
-            JMLogger.debug("")
+            title.text = ""
         }
     }
     

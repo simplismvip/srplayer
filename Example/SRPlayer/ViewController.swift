@@ -42,6 +42,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testAction(_ sender: Any) {
+        navigationController?.pushViewController(TestController(), animated: true)
+    }
+    
+    @IBAction func addSource(_ sender: Any) {
         jmShowAlert("在线视频", nil, "输入视频URL") { urlStr in
             if let urlStr = urlStr, let url = URL(string: urlStr), self.checkout(url.scheme) {
                 let video = PlayerBulider.Video(videoUrl: url, title: url.lastPathComponent, cover: "", size: "720x1080")
@@ -53,11 +57,10 @@ class ViewController: UIViewController {
                 JMLogger.error("输入地址错误：\(String(describing: urlStr))")
             }
         }
-        // navigationController?.pushViewController(TestController(), animated: true)
     }
     
     func checkout(_ scheme: String?) -> Bool {
-        return ["rtsp", "rtsp", "http"].contains(scheme)
+        return ["rtsp", "rtsp", "http", "https"].contains(scheme)
     }
 }
 
