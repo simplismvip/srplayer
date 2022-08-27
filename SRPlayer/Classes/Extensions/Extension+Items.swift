@@ -13,12 +13,12 @@ extension SRPlayerNormalController {
     
     func initEdgeItems() {
         // top
-        let back = ItemFactory.buttonItem(.back, location: .top, image: "sr_back")
-        let living = ItemFactory.buttonItem(.living, location: .top, image: "sr_living")
-        let title = ItemFactory.titleItem(title: "星光大道-2022-33", itemStyle: .title)
-        let share = ItemFactory.buttonItem(.share, location: .top, image: "sr_share")
-        let more = ItemFactory.buttonItem(.more, location: .top, image: "sr_more")
-        let scale = ItemFactory.buttonItem(.scale, location: .top, image: "sr_scare_big")
+        let back = ItemFactory.buttonItem(.back, location: .top)
+        let living = ItemFactory.buttonItem(.living, location: .top)
+        let title = ItemFactory.titleItem(title: "", itemStyle: .title)
+        let share = ItemFactory.buttonItem(.share, location: .top)
+        let more = ItemFactory.buttonItem(.more, location: .top)
+        let scale = ItemFactory.buttonItem(.scale, location: .top)
         
         self.barManager.addItem(back)
         if videoType == .living {
@@ -30,15 +30,15 @@ extension SRPlayerNormalController {
         self.barManager.addItem(more)
         
         // bottom
-        let play = ItemFactory.buttonItem(.play, location: .bottom, image: "sr_play")
-        let curTime = ItemFactory.buttonItem(.curTime, location: .bottom, title: "00:00")
-        let next = ItemFactory.buttonItem(.next, location: .bottom, image: "sr_next")
-        let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom, title: "00:00")
+        let play = ItemFactory.buttonItem(.play, location: .bottom)
+        let curTime = ItemFactory.buttonItem(.curTime, location: .bottom)
+        let next = ItemFactory.buttonItem(.next, location: .bottom)
+        let tolTime = ItemFactory.buttonItem(.tolTime, location: .bottom)
         let slider = ItemFactory.sliderItem(value: 0.0)
         let playRate = ItemFactory.buttonItem(.playRate, location: .bottom)
-        let series = ItemFactory.buttonItem(.series, location: .bottom, title: "选集")
+        let series = ItemFactory.buttonItem(.series, location: .bottom)
         let resolve = ItemFactory.buttonItem(.resolve, location: .bottom)
-        let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom, image: "sr_fullscreen")
+        let fullScrenn = ItemFactory.buttonItem(.fullScrenn, location: .bottom)
         
         self.barManager.addItem(play)
         if videoType == .vod {
@@ -55,11 +55,11 @@ extension SRPlayerNormalController {
         self.barManager.addItem(fullScrenn)
         
         // left
-        let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left, image: "sr_unlock")
+        let lockScreen = ItemFactory.buttonItem(.lockScreen, location: .left)
         self.barManager.addItem(lockScreen)
         
         // right
-        let screenShot = ItemFactory.buttonItem(.screenShot, location: .right, image: "sr_capture")
+        let screenShot = ItemFactory.buttonItem(.screenShot, location: .right)
         self.barManager.addItem(screenShot)
     }
     

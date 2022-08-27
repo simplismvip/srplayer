@@ -43,5 +43,5 @@ TODO: Add long description of the pod here.
   # }
 
   s.dependency 'SnapKit'
-  s.dependency 'ZJMKit'
+  s.dependency 'ZJMKit', '~>0.2.0'
 end
