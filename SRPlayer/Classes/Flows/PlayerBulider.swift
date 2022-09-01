@@ -35,7 +35,7 @@ public struct PlayerBulider {
         public var size: String?
         public var multiURLs: [Video]? // 多码率视频地址
         
-        public init(videoUrl: URL, title: String?, cover: String?, size: String?) {
+        public init(videoUrl: URL, title: String?, cover: String?, size: String? = nil) {
             self.videoUrl = videoUrl
             self.title = title
             self.cover = cover

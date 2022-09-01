@@ -94,7 +94,7 @@ extension SRLoading: FloatToast {
         start()
     }
     
-    func hide() {
+    public func hide() {
         stop()
     }
 }
