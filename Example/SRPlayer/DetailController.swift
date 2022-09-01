@@ -111,19 +111,25 @@ class DetailController: ViewController {
     }
     
     func startPlay(_ model: Model) {
-        if model.type == .local {
-            if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
-                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
-                let build = PlayerBulider(video: video, streamType: .vod)
-                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-            }
-        } else {
-            if let url = URL(string: model.url) {
-                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
-                let build = PlayerBulider(video: video, streamType: (model.type == .vod) ? .vod : .living)
-                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
-            }
+        if let url = URL(string: "http://192.168.101.4:8080/video") {
+            let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
+            let build = PlayerBulider(video: video, streamType: (model.type == .vod) ? .vod : .living)
+            player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
         }
+        
+//        if model.type == .local {
+//            if let url = Bundle.main.url(forResource: model.url, withExtension: "MOV") {
+//                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
+//                let build = PlayerBulider(video: video, streamType: .vod)
+//                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+//            }
+//        } else {
+//            if let url = URL(string: model.url) {
+//                let video = PlayerBulider.Video(videoUrl: url, title: model.title, cover:  model.image, size: "720x1080")
+//                let build = PlayerBulider(video: video, streamType: (model.type == .vod) ? .vod : .living)
+//                player.jmSendMsg(msgName: kMsgNamePlayStartSetup, info: build as MsgObjc)
+//            }
+//        }
     }
     
     deinit {
