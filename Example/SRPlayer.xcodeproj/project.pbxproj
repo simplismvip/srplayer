@@ -386,6 +386,7 @@
 				"${BUILT_PRODUCTS_DIR}/SRPlayer/SRPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/ZJMKit/ZJMKit.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MobileVLCKit/MobileVLCKit.framework/MobileVLCKit",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -393,6 +394,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SRPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZJMKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MobileVLCKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

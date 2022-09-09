@@ -43,5 +43,6 @@ TODO: Add long description of the pod here.
   # }
 
   s.dependency 'SnapKit'
+  s.dependency 'MobileVLCKit','~>3.3.0'
   s.dependency 'ZJMKit', '~>0.2.0'
 end

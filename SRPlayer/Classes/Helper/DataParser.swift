@@ -45,6 +45,16 @@ public struct DataParser<T: Codable> {
         return nil
     }
     
+    /// 解析数据模型 Data -> [Model]
+    public static func parsers(_ data: Data) -> [T]? {
+        do {
+            return try JSONDecoder().decode([T].self, from: data)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
     /// Json -> Data
     public static func jsonData(_ param: Any) -> Data? {
         if !JSONSerialization.isValidJSONObject(param) {

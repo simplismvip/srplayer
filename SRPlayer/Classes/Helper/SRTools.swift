@@ -78,7 +78,7 @@ extension Bundle {
 }
 
 extension Int {
-    var format: String {
+    public var format: String {
         if self > 3600 {
             return String(format: "%02d:%02d:%02d", (self/3600), (self/60%60), (self%60))
         } else if self > 60 && self < 3600 {
