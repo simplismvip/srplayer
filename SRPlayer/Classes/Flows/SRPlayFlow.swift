@@ -12,20 +12,21 @@ import ZJMKit
 class SRPlayFlow: NSObject {
     private var disposes = Set<RSObserver>()
     internal var model: SRPlayModel
-    internal var containerView: UIView?
-    private var player: SRIjkPlayer?
+    internal var containerView: UIView
+    private var player: SRVLCPlayer?
+    
     override init() {
         self.model = SRPlayModel()
+        containerView = UIView()
         super.init()
     }
     
     private func setupPlayer(_ build: PlayerBulider) {
         stopPlayer()
         model.videoTitle = build.video.title
-        player = SRIjkPlayer(build)
+        player = SRVLCPlayer(build, playerView: containerView)
         player?.associatedRouter(self.msgRouter)
-        jmSendMsg(msgName: kMsgNameAddPlayerView, info: player?.view)
-        containerView = player?.view.superview
+        jmSendMsg(msgName: kMsgNameAddPlayerView, info: containerView)
     }
     
     private func stopPlayer() {
@@ -53,7 +54,6 @@ class SRPlayFlow: NSObject {
         guard let ijkPlayer = self.player else { return }
         model.isPlaying = ijkPlayer.isPlaying()
         model.isPrepareToPlay = ijkPlayer.isPrepareToPlay()
-        model.playableDuration = ijkPlayer.getPlayableDuration()
         model.playState = ijkPlayer.getPlayState()
         model.loadState = ijkPlayer.getLoadState()
         model.scalingMode = ijkPlayer.getScalingMode()
@@ -63,7 +63,6 @@ class SRPlayFlow: NSObject {
         model.duration = ijkPlayer.getDuration()
         model.currentTime = ijkPlayer.getCurrentPlaybackTime()
         model.playbackVolume = ijkPlayer.getVolume()
-        model.cacheDuration = ijkPlayer.getVideoCacheDuration()
     }
     
     deinit {
@@ -88,7 +87,7 @@ extension SRPlayFlow: SRFlow {
         }
         
         /// 开始播放
-        jmReciverMsg(msgName: kMsgNameStartPlay) { [weak self] builder in
+        jmReciverMsg(msgName: kMsgNameStartPlaying) { [weak self] builder in
             self?.jmSendMsg(msgName: kMsgNameEndLoading, info: nil)
             self?.refrashStatus()
             self?.model.isSeeking = false // 开始播放重置seek状态
@@ -101,11 +100,10 @@ extension SRPlayFlow: SRFlow {
             guard let ijkPlayer = self?.player, let model = self?.model else {
                 return nil
             }
-
-            if model.currentTime != ijkPlayer.getCurrentPlaybackTime() {
-                model.currentTime = ijkPlayer.getCurrentPlaybackTime()
-                JMLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
-            }
+            
+            model.progress = ijkPlayer.getPosition()
+            model.currentTime = ijkPlayer.getCurrentPlaybackTime()
+            JMLogger.debug("当前时长：\(Int(model.currentTime).format),总时长：\(Int(model.duration).format), 播放进度：\(model.progress)")
             
             // 如果卡顿弹出提示框
             if model.loadState == .stateStalled {
@@ -206,17 +204,6 @@ extension SRPlayFlow: SRFlow {
         /// 切换清晰度
         jmReciverMsg(msgName: kMsgNameSwitchQuality) { [weak self] mute in
 //            self?.model.player.
-            return nil
-        }
-        
-        /// 播放
-        jmReciverMsg(msgName: kMsgNameActionPlay) { [unowned self] _ in
-            if let playView = self.player?.view, let containerView = self.containerView {
-                JMLogger.debug("重新添加播放器到容器并设置播放器frame.....")
-                containerView.addSubview(playView)
-                playView.translatesAutoresizingMaskIntoConstraints = true
-                playView.frame = containerView.bounds;
-            }
             return nil
         }
     }

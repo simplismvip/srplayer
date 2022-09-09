@@ -16,11 +16,11 @@ class SRPlayModel: NSObject {
     @objc dynamic var airPlayMediaActive: Bool = false
     @objc dynamic var duration: TimeInterval = 0
     @objc dynamic var currentTime: TimeInterval = 0
-    @objc dynamic var playableDuration: TimeInterval = 0
-    @objc dynamic var cacheDuration: TimeInterval = 0
     @objc dynamic var thumbImage: UIImage?
     @objc dynamic var playbackVolume: Float = 0
     @objc dynamic var videoTitle: String?
+    // 当前进度
+    var progress: Double = 0
     
     // 播放器状态
     @objc dynamic var playingStatue: String = ""
@@ -58,15 +58,6 @@ class SRPlayModel: NSObject {
 }
 
 extension SRPlayModel {
-    // 当前进度
-    var progress: Double {
-        if duration > 0 {
-            return currentTime/duration
-        } else {
-            return 0.0
-        }
-    }
-    
     // 是否静音
     var isMute: Bool {
         return playbackVolume > 0

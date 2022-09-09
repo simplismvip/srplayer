@@ -16,12 +16,6 @@ protocol VideoPlayer {
     func setPlayRate(_ rate: PlaybackRate)
     // 放缩模式
     func setScraModel(_ scaMode: ScalingMode)
-    // 是否允许airplay
-    func setAllowsMediaAirPlay(_ airplay: Bool)
-    // 是否正在播放
-    func setDanmakuMediaAirPlay(_ airplay: Bool)
-    // 播放器音量
-    func setPlayerVolume(_ playbackVolume: Float)
     // 准备播放
     func prepareToPlay()
     // 开始播放
@@ -32,8 +26,6 @@ protocol VideoPlayer {
     func stop()
     // 静音
     func setMute()
-    // 关闭
-    func shutdown()
     
     // 获取音量
     func getVolume() -> Float
@@ -41,10 +33,6 @@ protocol VideoPlayer {
     func getDuration() -> TimeInterval
     // 获取当前播放时长
     func getCurrentPlaybackTime() -> TimeInterval
-    // 获取视频缓存时长
-    func getVideoCacheDuration() -> TimeInterval
-    // 获取播放时长
-    func getPlayableDuration() -> TimeInterval
     // 获取播放状态
     func getPlayState() -> PlaybackState
     // 获取加载状态

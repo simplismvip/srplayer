@@ -211,7 +211,7 @@ extension SRIjkPlayer {
     @objc func loadStateDidChange(_ notification: Notification) {
         if ijkPlayer.loadState.contains(.playthroughOK) {
             JMLogger.debug("Player👍👍👍👍: playthroughOK")
-            jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
+            jmSendMsg(msgName: kMsgNameStartPlaying, info: nil)
             if !ijkPlayer.shouldAutoplay {
                 self.startPlay()
             }
@@ -249,7 +249,7 @@ extension SRIjkPlayer {
         switch ijkPlayer.playbackState {
         case .playing:
             JMLogger.debug("Player👍👍👍👍: PlayBackState: playing")
-            jmSendMsg(msgName: kMsgNameStartPlay, info: nil)
+            jmSendMsg(msgName: kMsgNameStartPlaying, info: nil)
         case .paused:
             JMLogger.debug("Player👍👍👍👍: PlayBackState: paused")
         case .stopped:

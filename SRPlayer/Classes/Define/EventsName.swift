@@ -15,9 +15,7 @@ public let kMsgNamePlayStartSetup = "kMsgNamePlayStartSetup"
 /// 准备播放
 public let kMsgNamePrepareToPlay = "kMsgNamePrepareToPlay"
 /// 开始播放
-public let kMsgNameStartPlay = "kMsgNameStartPlay"
-/// 正在播放
-public let kMsgNameCurrentPlaying = "kMsgNameCurrentPlaying"
+public let kMsgNameStartPlaying = "kMsgNameStartPlaying"
 /// 停止播放
 public let kMsgNameStopPlaying = "kMsgNameStopPlaying"
 /// 播放完成
@@ -30,8 +28,6 @@ public let kMsgNamePlayerUnknowError = "kMsgNamePlayerUnknowError"
 public let kMsgNamePauseOrRePlay = "kMsgNamePauseOrRePlay"
 ///  刷新播放器状态
 public let kMsgNameRefreashPlayerStatus = "kMsgNameRefreashPlayerStatus"
-/// 播放
-public let kMsgNameActionPlay = "kMsgNameActionPlay"
 /// 快进快退
 public let kMsgNameActionSeekTo = "kMsgNameActionSeekTo"
 /// 切换清晰度

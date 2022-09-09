@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileVLCKit
 import IJKMediaFramework
 
 // 屏幕类型
@@ -118,6 +119,30 @@ public enum PlaybackState {
             fatalError()
         }
     }
+    
+    static func transVLCFrom(_ vlcState: VLCMediaPlayerState) -> PlaybackState {
+        switch vlcState {
+        case .stopped:
+            return .stop
+        case .playing:
+            return .playing
+        case .paused:
+            return .pause
+        case .opening:
+            return .playing
+        case .buffering:
+            return .playing
+        case .ended:
+            return .stop
+        case .error:
+            return .interrupted
+        case .esAdded:
+            return .interrupted
+        @unknown default:
+            fatalError()
+        }
+    }
+    
     
     func transFrom() -> IJKMPMoviePlaybackState {
         switch self {
