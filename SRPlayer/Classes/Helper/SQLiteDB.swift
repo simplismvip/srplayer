@@ -9,12 +9,12 @@
 import SQLite3
 import ZJMKit
 
-struct Video {
-    var videoUrl: String
-    var title: String
-    var cover: String
-    var duration: Double
-    var currTime: Double
+public struct Video {
+    public var videoUrl: String
+    public var title: String
+    public var cover: String
+    public var duration: Double
+    public var currTime: Double
 }
 
 extension String {

@@ -8,9 +8,9 @@
 import UIKit
 import ZJMKit
 
-class SRDBManager {
+public class SRDBManager {
     private let lock = NSLock()
-    static let share = SRDBManager()
+    public static let share = SRDBManager()
     private var db: SQLiteDB?
     init() {
         if let path = JMTools.jmDocuPath() {
@@ -36,8 +36,15 @@ class SRDBManager {
         }
     }
     
-    func queryDB(_ video: PlayerBulider.Video) -> Video? {
+    public func queryDB(_ video: PlayerBulider.Video) -> Video? {
         guard let video = db?.query(videoUrl: video.videoUrl.lastPathComponent) else {
+            return nil
+        }
+        return video
+    }
+    
+    public func queryVideo(_ videoName: String) -> Video? {
+        guard let video = db?.query(videoUrl: videoName) else {
             return nil
         }
         return video
